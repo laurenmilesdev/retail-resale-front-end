@@ -1,5 +1,5 @@
 export default function Home() {
-  return <div>Home page</div>;
+  return <div id="home">Home page</div>;
 }
 
 export function getStaticProps() {

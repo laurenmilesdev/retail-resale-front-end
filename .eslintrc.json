@@ -1,3 +1,59 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": { "browser": true, "es2020": true, "node": true },
+  "extends": [
+    "plugin:@next/next/recommended",
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:jest/recommended",
+    "plugin:promise/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "parser": "@typescript-eslint/parser"
+  },
+  "plugins": ["@typescript-eslint", "jest", "promise"],
+  "rules": {
+    "import/extensions": "off",
+    "consistent-return": "off",
+    "array-callback-return": "off",
+    "no-nested-ternary": "off",
+    "no-prototype-builtins": "off",
+    "promise/always-return": "off",
+    "promise/catch-or-return": ["error", { "allowFinally": true }],
+    "import/prefer-default-export": "off",
+    "class-methods-use-this": "off",
+    // Use function hoisting to improve code readability
+    "no-use-before-define": ["error", { "functions": false, "classes": true, "variables": true }],
+    // Allow most functions to rely on type inference. If the function is exported, then `@typescript-eslint/explicit-module-boundary-types` will ensure it's typed.
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      { "functions": false, "classes": true, "variables": true, "typedefs": true }
+    ],
+    // It's not accurate in the monorepo style
+    "import/no-extraneous-dependencies": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.js", "*.ts", "*.tsx"],
+      "rules": {
+        // Allow CJS until ESM support improves
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
 }

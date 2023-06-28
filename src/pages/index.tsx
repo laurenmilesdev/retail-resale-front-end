@@ -1,11 +1,11 @@
 export default function Home() {
-  return <div id="home">Home page</div>;
+  return <div>Home page</div>;
 }
 
 export function getStaticProps() {
   return {
     props: {
-      title: "Home",
+      title: 'Home',
     },
   };
 }

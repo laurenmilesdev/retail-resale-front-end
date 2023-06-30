@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.tab {
+  color: var(--font-color) !important;
+  font-size: 2em;
+}
+
+.tab:hover {
+  color: var(--font-color-opp) !important;
+  background-color: var(--secondary) !important;
+}

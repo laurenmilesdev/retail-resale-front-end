@@ -31,21 +31,13 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/public/favicon.ico" />
       </Head>
 
-      <div className={styles.container}>
-        <div className="col-md-3">
-          <Image src={img} alt="Retail Resale logo" className={styles.logo} />
-        </div>
+      <Navigation
+        labels={pages.map((page) => page.label)}
+        pageValue={pageValue}
+        handleChange={handlePageChange}
+      />
 
-        <div className="col-md-9">
-          <Navigation
-            labels={pages.map((page) => page.label)}
-            pageValue={pageValue}
-            handleChange={handlePageChange}
-          />
-
-          <Component {...pageProps} pageValue={pageValue} pages={pages} />
-        </div>
-      </div>
+      <Component {...pageProps} pageValue={pageValue} pages={pages} />
 
       <Footer />
     </>

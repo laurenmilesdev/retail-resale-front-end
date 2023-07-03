@@ -1,15 +1,11 @@
 import { useState } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Image from 'next/image';
 import Navigation from '../components/navigation/Navigation';
 import Footer from '../components/footer/Footer';
 import Tab from '../models/Tab';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/globals.css';
-
-import img from '../../public/images/retail-resale-logo.png';
-import styles from '../styles/App.module.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [pageValue, setPageValue] = useState<number>(0);

@@ -118,8 +118,7 @@ a {
 
 /* Navigation tabs bottom border */
 .MuiTabs-indicator {
-  background-color: var(--primary) !important;
-  height: 0.4em !important;
+  background-color: transparent !important;
 }
 
 /* Selected navigation tabs */

@@ -1,15 +1,21 @@
 .container {
   display: flex;
   flex-direction: row;
+}
+
+.tab-container {
+  display: flex;
+  flex-direction: row;
   justify-content: flex-end;
 }
 
 .tab {
   color: var(--font-color) !important;
-  font-size: 2em;
+  font-size: 3em;
+  font-family: 'VT323', monospace;
+  border: 0.15em solid transparent;
 }
 
 .tab:hover {
-  color: var(--font-color-opp) !important;
-  background-color: var(--secondary) !important;
+  border: 0.15em solid var(--primary);
 }

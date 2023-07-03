@@ -41,14 +41,14 @@
   --secondary: #50ffff;
   --tertiary: #c2d2d6;
 
-  --background-color: #e8e7e3;
+  --background-color: #fff;
   --font-color: #000;
   --font-color-opp: #fff;
 }
 
 [data-theme='dark'] {
-  --primary: #7843e6;
-  --secondary: #50ffff;
+  --primary: #50ffff;
+  --secondary: #7843e6;
   --tertiary: #f5f0f0;
 
   --background-color: #000;
@@ -59,7 +59,7 @@
   --home-img-op: 0.5;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
@@ -119,11 +119,11 @@ a {
 /* Navigation tabs bottom border */
 .MuiTabs-indicator {
   background-color: var(--primary) !important;
-  height: 4px !important;
+  height: 0.4em !important;
 }
 
 /* Selected navigation tabs */
-.nav-tab.MuiTab-root.Mui-selected {
+.MuiTab-root.Mui-selected {
   color: var(--font-color);
 }
 

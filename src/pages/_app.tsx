@@ -9,10 +9,7 @@ import '../styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [pageValue, setPageValue] = useState<number>(0);
-  const pages = [
-    new Tab('Home', 'Home', <>Home</>),
-    new Tab('Products', 'Products', <>Products</>),
-  ];
+  const pages = [new Tab('Home', 'Home', <></>), new Tab('Products', 'Products', <></>)];
 
   function handlePageChange(event: React.SyntheticEvent, newValue: number) {
     setPageValue(newValue);

@@ -3,7 +3,7 @@ import { Container } from '@mui/material';
 
 import styles from './Layout.module.css';
 
-export default function Layout({ children }: any) {
+export default function Layout({ children, title }: any) {
   return (
     <Container>
       <div className={styles.window}>
@@ -15,7 +15,7 @@ export default function Layout({ children }: any) {
             height="18"
             className={styles.logo}
           />
-          <p className={styles.title}>Windows 95</p>
+          <p className={styles.title}>{title}</p>
           <button className={styles.btn}>X</button>
           <button className={styles.btn}>?</button>
         </div>

@@ -9,10 +9,11 @@ type Props = {
 };
 
 export default function Home({ pageValue, pages }: Props): JSX.Element {
-  const [title, setTitle] = useState<string>('');
+  const [title, setTitle] = useState<string>('Retail Resale');
 
   useEffect(() => {
     const page = pages[pageValue];
+
     setTitle(page.title);
   }, [pageValue]);
 

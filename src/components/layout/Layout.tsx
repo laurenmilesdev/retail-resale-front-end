@@ -6,15 +6,16 @@ import styles from './Layout.module.css';
 export default function Layout({ children, title }: any) {
   return (
     <Container>
-      <div className={styles.window}>
-        <div className={styles['title-container']}>
+      <div className={`${styles.window} col-md-12`}>
+        <div className={`${styles['title-container']} col-md-12`}>
           <Image
             src="http://i63.tinypic.com/117hi0p.png"
             alt="windows"
-            width="18"
-            height="18"
+            width="30"
+            height="30"
             className={styles.logo}
           />
+          <div></div>
           <p className={styles.title}>{title}</p>
           <button className={styles.btn}>X</button>
           <button className={styles.btn}>?</button>

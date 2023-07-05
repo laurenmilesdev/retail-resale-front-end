@@ -1,7 +1,7 @@
 .window {
-  width: 75%;
-  height: 75%;
-  background: #c0c0c0;
+  width: 95%;
+  height: 95%;
+  background: var(--window-bg);
   border-width: 1px;
   border-color: #ffffff #808080 #808080 #ffffff;
   border-style: solid;
@@ -13,31 +13,31 @@
 }
 
 .title-container {
-  height: 2em;
+  height: 3vw;
   width: 100%;
   background: var(--primary);
   color: var(--font-color-opp);
 }
 
 .logo {
-  margin: 0.5% 0 0 0.5%;
+  margin: 0.7% 0 0 0.7%;
   float: left;
 }
 
 .title {
-  margin: 0.3% 0 0 0.5%;
+  margin: 0 0 0 0.5%;
   float: left;
   font-family: Tahoma;
   font-weight: bold;
-  font-size: 1em;
+  font-size: 2vw;
 }
 
 .btn {
-  margin: 0.25% 0.25% 0 0.25%;
+  margin: 0.5% 0.5% 0 0.5%;
   float: right;
-  width: 3em;
-  height: 3em;
-  background: #c0c0c0;
+  width: 4em;
+  height: 4em;
+  background: var(--window-bg);
   border-width: 1px;
   border-color: #ffffff #808080 #808080 #ffffff;
   padding: 0;

@@ -24,15 +24,15 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/public/favicon.ico" />
       </Head>
 
-      <Navigation
+      {/* <Navigation
         labels={pages.map((page) => page.label)}
         pageValue={pageValue}
         handleChange={handlePageChange}
-      />
+      /> */}
 
       <Component {...pageProps} pageValue={pageValue} pages={pages} />
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

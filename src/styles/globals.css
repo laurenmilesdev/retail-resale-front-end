@@ -44,6 +44,8 @@
   --background-color: #fff;
   --font-color: #000;
   --font-color-opp: #fff;
+
+  --window-bg: #c0c0c0;
 }
 
 [data-theme='dark'] {

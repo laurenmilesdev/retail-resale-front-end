@@ -1,0 +1,48 @@
+.header {
+  background: linear-gradient(90deg, #000b7c, #377cc6);
+  color: white;
+  padding: 0.25em;
+}
+
+.header-buttons {
+  position: absolute;
+  display: flex;
+  top: 0.3em;
+  z-index: 9999;
+  right: 0.3em;
+  cursor: pointer;
+}
+
+.header-buttons > label {
+  background: var(--windows-gray);
+  width: 1.5em;
+  height: 1.5em;
+  font-family: 'Arial Black', sans-serif;
+  box-sizing: border-box;
+  font-size: 0.75rem;
+  position: relative;
+  color: #000;
+  margin: 0 0 0 0.55rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+}
+
+.header-buttons > label:active {
+  box-shadow: -2px -2px var(--windows-dark-gray), -2px 0 var(--windows-dark-gray),
+    0 -2px var(--windows-dark-gray), -4px -4px #000, -4px 0 #000, 0 -4px #000,
+    2px 2px var(--windows-light-gray), 0 2px var(--windows-light-gray),
+    2px 0 var(--windows-light-gray), 2px -2px var(--windows-dark-gray),
+    -2px 2px var(--windows-light-gray), -4px 2px #000, -4px 4px #fff, 4px 4px #fff, 4px 0 #fff,
+    0 4px #fff, 2px -4px #000, 4px -4px #fff;
+}
+
+.minimize:before {
+  content: '';
+  background: #000;
+  width: 7px;
+  position: relative;
+  top: 3px;
+  height: 3px;
+}

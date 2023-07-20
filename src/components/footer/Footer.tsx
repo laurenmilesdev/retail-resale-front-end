@@ -1,11 +1,26 @@
-import ThemeSwitch from '../theme-switch/ThemeSwitch';
+import { Dispatch, SetStateAction } from 'react';
+import WindowModel from '@/models/window';
+import StartBar from '../windows/start-bar/StartBar';
 
-import styles from './Footer.module.css';
+type Props = {
+  windows: WindowModel[];
+  focusedWindow: WindowModel;
+  setFocusedWindow: Dispatch<SetStateAction<WindowModel>>;
+  menuItems: WindowModel[];
+};
 
-export default function Footer(): JSX.Element {
+export default function Footer({
+  windows,
+  focusedWindow,
+  setFocusedWindow,
+  menuItems,
+}: Props): JSX.Element {
   return (
-    <div className={`${styles.container} col-md-12`}>
-      <ThemeSwitch />
-    </div>
+    <StartBar
+      windows={windows}
+      focusedWindow={focusedWindow}
+      setFocusedWindow={setFocusedWindow}
+      menuItems={menuItems}
+    />
   );
 }

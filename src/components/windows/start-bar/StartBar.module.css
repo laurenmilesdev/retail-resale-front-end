@@ -1,0 +1,17 @@
+.start-bar {
+  background-color: var(--windows-gray);
+  width: 100%;
+  height: 3.5em;
+  bottom: 0;
+  position: fixed;
+  z-index: 2;
+  padding: 0.5rem;
+  box-shadow: 0 -2px #fffdfc, 0 -4px #cce9eb;
+  display: flex;
+  flex-direction: row;
+}
+
+.items {
+  display: flex;
+  flex-direction: row;
+}

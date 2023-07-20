@@ -45,7 +45,11 @@
   --font-color: #000;
   --font-color-opp: #fff;
 
-  --window-bg: #c0c0c0;
+  --windows-blue: #011590;
+  --windows-green: #008080;
+  --windows-light-gray: #e0dede;
+  --windows-gray: #c0c0c0;
+  --windows-dark-gray: #818181;
 }
 
 [data-theme='dark'] {
@@ -107,7 +111,7 @@ html {
 }
 
 body {
-  background-color: var(--background-color);
+  background-color: var(--windows-green);
   color: var(--font-color);
   height: 100%;
   padding-bottom: 4%;
@@ -118,14 +122,23 @@ a {
   text-decoration: none;
 }
 
-/* Navigation tabs bottom border */
-.MuiTabs-indicator {
-  background-color: transparent !important;
+.windows-box-shadow {
+  box-shadow: -2px -2px var(--windows-light-gray), -2px 0 var(--windows-light-gray),
+    0 -2px var(--windows-light-gray), -4px -4px #fff, -4px 0 #fff, 0 -4px #fff,
+    2px 2px var(--windows-dark-gray), 0 2px var(--windows-dark-gray), 2px 0 var(--windows-dark-gray),
+    2px -2px var(--windows-light-gray), -2px 2px var(--windows-dark-gray), -4px 2px #fff,
+    -4px 4px #000, 4px 4px #000, 4px 0 #000, 0 4px #000, 2px -4px #fff, 4px -4px #000;
+  border-radius: 0;
 }
 
-/* Selected navigation tabs */
-.MuiTab-root.Mui-selected {
-  color: var(--font-color);
+.inverse-windows-box-shadow {
+  box-shadow: -2px -2px var(--windows-dark-gray), -2px 0 var(--windows-dark-gray),
+    0 -2px var(--windows-dark-gray), -4px -4px #000, -4px 0 #000, 0 -4px #000,
+    2px 2px var(--windows-light-gray), 0 2px var(--windows-light-gray),
+    2px 0 var(--windows-light-gray), 2px -2px var(--windows-dark-gray),
+    -2px 2px var(--windows-light-gray), -4px 2px #000, -4px 4px #fff, 4px 4px #fff, 4px 0 #fff,
+    0 4px #fff, 2px -4px #000, 4px -4px #fff;
+  border-radius: 0;
 }
 
 @media (prefers-color-scheme: dark) {

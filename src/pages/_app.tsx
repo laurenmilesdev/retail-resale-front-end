@@ -1,19 +1,41 @@
 import { useState } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Navigation from '../components/navigation/Navigation';
-import Footer from '../components/footer/Footer';
-import Tab from '../models/Tab';
+import Layout from '@/components/layout/Layout';
+import WindowModel from '../models/window';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [pageValue, setPageValue] = useState<number>(0);
-  const pages = [new Tab('Home', 'Home', <></>), new Tab('Products', 'Products', <></>)];
+  const windows = [
+    new WindowModel(
+      'Home',
+      (
+        <>
+          <h1>Home</h1>
+        </>
+      ),
+      'home-window',
+      'home-btn'
+    ),
+    new WindowModel(
+      'Products',
+      (
+        <>
+          <h1>Products</h1>
+        </>
+      ),
+      'products-window',
+      'products-btn'
+    ),
+  ];
+  const menuItems = [
+    new WindowModel('Placeholder', <></>, '', ''),
+    new WindowModel('Placeholder', <></>, '', ''),
+    new WindowModel('Placeholder', <></>, '', ''),
+  ];
 
-  function handlePageChange(event: React.SyntheticEvent, newValue: number) {
-    setPageValue(newValue);
-  }
+  const [focusedWindow, setFocusedWindow] = useState<WindowModel>(windows[0]);
 
   return (
     <>
@@ -24,15 +46,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/public/favicon.ico" />
       </Head>
 
-      {/* <Navigation
-        labels={pages.map((page) => page.label)}
-        pageValue={pageValue}
-        handleChange={handlePageChange}
-      /> */}
-
-      <Component {...pageProps} pageValue={pageValue} pages={pages} />
-
-      {/* <Footer /> */}
+      <Layout
+        windows={windows}
+        focusedWindow={focusedWindow}
+        setFocusedWindow={setFocusedWindow}
+        menuItems={menuItems}
+      >
+        <Component {...pageProps} windows={windows} />
+      </Layout>
     </>
   );
 }

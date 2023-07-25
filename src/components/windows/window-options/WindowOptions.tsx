@@ -9,7 +9,12 @@ type Props = {
 export default function WindowOptions({ options }: Props) {
   return (
     <div className={`${styles.options} ${styles.line}`}>
-      {options && options.map((item: string) => <div className={styles.item}>{item}</div>)}
+      {options &&
+        options.map((item: string) => (
+          <div className={styles.item} key={item}>
+            {item}
+          </div>
+        ))}
 
       <div className={`${styles.item} ${styles['float-right']}`}>
         <Image

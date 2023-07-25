@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
 import WindowModel from '@/models/window';
 
@@ -8,24 +7,18 @@ import img from '../../../../public/images/ie.png';
 import styles from './StartMenuItem.module.css';
 
 type Props = {
-  setFocusedWindow: Dispatch<SetStateAction<WindowModel>>;
   menuItems: WindowModel[];
   menuItem?: WindowModel;
   shutDownButton?: boolean;
 };
 
-export default function StartMenuItem({
-  setFocusedWindow,
-  menuItems,
-  menuItem,
-  shutDownButton = false,
-}: Props) {
+export default function StartMenuItem({ menuItems, menuItem, shutDownButton = false }: Props) {
   const menuListItem = (item: WindowModel) => {
     const className = item === menuItems[menuItems.length - 1] ? styles.line : '';
 
     return (
       <li key={item.title} className={className}>
-        <label onClick={() => setFocusedWindow(item)} className={styles['menu-item']}>
+        <label className={styles['menu-item']}>
           <Image src={img} alt="Internet Explorer icon" className={styles['ie-icon']} />
           {item.title}
         </label>

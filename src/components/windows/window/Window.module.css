@@ -6,13 +6,14 @@
   position: absolute;
   width: 90%;
   margin-top: 0;
-  height: 80%;
-  top: 5%;
+  height: 85%;
+  top: 3%;
   left: 5%;
-  display: none;
 }
 
 .content {
-  background-color: var(--background-color);
-  overflow: scroll;
+  height: 80%;
+  overflow-y: scroll;
+  flex-grow: 1;
+  background-color: #fff;
 }

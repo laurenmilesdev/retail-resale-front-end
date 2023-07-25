@@ -1,40 +1,41 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Tab, Tabs } from '@mui/material';
 import StartButton from '../start-button/StartButton';
 import StartBarButton from '../start-bar-button/StartBarButton';
 import StartMenu from '../start-menu/StartMenu';
 import WindowModel from '../../../models/window';
 
-import * as WindowUtils from '../../../utils/window';
-
 import styles from './StartBar.module.css';
 
 type Props = {
+  windowValue: number;
   windows: WindowModel[];
-  focusedWindow: WindowModel;
-  setFocusedWindow: Dispatch<SetStateAction<WindowModel>>;
+  handleChange: (event: React.SyntheticEvent, newValue: number) => void;
   menuItems: WindowModel[];
 };
 
-export default function StartBar({ windows, focusedWindow, setFocusedWindow, menuItems }: Props) {
-  useEffect(() => {
-    const blankPage = new WindowModel('', <></>, '', '');
+const a11yProps = (index: number): object => ({
+  id: `tab-${index}`,
+  'aria-controls': `tabpanel-${index}`,
+});
 
-    if (focusedWindow === blankPage) WindowUtils.openCloseMenu();
-
-    WindowUtils.openCloseWindow(focusedWindow, false);
-  }, [focusedWindow]);
-
+export default function StartBar({ windowValue, windows, handleChange, menuItems }: Props) {
   return (
     <div className={styles['start-bar']}>
       <StartButton />
 
-      <div className={styles.items}>
-        {windows.map((window: WindowModel, index: number) => (
-          <StartBarButton window={window} index={index} />
-        ))}
-      </div>
+      <StartMenu menuItems={menuItems} />
 
-      <StartMenu setFocusedWindow={setFocusedWindow} menuItems={menuItems} />
+      <Tabs value={windowValue} onChange={handleChange} className={styles.tabs}>
+        {windows.map((window: WindowModel, index: number) => (
+          <Tab
+            className={styles.tab}
+            label={<StartBarButton window={window} index={index} />}
+            key={index}
+            {...a11yProps(index)}
+            id={`tab-${index}`}
+          />
+        ))}
+      </Tabs>
     </div>
   );
 }

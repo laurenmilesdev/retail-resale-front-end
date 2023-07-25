@@ -19,6 +19,20 @@ const a11yProps = (index: number): object => ({
 });
 
 export default function StartBar({ windowValue, windows, handleChange, menuItems }: Props) {
+  const addRemoveClass = (buttonId: string) => {
+    const selectedButton = document.getElementById(buttonId);
+
+    if (selectedButton) removeWindowsBoxShadowClass(selectedButton);
+
+    windows.forEach((window: WindowModel) => {
+      if (window.buttonId !== buttonId) {
+        const unselectedButton = document.getElementById(window.buttonId);
+
+        if (unselectedButton) removeInverseWindowsBoxShadowClass(unselectedButton);
+      }
+    });
+  };
+
   return (
     <div className={styles['start-bar']}>
       <StartButton />
@@ -33,9 +47,20 @@ export default function StartBar({ windowValue, windows, handleChange, menuItems
             key={index}
             {...a11yProps(index)}
             id={`tab-${index}`}
+            onClick={() => addRemoveClass(window.buttonId)}
           />
         ))}
       </Tabs>
     </div>
   );
+}
+
+function removeWindowsBoxShadowClass(button: HTMLElement) {
+  button.classList.remove('windows-box-shadow');
+  button.classList.add('inverse-windows-box-shadow');
+}
+
+function removeInverseWindowsBoxShadowClass(button: HTMLElement) {
+  button.classList.remove('inverse-windows-box-shadow');
+  button.classList.add('windows-box-shadow');
 }

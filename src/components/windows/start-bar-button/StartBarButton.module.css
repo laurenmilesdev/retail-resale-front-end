@@ -1,7 +1,6 @@
 .btn {
   text-transform: capitalize;
-  width: 11em;
-  margin-right: 4%;
+  width: 10em;
 }
 
 .btn:active {
@@ -20,8 +19,12 @@
   font-weight: 600;
 }
 
+.text {
+  margin-top: 0.5rem;
+}
+
 .ie-icon {
-  width: 3rem;
+  width: 2.5rem;
   height: auto;
-  margin: -0.5em 0 0 -0.5em;
+  margin-top: -0.05rem;
 }

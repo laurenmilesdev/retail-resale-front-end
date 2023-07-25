@@ -141,6 +141,11 @@ a {
   border-radius: 0;
 }
 
+/* Removes bottom border on tabs */
+.MuiTabs-indicator {
+  background-color: transparent;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

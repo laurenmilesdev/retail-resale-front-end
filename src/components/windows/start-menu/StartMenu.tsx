@@ -1,15 +1,14 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 import StartMenuItem from '../start-menu-item/StartMenuItem';
 import WindowModel from '@/models/window';
 
 import styles from './StartMenu.module.css';
 
 type Props = {
-  setFocusedWindow: Dispatch<SetStateAction<WindowModel>>;
   menuItems: WindowModel[];
 };
 
-export default function StartMenu({ setFocusedWindow, menuItems }: Props) {
+export default function StartMenu({ menuItems }: Props) {
   useEffect(() => {
     document.addEventListener('mouseup', (e) => {
       const element = document.getElementById('start-menu');
@@ -27,19 +26,11 @@ export default function StartMenu({ setFocusedWindow, menuItems }: Props) {
       </div>
 
       <ul>
-        {menuItems.map((menuItem: WindowModel) => (
-          <StartMenuItem
-            setFocusedWindow={setFocusedWindow}
-            menuItem={menuItem}
-            menuItems={menuItems}
-          />
+        {menuItems.map((menuItem: WindowModel, index: number) => (
+          <StartMenuItem menuItem={menuItem} menuItems={menuItems} key={index} />
         ))}
 
-        <StartMenuItem
-          setFocusedWindow={setFocusedWindow}
-          menuItems={menuItems}
-          shutDownButton={true}
-        />
+        <StartMenuItem menuItems={menuItems} shutDownButton={true} />
       </ul>
     </div>
   );

@@ -1,13 +1,13 @@
 export default class Window {
   title: string;
 
-  component: JSX.Element;
+  component?: JSX.Element;
 
-  windowId: string;
+  windowId?: string;
 
-  buttonId: string;
+  buttonId?: string;
 
-  constructor(title: string, component: JSX.Element, windowId: string, buttonId: string) {
+  constructor(title: string, component?: JSX.Element, windowId?: string, buttonId?: string) {
     this.title = title;
     this.component = component;
     this.windowId = windowId;

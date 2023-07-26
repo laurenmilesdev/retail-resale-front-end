@@ -9,6 +9,7 @@ export default function StartButton() {
     <Button
       className={`${styles['start-btn']} windows-box-shadow`}
       onClick={() => WindowUtils.openCloseMenu()}
+      id="windows-start-btn"
     ></Button>
   );
 }

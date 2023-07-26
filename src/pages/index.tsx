@@ -1,5 +1,5 @@
-import TabPanel from '@/components/tab-panel/TabPanel';
-import WindowModel from '@/models/window';
+import TabPanel from '../components/tab-panel/TabPanel';
+import WindowModel from '../models/window';
 
 type Props = {
   windowValue: number;

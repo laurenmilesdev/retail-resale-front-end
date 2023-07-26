@@ -26,7 +26,7 @@ export default function StartBar({ windowValue, windows, handleChange, menuItems
 
     windows.forEach((window: WindowModel) => {
       if (window.buttonId !== buttonId) {
-        const unselectedButton = document.getElementById(window.buttonId);
+        const unselectedButton = document.getElementById(window.buttonId ?? '');
 
         if (unselectedButton) removeInverseWindowsBoxShadowClass(unselectedButton);
       }
@@ -47,7 +47,7 @@ export default function StartBar({ windowValue, windows, handleChange, menuItems
             key={index}
             {...a11yProps(index)}
             id={`tab-${index}`}
-            onClick={() => addRemoveClass(window.buttonId)}
+            onClick={() => addRemoveClass(window.buttonId ?? '')}
           />
         ))}
       </Tabs>

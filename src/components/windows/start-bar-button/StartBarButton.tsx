@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import WindowModel from '@/models/window';
+import WindowModel from '../../../models/window';
 
 import img from '../../../../public/images/ie.png';
 import styles from './StartBarButton.module.css';

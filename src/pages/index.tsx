@@ -1,11 +1,19 @@
-export default function Home() {
-  return <div id="home">Home page</div>;
-}
+import TabPanel from '../components/tab-panel/TabPanel';
+import WindowModel from '../models/window';
 
-export function getStaticProps() {
-  return {
-    props: {
-      title: 'Home',
-    },
-  };
+type Props = {
+  windowValue: number;
+  windows: WindowModel[];
+};
+
+export default function Home({ windowValue, windows }: Props) {
+  return (
+    <>
+      {windows.map(({ component }, index: number) => (
+        <TabPanel value={windowValue} index={index} key={index}>
+          {component}
+        </TabPanel>
+      ))}
+    </>
+  );
 }

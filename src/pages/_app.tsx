@@ -1,9 +1,46 @@
+import { useState } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import Window from '../components/windows/window/Window';
+import WindowModel from '../models/window';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/globals.css';
+import StartBar from '../components/windows/start-bar/StartBar';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const windows = [
+    new WindowModel(
+      'Home',
+      (
+        <Window title="Home">
+          <h1>Home</h1>
+        </Window>
+      ),
+      'home-window',
+      'home-btn'
+    ),
+    new WindowModel(
+      'Products',
+      (
+        <Window title="Products">
+          <h1>Products</h1>
+        </Window>
+      ),
+      'products-window',
+      'products-btn'
+    ),
+  ];
+  const menuItems = [
+    new WindowModel('Placeholder', <></>, '', ''),
+    new WindowModel('Placeholder', <></>, '', ''),
+    new WindowModel('Placeholder', <></>, '', ''),
+  ];
+
+  const [windowValue, setWindowValue] = useState<number>(0);
+
+  const handleWindowChange = (event: React.SyntheticEvent, newValue: number) =>
+    setWindowValue(newValue);
+
   return (
     <>
       <Head>
@@ -13,7 +50,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/public/favicon.ico" />
       </Head>
 
-      <Component {...pageProps} />
+      <Component {...pageProps} windowValue={windowValue} windows={windows} />
+
+      <StartBar
+        windowValue={windowValue}
+        windows={windows}
+        handleChange={handleWindowChange}
+        menuItems={menuItems}
+      />
     </>
   );
 }

@@ -1,0 +1,19 @@
+.window {
+  background: #b9b9b9;
+  z-index: 2;
+  resize: both;
+  overflow: hidden;
+  position: absolute;
+  width: 90%;
+  margin-top: 0;
+  height: 85%;
+  top: 3%;
+  left: 5%;
+}
+
+.content {
+  height: 80%;
+  overflow-y: scroll;
+  flex-grow: 1;
+  background-color: #fff;
+}

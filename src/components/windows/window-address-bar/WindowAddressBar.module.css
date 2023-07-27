@@ -1,0 +1,58 @@
+.options {
+  display: flex;
+  padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+  position: relative;
+}
+
+.options:before {
+  content: '';
+  width: 2px;
+  height: calc(100% - 1rem);
+  position: absolute;
+  background: #f2f2f2;
+  box-shadow: 1px 1px 0 var(--windows-dark-gray);
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+.options > div {
+  padding: 0 1rem 0 0;
+  opacity: 0.5;
+}
+
+.options.padding {
+  padding: 0.75rem 0.5rem 0.5rem 1.25rem;
+}
+
+.options.padding > input {
+  width: 100%;
+  padding: 0.25rem;
+  box-sizing: border-box;
+}
+
+.options .item.float-right {
+  position: absolute;
+  top: 0;
+  right: -1rem;
+  opacity: 1;
+}
+
+.item.float-right {
+  position: absolute;
+  top: 0;
+  right: -1rem;
+  opacity: 1;
+}
+
+.line {
+  box-shadow: 0 2px var(--windows-dark-gray), 0 4px #fff;
+}
+
+.inverse-windows-box-shadow {
+  box-shadow: -2px -2px var(--windows-dark-gray), -2px 0 var(--windows-dark-gray),
+    0 -2px var(--windows-dark-gray), -4px -4px black, -4px 0 black, 0 -4px black,
+    2px 2px var(--windows-light-gray), 0 2px var(--windows-light-gray),
+    2px 0 var(--windows-light-gray), 2px -2px var(--windows-dark-gray),
+    -2px 2px var(--windows-light-gray), -4px 2px black, -4px 4px #fff, 4px 4px #fff, 4px 0 #fff,
+    0 4px #fff, 2px -4px black, 4px -4px #fff;
+}

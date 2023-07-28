@@ -1,34 +1,20 @@
 import { useState } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Window from '../components/windows/window/Window';
+import Layout from '../components/layout/Layout';
+import StartBar from '../components/windows/start-bar/StartBar';
+import Products from '../components/pages/Products';
 import WindowModel from '../models/window';
+
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/globals.css';
-import StartBar from '../components/windows/start-bar/StartBar';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const homeComponent = <Layout title="Home" content={<></>} />;
+  const productsComponent = <Layout title="Products" content={<Products />} />;
   const windows = [
-    new WindowModel(
-      'Home',
-      (
-        <Window title="Home">
-          <h1>Home</h1>
-        </Window>
-      ),
-      'home-window',
-      'home-btn'
-    ),
-    new WindowModel(
-      'Products',
-      (
-        <Window title="Products">
-          <h1>Products</h1>
-        </Window>
-      ),
-      'products-window',
-      'products-btn'
-    ),
+    new WindowModel('Home', homeComponent, 'home-window', 'home-btn'),
+    new WindowModel('Products', productsComponent, 'products-window', 'products-btn'),
   ];
   const menuItems = [
     new WindowModel('Placeholder', <></>, '', ''),

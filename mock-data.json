@@ -1,0 +1,70 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Product 1",
+      "description": "This is Product 1 description",
+      "size": "S",
+      "sizeType": 1,
+      "condition": "Brand new",
+      "isSold": false,
+      "subCategoryId": 1,
+      "brand": "Brand 1"
+    },
+    {
+      "id": 2,
+      "name": "Product 2",
+      "description": "This is Product 2 description",
+      "size": "M",
+      "sizeType": 2,
+      "condition": "Like new",
+      "isSold": false,
+      "subCategoryId": 2,
+      "brand": "Brand 2"
+    },
+    {
+      "id": 3,
+      "name": "Product 3",
+      "description": "This is Product 3 description",
+      "size": "L",
+      "sizeType": 3,
+      "condition": "Great",
+      "isSold": false,
+      "subCategoryId": 3,
+      "brand": "Brand 3"
+    },
+    {
+      "id": 4,
+      "name": "Product 4",
+      "description": "This is Product 4 description",
+      "size": "XL",
+      "sizeType": 4,
+      "condition": "Fair",
+      "isSold": false,
+      "subCategoryId": 4,
+      "brand": "Brand 4"
+    },
+    {
+      "id": 5,
+      "name": "Product 5",
+      "description": "This is Product 5 description",
+      "size": "XS",
+      "sizeType": 1,
+      "condition": "Like new",
+      "isSold": false,
+      "subCategoryId": 1,
+      "brand": "Brand 5"
+    },
+    {
+      "id": 6,
+      "name": "Product 6",
+      "description": "This is Product 6 description",
+      "size": "S",
+      "sizeType": 2,
+      "condition": "Brand new",
+      "isSold": false,
+      "subCategoryId": 2,
+      "brand": "Brand 6"
+    }
+  ]
+}

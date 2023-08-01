@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { useEffect, useState } from 'react';
 import { GridColDef } from '@mui/x-data-grid';
 import ProductsTable from '../products/ProductsTable';
 import ProductModel from '../../models/products/product';
+import ProductService from '../../services/product-service';
 
-import MockData from '../../../mock-data.json';
+const productService = new ProductService(process.env.NEXT_PUBLIC_BASE_API_URL as string);
 
 export default function Products() {
   const [products, setProducts] = useState<ProductModel[]>([]);
@@ -17,8 +19,18 @@ export default function Products() {
   ];
 
   useEffect(() => {
-    setProducts(MockData.products as unknown as ProductModel[]);
-  });
+    const getProducts = async () => {
+      try {
+        const response = await productService.getProducts();
+
+        setProducts(response);
+      } catch (error) {
+        // TODO: Handle error by returning error object and notification to user
+      }
+    };
+
+    getProducts();
+  }, []);
 
   return <ProductsTable products={products} columns={columns} />;
 }

@@ -5,7 +5,7 @@ export default class ProductService extends ApiService {
   baseApiUrl: string;
 
   constructor(baseApiUrl: string) {
-    super(baseApiUrl);
+    super();
     this.baseApiUrl = baseApiUrl;
   }
 

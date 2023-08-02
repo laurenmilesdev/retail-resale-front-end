@@ -1,10 +1,5 @@
 import axios from 'axios';
-
-export interface ApiServiceResponse<T> {
-  data: T;
-  status: number;
-  statusText: string;
-}
+import ApiServiceResponse from '../models/api-service-response';
 
 export default class ApiService {
   get<T>(url: string, config?: object): Promise<ApiServiceResponse<T>> {

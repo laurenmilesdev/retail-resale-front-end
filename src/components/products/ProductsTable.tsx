@@ -14,11 +14,11 @@ export default function ProductsTable({ products, columns }: Props) {
       initialState={{
         pagination: {
           paginationModel: {
-            pageSize: 5,
+            pageSize: 10,
           },
         },
       }}
-      pageSizeOptions={[5]}
+      pageSizeOptions={[10]}
       checkboxSelection
       disableRowSelectionOnClick
     />

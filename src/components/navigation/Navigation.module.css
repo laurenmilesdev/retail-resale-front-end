@@ -15,6 +15,7 @@
 .links {
   font-family: monospace;
   color: inherit;
+  background-color: transparent;
   font-size: 1rem;
 }
 

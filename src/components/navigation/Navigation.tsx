@@ -96,9 +96,9 @@ export default function Navigation({ pages }: Props) {
           >
             {pages.map((page) => (
               <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                <Typography textAlign="center" sx={{ fontFamily: 'monospace' }}>
+                <Button key={page.name} href={page.path} className={styles.links}>
                   {page.name}
-                </Typography>
+                </Button>
               </MenuItem>
             ))}
           </Menu>
@@ -127,20 +127,15 @@ export default function Navigation({ pages }: Props) {
         {/* MAXIMIZED WINDOW MENU LINKS */}
         <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, mr: 3 }}>
           {pages.map((page) => (
-            <Button
-              key={page.name}
-              href={page.path}
-              // sx={{ my: 2, color: 'inherit', display: 'block', fontFamily: 'monospace' }}
-              className={styles.links}
-            >
+            <Button key={page.name} href={page.path} className={styles.links}>
               {page.name}
             </Button>
           ))}
         </Box>
 
-        {/* <Box sx={{ flexGrow: 0 }}>
+        <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mr: 3 }}>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, mr: 4 }}>
               <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
             </IconButton>
           </Tooltip>
@@ -162,11 +157,13 @@ export default function Navigation({ pages }: Props) {
           >
             {settings.map((setting) => (
               <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
+                <Button key={setting} className={styles.links}>
+                  {setting}
+                </Button>
               </MenuItem>
             ))}
           </Menu>
-        </Box> */}
+        </Box>
       </Toolbar>
     </AppBar>
   );

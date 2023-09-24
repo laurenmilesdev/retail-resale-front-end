@@ -110,6 +110,10 @@ a {
   background-color: transparent;
 }
 
+.MuiButtonBase-root:hover {
+  background-color: transparent;
+}
+
 /* DataGrid styling */
 .table-header {
   font-size: 1rem;
@@ -120,10 +124,6 @@ a {
 
 .MuiDataGrid-row:hover {
   background-color: var(--secondary) !important;
-}
-
-.MuiButtonBase-root {
-  background-color: var(--background-color);
 }
 
 @media (prefers-color-scheme: dark) {

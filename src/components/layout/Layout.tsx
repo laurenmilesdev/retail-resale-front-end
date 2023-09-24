@@ -1,22 +1,19 @@
-import Window from '../windows/window/Window';
+import { Container } from '@mui/material';
+import Navigation from '../navigation/Navigation';
 
 import styles from './Layout.module.css';
 
 type Props = {
-  title: string;
-  content: JSX.Element;
+  children: React.ReactNode;
 };
 
-export default function Layout({ title, content }: Props) {
+export default function Layout({ children }: Props) {
   return (
-    <Window title={title}>
-      <div className={`${styles.container}`}>
-        <div className="col-md-12">
-          <h1>{title}</h1>
-        </div>
-
-        <div className="col-md-12">{content}</div>
-      </div>
-    </Window>
+    <>
+      <Navigation />
+      <Container maxWidth="xl" className={styles.container}>
+        {children}
+      </Container>
+    </>
   );
 }

@@ -36,33 +36,17 @@
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
 
-  --primary: #7843e6;
-  --primary-light: #f8f0ec;
-  --secondary: #50ffff;
-  --tertiary: #c2d2d6;
+  --primary: #495057;
+  --primary-light: #6c757d;
+  --secondary: #a25210;
+  --tertiary: #ced4da;
+  --tertiary-light: #dee2e6;
+  /* --tertiary: #adb5bd; */
 
-  --background-color: #fff;
+  --background-color: #e9ecef;
   --font-color: #000;
   --font-color-opp: #fff;
-
-  --windows-blue: #011590;
-  --windows-green: #008080;
-  --windows-light-gray: #e0dede;
-  --windows-gray: #c0c0c0;
-  --windows-dark-gray: #818181;
-}
-
-[data-theme='dark'] {
-  --primary: #50ffff;
-  --secondary: #7843e6;
-  --tertiary: #f5f0f0;
-
-  --background-color: #000;
-  --font-color: #fff;
-  --font-color-opp: #000;
-
-  --about-img-op: 0.25;
-  --home-img-op: 0.5;
+  --table-color: #f8f9fa;
 }
 
 @media (prefers-color-scheme: light) {
@@ -111,10 +95,10 @@ html {
 }
 
 body {
-  background-color: var(--windows-green);
+  background-color: var(--background-color);
   color: var(--font-color);
   height: 100%;
-  padding-bottom: 4%;
+  font-family: monospace;
 }
 
 a {
@@ -122,28 +106,24 @@ a {
   text-decoration: none;
 }
 
-.windows-box-shadow {
-  box-shadow: -2px -2px var(--windows-light-gray), -2px 0 var(--windows-light-gray),
-    0 -2px var(--windows-light-gray), -4px -4px #fff, -4px 0 #fff, 0 -4px #fff,
-    2px 2px var(--windows-dark-gray), 0 2px var(--windows-dark-gray), 2px 0 var(--windows-dark-gray),
-    2px -2px var(--windows-light-gray), -2px 2px var(--windows-dark-gray), -4px 2px #fff,
-    -4px 4px #000, 4px 4px #000, 4px 0 #000, 0 4px #000, 2px -4px #fff, 4px -4px #000;
-  border-radius: 0;
-}
-
-.inverse-windows-box-shadow {
-  box-shadow: -2px -2px var(--windows-dark-gray), -2px 0 var(--windows-dark-gray),
-    0 -2px var(--windows-dark-gray), -4px -4px #000, -4px 0 #000, 0 -4px #000,
-    2px 2px var(--windows-light-gray), 0 2px var(--windows-light-gray),
-    2px 0 var(--windows-light-gray), 2px -2px var(--windows-dark-gray),
-    -2px 2px var(--windows-light-gray), -4px 2px #000, -4px 4px #fff, 4px 4px #fff, 4px 0 #fff,
-    0 4px #fff, 2px -4px #000, 4px -4px #fff;
-  border-radius: 0;
-}
-
-/* Removes bottom border on tabs */
-.MuiTabs-indicator {
+.btn-primary {
   background-color: transparent;
+}
+
+/* DataGrid styling */
+.table-header {
+  font-size: 1rem;
+  letter-spacing: 0.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.MuiDataGrid-row:hover {
+  background-color: var(--secondary) !important;
+}
+
+.MuiButtonBase-root {
+  background-color: var(--background-color);
 }
 
 @media (prefers-color-scheme: dark) {

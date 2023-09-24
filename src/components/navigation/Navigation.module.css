@@ -15,10 +15,12 @@
 .links {
   font-family: monospace;
   color: inherit;
+  font-size: 1rem;
 }
 
 .links:hover {
   color: var(--secondary);
   background-color: transparent;
   letter-spacing: 0.1rem;
+  font-weight: bold;
 }

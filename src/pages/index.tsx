@@ -1,19 +1,20 @@
-import TabPanel from '../components/tab-panel/TabPanel';
-import WindowModel from '../models/window';
+import HomeCard from '../components/home-card/HomeCard';
 
-type Props = {
-  windowValue: number;
-  windows: WindowModel[];
-};
-
-export default function Home({ windowValue, windows }: Props) {
+export default function Home() {
   return (
-    <>
-      {windows.map(({ component }, index: number) => (
-        <TabPanel value={windowValue} index={index} key={index}>
-          {component}
-        </TabPanel>
-      ))}
-    </>
+    <div className="col-md-12 d-flex flex-wrap">
+      <HomeCard title="Card 1" content="Card 1 content" />
+      <HomeCard title="Card 2" content="Card 2 content" />
+      <HomeCard title="Card 3" content="Card 3 content" />
+      <HomeCard title="Card 4" content="Card 4 content" />
+    </div>
   );
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      title: 'Retail Resale',
+    },
+  };
 }

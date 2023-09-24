@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { useEffect, useState } from 'react';
-import { GridColDef } from '@mui/x-data-grid';
-import Loading from '../loading/Loading';
-import ProductsTable from '../products/ProductsTable';
+import { useState, useEffect } from 'react';
 import ProductModel from '../../models/products/product';
+import Loading from '../../components/loading/Loading';
+import ProductsTable from '../../components/products/ProductsTable';
 import ProductService from '../../services/product-service';
 
 const productService = new ProductService(process.env.NEXT_PUBLIC_BASE_API_URL as string);
@@ -11,14 +10,6 @@ const productService = new ProductService(process.env.NEXT_PUBLIC_BASE_API_URL a
 export default function Products() {
   const [products, setProducts] = useState<ProductModel[]>([]);
   const [loaded, setLoaded] = useState<boolean>(false);
-  const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'name', headerName: 'Name', width: 300 },
-    { field: 'description', headerName: 'Description', width: 300 },
-    { field: 'size', headerName: 'Size', width: 150 },
-    { field: 'subCategoryId', headerName: 'SubCategory', width: 150 },
-    { field: 'brand', headerName: 'Brand', width: 150 },
-  ];
 
   useEffect(() => {
     const getProducts = async () => {
@@ -39,7 +30,15 @@ export default function Products() {
 
   return (
     <Loading loaded={loaded}>
-      <ProductsTable products={products} columns={columns} />
+      <ProductsTable products={products} />
     </Loading>
   );
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      title: 'Products',
+    },
+  };
 }

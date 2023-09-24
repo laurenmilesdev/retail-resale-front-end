@@ -1,12 +1,26 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import ProductModel from '../../models/products/product';
 
+import styles from './ProductsTable.module.css';
+
 type Props = {
   products: ProductModel[];
-  columns: GridColDef[];
 };
 
-export default function ProductsTable({ products, columns }: Props) {
+const columns: GridColDef[] = [
+  { field: 'name', headerName: 'Name', headerClassName: 'table-header', flex: 1 },
+  { field: 'description', headerName: 'Description', headerClassName: 'table-header', flex: 1 },
+  { field: 'size', headerName: 'Size', headerClassName: 'table-header', width: 100 },
+  {
+    field: 'subCategoryId',
+    headerName: 'SubCategory',
+    headerClassName: 'table-header',
+    width: 200,
+  },
+  { field: 'brand', headerName: 'Brand ', headerClassName: 'table-header', width: 200 },
+];
+
+export default function ProductsTable({ products }: Props) {
   return (
     <DataGrid
       rows={products ?? []}
@@ -19,8 +33,8 @@ export default function ProductsTable({ products, columns }: Props) {
         },
       }}
       pageSizeOptions={[10]}
-      checkboxSelection
       disableRowSelectionOnClick
+      className={styles.table}
     />
   );
 }

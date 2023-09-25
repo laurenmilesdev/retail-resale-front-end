@@ -2,26 +2,3 @@
   background-color: var(--background-color);
   color: var(--primary);
 }
-
-.logo {
-  font-family: monospace;
-  font-weight: 700;
-  letter-spacing: 0.3rem;
-  color: inherit;
-  margin: 1% 2% 1% 2%;
-  display: flex;
-}
-
-.links {
-  font-family: monospace;
-  color: inherit;
-  background-color: transparent;
-  font-size: 1rem;
-}
-
-.links:hover {
-  color: var(--secondary);
-  background-color: transparent;
-  letter-spacing: 0.1rem;
-  font-weight: bold;
-}

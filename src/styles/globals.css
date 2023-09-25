@@ -106,8 +106,30 @@ a {
   text-decoration: none;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.table-header {
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+  font-weight: bold;
+}
+
 .btn-primary {
+  font-family: monospace;
+  color: inherit;
   background-color: transparent;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  color: var(--secondary);
+  background-color: transparent;
+  letter-spacing: 0.1rem;
+  font-weight: bold;
 }
 
 .MuiButtonBase-root:hover {
@@ -116,10 +138,7 @@ a {
 
 /* DataGrid styling */
 .table-header {
-  font-size: 1rem;
-  letter-spacing: 0.3rem;
-  font-weight: bold;
-  text-transform: uppercase;
+  font-size: 1.1rem;
 }
 
 .MuiDataGrid-row:hover {

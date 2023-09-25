@@ -12,7 +12,9 @@ export default function HomeCard({ title, content }: Props) {
     <div className={`${styles['home-card']} col-md-6`}>
       <Card>
         <CardContent>
-          <div className={`${styles['home-card-title']} col-md-12`}>{title}</div>
+          <div className={`col-md-12`}>
+            <h5>{title}</h5>
+          </div>
           <hr></hr>
           <div className="col-md-12">{content}</div>
         </CardContent>

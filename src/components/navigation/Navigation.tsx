@@ -96,7 +96,7 @@ export default function Navigation({ pages }: Props) {
           >
             {pages.map((page) => (
               <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                <Button key={page.name} href={page.path} className={styles.links}>
+                <Button key={page.name} href={page.path} className="btn-primary">
                   {page.name}
                 </Button>
               </MenuItem>
@@ -127,7 +127,7 @@ export default function Navigation({ pages }: Props) {
         {/* MAXIMIZED WINDOW MENU LINKS */}
         <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, mr: 3 }}>
           {pages.map((page) => (
-            <Button key={page.name} href={page.path} className={styles.links}>
+            <Button key={page.name} href={page.path} className="btn-primary">
               {page.name}
             </Button>
           ))}
@@ -157,7 +157,7 @@ export default function Navigation({ pages }: Props) {
           >
             {settings.map((setting) => (
               <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Button key={setting} className={styles.links}>
+                <Button key={setting} className="btn-primary">
                   {setting}
                 </Button>
               </MenuItem>

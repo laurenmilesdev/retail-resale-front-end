@@ -1,5 +1,6 @@
+import Link from 'next/link';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import ProductModel from '../../models/products/product';
+import ProductModel from '../../../models/products/product';
 
 import styles from './ProductsTable.module.css';
 
@@ -8,7 +9,15 @@ type Props = {
 };
 
 const columns: GridColDef[] = [
-  { field: 'name', headerName: 'Name', headerClassName: 'table-header', flex: 1 },
+  {
+    field: 'name',
+    headerName: 'Name',
+    headerClassName: 'table-header',
+    flex: 1,
+    renderCell: (params) => (
+      <Link href={`/products/${params.row.id as string}`}>{params.row.name}</Link>
+    ),
+  },
   { field: 'description', headerName: 'Description', headerClassName: 'table-header', flex: 1 },
   { field: 'size', headerName: 'Size', headerClassName: 'table-header', width: 100 },
   {

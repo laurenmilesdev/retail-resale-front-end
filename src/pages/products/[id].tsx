@@ -12,6 +12,7 @@ export default function Product() {
   const { id } = useRouter().query;
   const [product, setProduct] = useState<ProductModel>();
   const [loaded, setLoaded] = useState<boolean>(false);
+  const [edit, setEdit] = useState<boolean>(false);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -31,15 +32,19 @@ export default function Product() {
     getProduct();
   }, []);
 
+  useEffect(() => {}, [edit]);
+
   return (
     <>
-      <Button className="btn-primary">Edit</Button>
+      <Button onClick={() => setEdit(!edit)} className="btn-primary">
+        Edit
+      </Button>
       <Button href="/products" className="btn-primary">
         Back
       </Button>
 
       <Loading loaded={loaded}>
-        <ProductDetails product={product} />
+        <ProductDetails product={product} edit={edit} />
       </Loading>
     </>
   );

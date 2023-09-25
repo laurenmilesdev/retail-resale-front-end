@@ -1,14 +1,17 @@
-import { SizeType } from '../../enums/size-type';
 import SubCategory from './sub-category';
 
 export default class Product {
+  id: number;
+
   name: string;
 
   description: string;
 
   size: string;
 
-  sizeType: SizeType;
+  sizeType: number;
+
+  sizeTypeValue: string;
 
   condition: string;
 
@@ -25,10 +28,12 @@ export default class Product {
   purchaseDate?: Date;
 
   constructor(
+    id: number,
     name: string,
     description: string,
     size: string,
-    sizeType: SizeType,
+    sizeType: number,
+    sizeTypeValue: string,
     condition: string,
     isSold: boolean,
     subCategory: SubCategory,
@@ -37,10 +42,12 @@ export default class Product {
     purchasePrice?: number,
     purchaseDate?: Date
   ) {
+    this.id = id;
     this.name = name;
     this.description = description;
     this.size = size;
     this.sizeType = sizeType;
+    this.sizeTypeValue = sizeTypeValue;
     this.condition = condition;
     this.isSold = isSold;
     this.subCategory = subCategory;

@@ -3,5 +3,9 @@
 }
 
 .text-field {
-  width: 100%;
+  width: 50%;
+}
+
+.select-field {
+  width: 25%;
 }

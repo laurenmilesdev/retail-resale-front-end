@@ -50,12 +50,17 @@ export default function Product() {
 
   return (
     <>
-      <Button onClick={() => setEdit(!edit)} className="btn-primary">
-        Edit
-      </Button>
       <Button href="/products" className="btn-primary">
         Back
       </Button>
+      <Button onClick={() => setEdit(!edit)} className="btn-primary">
+        {edit ? 'Save' : 'Edit'}
+      </Button>
+      {edit && (
+        <Button onClick={() => setEdit(!edit)} className="btn-primary">
+          Cancel
+        </Button>
+      )}
 
       <Loading loaded={loaded}>
         <Card>

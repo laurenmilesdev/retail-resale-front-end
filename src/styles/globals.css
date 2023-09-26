@@ -154,11 +154,6 @@ h6,
   font-family: monospace;
 }
 
-.MuiInputBase-root,
-.MuiInputBase-input {
-  padding: 0.4%;
-}
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

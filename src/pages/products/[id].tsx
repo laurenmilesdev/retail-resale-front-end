@@ -1,16 +1,21 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button } from '@mui/material';
-import ProductService from '../../services/product-service';
+import { Button, Card, CardContent } from '@mui/material';
 import Loading from '../../components/loading/Loading';
-import ProductModel from '../../models/products/product';
 import ProductDetails from '../../components/products/product-details/ProductDetails';
+import ProductModel from '../../models/products/product';
+import ConditionModel from '../../models/products/condition';
+import ProductService from '../../services/product-service';
+import ConditionService from '../../services/condition-service';
 
 const productService = new ProductService(process.env.NEXT_PUBLIC_BASE_API_URL as string);
+const conditionService = new ConditionService(process.env.NEXT_PUBLIC_BASE_API_URL as string);
 
 export default function Product() {
   const { id } = useRouter().query;
   const [product, setProduct] = useState<ProductModel>();
+  const [conditions, setConditions] = useState<ConditionModel[]>();
   const [loaded, setLoaded] = useState<boolean>(false);
   const [edit, setEdit] = useState<boolean>(false);
 
@@ -27,9 +32,18 @@ export default function Product() {
         setLoaded(true);
       }
     };
+    const getConditions = async () => {
+      try {
+        const response = await conditionService.getConditions();
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        setConditions(response);
+      } catch (error) {
+        // Handle error
+      }
+    };
+
     getProduct();
+    getConditions();
   }, []);
 
   useEffect(() => {}, [edit]);
@@ -44,7 +58,15 @@ export default function Product() {
       </Button>
 
       <Loading loaded={loaded}>
-        <ProductDetails product={product} edit={edit} />
+        <Card>
+          <CardContent>
+            {product ? (
+              <ProductDetails product={product} conditions={conditions ?? []} edit={edit} />
+            ) : (
+              <>Product not found.</>
+            )}
+          </CardContent>
+        </Card>
       </Loading>
     </>
   );

@@ -1,4 +1,5 @@
 import SubCategory from './sub-category';
+import Condition from './condition';
 
 export default class Product {
   id: number;
@@ -13,7 +14,9 @@ export default class Product {
 
   sizeTypeValue: string;
 
-  condition: string;
+  condition: Condition;
+
+  conditionId: number;
 
   isSold: boolean;
 
@@ -25,7 +28,7 @@ export default class Product {
 
   purchasePrice?: number;
 
-  purchaseDate?: Date;
+  purchaseDate?: string;
 
   constructor(
     id: number,
@@ -34,13 +37,14 @@ export default class Product {
     size: string,
     sizeType: number,
     sizeTypeValue: string,
-    condition: string,
+    condition: Condition,
+    conditionId: number,
     isSold: boolean,
     subCategory: SubCategory,
     subCategoryId: number,
     brand?: string,
     purchasePrice?: number,
-    purchaseDate?: Date
+    purchaseDate?: string
   ) {
     this.id = id;
     this.name = name;
@@ -49,6 +53,7 @@ export default class Product {
     this.sizeType = sizeType;
     this.sizeTypeValue = sizeTypeValue;
     this.condition = condition;
+    this.conditionId = conditionId;
     this.isSold = isSold;
     this.subCategory = subCategory;
     this.subCategoryId = subCategoryId;

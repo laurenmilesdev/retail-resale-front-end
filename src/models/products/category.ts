@@ -1,10 +1,3 @@
-export default class Category {
-  id: number;
+import Dropdown from '../dropdown';
 
-  value: string;
-
-  constructor(id: number, value: string) {
-    this.id = id;
-    this.value = value;
-  }
-}
+export default class Category extends Dropdown {}

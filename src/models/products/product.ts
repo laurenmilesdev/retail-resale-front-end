@@ -1,5 +1,7 @@
+/* eslint-disable import/no-cycle */
 import SubCategory from './sub-category';
 import Condition from './condition';
+import ListingSiteProduct from './listing-site-product';
 
 export default class Product {
   id: number;
@@ -30,6 +32,8 @@ export default class Product {
 
   purchaseDate?: string;
 
+  listingSiteProducts?: ListingSiteProduct[];
+
   constructor(
     id: number,
     name: string,
@@ -44,7 +48,8 @@ export default class Product {
     subCategoryId: number,
     brand?: string,
     purchasePrice?: number,
-    purchaseDate?: string
+    purchaseDate?: string,
+    listingSiteProducts?: ListingSiteProduct[]
   ) {
     this.id = id;
     this.name = name;
@@ -60,5 +65,6 @@ export default class Product {
     this.brand = brand;
     this.purchasePrice = purchasePrice;
     this.purchaseDate = purchaseDate;
+    this.listingSiteProducts = listingSiteProducts;
   }
 }

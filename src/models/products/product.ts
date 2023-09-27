@@ -65,6 +65,6 @@ export default class Product {
     this.brand = brand;
     this.purchasePrice = purchasePrice;
     this.purchaseDate = purchaseDate;
-    this.listingSiteProducts = listingSiteProducts;
+    this.listingSiteProducts = listingSiteProducts ?? [];
   }
 }

@@ -1,6 +1,6 @@
 export enum SizeType {
-  Womens,
-  Mens,
-  Kids,
-  None,
+  Womens = 1,
+  Mens = 2,
+  Kids = 3,
+  None = 4,
 }

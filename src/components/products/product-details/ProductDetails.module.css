@@ -6,6 +6,7 @@
   width: 50%;
 }
 
-.select-field {
+.select-field,
+.date-picker {
   width: 25%;
 }

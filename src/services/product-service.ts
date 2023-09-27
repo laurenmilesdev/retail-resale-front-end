@@ -10,7 +10,7 @@ export default class ProductService extends ApiService {
     this.baseApiUrl = baseApiUrl;
   }
 
-  async getProductById(id: string, config?: object): Promise<ProductModel> {
+  async getProductById(id: number, config?: object): Promise<ProductModel> {
     const url = `${this.baseApiUrl}/Products/${id}`;
     const response = await super.get(url, config);
     let product: ProductModel = <ProductModel>{};
@@ -31,5 +31,14 @@ export default class ProductService extends ApiService {
     if (response.status === 200 && response.data) products = response.data as ProductModel[];
 
     return products;
+  }
+
+  async updateProduct(id: number, product: ProductModel, config?: object): Promise<boolean> {
+    const url = `${this.baseApiUrl}/Products/${id}`;
+    const response = await super.put(url, product, config);
+
+    if (response.status === 200 && response.data) return true;
+
+    return false;
   }
 }

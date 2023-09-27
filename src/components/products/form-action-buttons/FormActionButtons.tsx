@@ -28,13 +28,10 @@ export default function FormActionButtons({
 }: Props) {
   return (
     <>
-      <Button href="/products" className="btn-primary">
+      <Button href="/products" className="btn-primary" type="button">
         Back
       </Button>
-      <Button onClick={() => setEdit(!edit)} className="btn-primary">
-        {edit ? 'Save' : 'Edit'}
-      </Button>
-      {edit && (
+      {edit ? (
         <Button
           onClick={() => {
             setEdit(!edit);
@@ -45,8 +42,20 @@ export default function FormActionButtons({
             setConditionId(conditionId);
           }}
           className="btn-primary"
+          type="button"
         >
           Cancel
+        </Button>
+      ) : (
+        <Button
+          type="button"
+          onClick={() => {
+            setEdit(!edit);
+            return false;
+          }}
+          className="btn-primary"
+        >
+          Edit
         </Button>
       )}
     </>

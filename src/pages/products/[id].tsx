@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Card, CardContent, SelectChangeEvent } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 import Loading from '../../components/loading/Loading';
 import FormActionButtons from '../../components/products/form-action-buttons/FormActionButtons';
 import ProductDetails from '../../components/products/product-details/ProductDetails';
+import ProductForm from '../../components/products/product-form/ProductForm';
 import ProductModel from '../../models/products/product';
-import ConditionModel from '../../models/products/condition';
-import SubCategoryModel from '../../models/products/sub-category';
-import CategoryModel from '../../models/products/category';
+import DropdownModel from '../../models/dropdown';
 import ProductService from '../../services/product-service';
 import ConditionService from '../../services/condition-service';
 import CategoryService from '../../services/category-service';
@@ -22,22 +21,18 @@ export default function Product() {
   const { id } = useRouter().query;
   const [loaded, setLoaded] = useState<boolean>(false);
   const [edit, setEdit] = useState<boolean>(false);
-  const [product, setProduct] = useState<ProductModel>();
+  const [product, setProduct] = useState<ProductModel | undefined>();
   const [sizeTypeId, setSizeTypeId] = useState<number | undefined>();
   const [categoryId, setCategoryId] = useState<number | undefined>();
-  const [categories, setCategories] = useState<CategoryModel[]>();
+  const [categories, setCategories] = useState<DropdownModel[]>();
   const [subCategoryId, setSubCategoryId] = useState<number | undefined>();
-  const [subCategories, setSubCategories] = useState<SubCategoryModel[]>();
+  const [subCategories, setSubCategories] = useState<DropdownModel[]>();
   const [conditionId, setConditionId] = useState<number | undefined>();
-  const [conditions, setConditions] = useState<ConditionModel[]>();
-
-  function handleCategoryChange(event: SelectChangeEvent) {
-    setCategoryId(event.target.value as unknown as number);
-  }
+  const [conditions, setConditions] = useState<DropdownModel[]>();
 
   async function getProduct() {
     try {
-      const response = await productService.getProductById(id as string);
+      const response = await productService.getProductById(id as unknown as number);
 
       setProduct(response);
       setSizeTypeId(response.sizeType);
@@ -56,9 +51,15 @@ export default function Product() {
     try {
       const response = await categoryService.getCategories();
       const currentCategory = response.find((p) => p.id === categoryId);
+      const categoriesDropdown = response.map(
+        (category) => new DropdownModel(category.id, category.value)
+      );
+      const subCategoriesDropdown = currentCategory?.subCategories.map(
+        (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
+      );
 
-      setCategories(response);
-      setSubCategories(currentCategory?.subCategories);
+      setCategories(categoriesDropdown);
+      setSubCategories(subCategoriesDropdown);
     } catch (error) {
       // Handle error
     }
@@ -67,8 +68,11 @@ export default function Product() {
   async function getConditions() {
     try {
       const response = await conditionService.getConditions();
+      const conditionsDropdown = response.map(
+        (condition) => new DropdownModel(condition.id, condition.value)
+      );
 
-      setConditions(response);
+      setConditions(conditionsDropdown);
     } catch (error) {
       // Handle error
     }
@@ -78,9 +82,12 @@ export default function Product() {
     try {
       if (categoryId) {
         const response = await categoryService.getCategoryById(categoryId);
+        const subCategoriesDropdown = response.subCategories.map(
+          (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
+        );
 
         setCategoryId(categoryId);
-        setSubCategories(response.subCategories);
+        setSubCategories(subCategoriesDropdown);
       }
     } catch (error) {
       // Handle error
@@ -99,6 +106,27 @@ export default function Product() {
 
   useEffect(() => {}, [edit]);
 
+  const productDetails = product ? <ProductDetails product={product} /> : <>Product not found.</>;
+  const productForm =
+    product && sizeTypeId && categoryId && subCategoryId && conditionId ? (
+      <ProductForm
+        product={product}
+        sizeTypeId={sizeTypeId}
+        setSizeTypeId={setSizeTypeId}
+        categoryId={categoryId}
+        setCategoryId={setCategoryId}
+        categories={categories ?? []}
+        subCategoryId={subCategoryId}
+        setSubCategoryId={setSubCategoryId}
+        subCategories={subCategories ?? []}
+        conditionId={conditionId}
+        setConditionId={setConditionId}
+        conditions={conditions ?? []}
+      />
+    ) : (
+      <>Error loading form.</>
+    );
+
   return (
     <>
       {product && (
@@ -116,31 +144,11 @@ export default function Product() {
         />
       )}
 
-      <Loading loaded={loaded}>
-        <Card>
-          <CardContent>
-            {product && sizeTypeId && categoryId && subCategoryId && conditionId ? (
-              <ProductDetails
-                product={product}
-                sizeTypeId={sizeTypeId}
-                setSizeTypeId={setSizeTypeId}
-                categoryId={categoryId}
-                handleCategoryChange={handleCategoryChange}
-                categories={categories ?? []}
-                subCategoryId={subCategoryId}
-                setSubCategoryId={setSubCategoryId}
-                subCategories={subCategories ?? []}
-                conditionId={conditionId}
-                setConditionId={setConditionId}
-                conditions={conditions ?? []}
-                edit={edit}
-              />
-            ) : (
-              <>Product not found.</>
-            )}
-          </CardContent>
-        </Card>
-      </Loading>
+      <Card>
+        <CardContent>
+          <Loading loaded={loaded}>{edit ? productForm : productDetails}</Loading>
+        </CardContent>
+      </Card>
     </>
   );
 }

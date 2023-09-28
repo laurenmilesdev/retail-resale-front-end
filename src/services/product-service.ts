@@ -32,13 +32,4 @@ export default class ProductService extends ApiService {
 
     return products;
   }
-
-  async updateProduct(id: number, product: ProductModel, config?: object): Promise<boolean> {
-    const url = `${this.baseApiUrl}/Products/${id}`;
-    const response = await super.put(url, product, config);
-
-    if (response.status === 200 && response.data) return true;
-
-    return false;
-  }
 }

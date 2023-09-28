@@ -1,16 +1,24 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Card, CardContent } from '@mui/material';
+import { Card, CardContent, SelectChangeEvent } from '@mui/material';
+import dayjs, { Dayjs } from 'dayjs';
 import Loading from '../../components/loading/Loading';
 import FormActionButtons from '../../components/products/form-action-buttons/FormActionButtons';
 import ProductDetails from '../../components/products/product-details/ProductDetails';
 import ProductForm from '../../components/products/product-form/ProductForm';
+import TextFieldInput from '../../components/text-field-input/TextFieldInput';
+import SelectListInput from '../../components/select-list-input/SelectListInput';
+import DatePickerInput from '../../components/date-picker-input/DatePickerInput';
 import ProductModel from '../../models/products/product';
 import DropdownModel from '../../models/dropdown';
+import TextFieldModel from '../../models/text-field';
+import SelectListModel from '../../models/select-list';
 import ProductService from '../../services/product-service';
 import ConditionService from '../../services/condition-service';
 import CategoryService from '../../services/category-service';
+import { sizeTypes } from '../../constants/size-type';
+import { convertDate } from '../../utils/date';
 
 const baseApiUrl: string = process.env.NEXT_PUBLIC_BASE_API_URL ?? '';
 const productService = new ProductService(baseApiUrl);
@@ -29,16 +37,29 @@ export default function Product() {
   const [subCategories, setSubCategories] = useState<DropdownModel[]>();
   const [conditionId, setConditionId] = useState<number | undefined>();
   const [conditions, setConditions] = useState<DropdownModel[]>();
+  const [purchaseDate, setPurchaseDate] = useState<Dayjs | null>();
+
+  function handleChange(event: SelectChangeEvent) {
+    const { name } = event.target;
+    const { value } = event.target;
+
+    if (name === 'sizeType') setSizeTypeId(value as unknown as number);
+    if (name === 'category') setCategoryId(value as unknown as number);
+    if (name === 'subCategory') setSubCategoryId(value as unknown as number);
+    if (name === 'condition') setConditionId(value as unknown as number);
+  }
 
   async function getProduct() {
     try {
       const response = await productService.getProductById(id as unknown as number);
+      const newDate = response.purchaseDate ? convertDate(response.purchaseDate) : null;
 
       setProduct(response);
       setSizeTypeId(response.sizeType);
       setCategoryId(response.subCategory.categoryId);
       setSubCategoryId(response.subCategory.id);
       setConditionId(response.conditionId);
+      setPurchaseDate(newDate ? dayjs(newDate) : null);
     } catch (error) {
       // TODO: Handle error by returning error object and notification to user
       setLoaded(true);
@@ -106,23 +127,69 @@ export default function Product() {
 
   useEffect(() => {}, [edit]);
 
-  const productDetails = product ? <ProductDetails product={product} /> : <>Product not found.</>;
+  const textField = (name: string, value: string, multiline = false) => {
+    const item = new TextFieldModel(value, name, multiline);
+
+    return <TextFieldInput textField={item} />;
+  };
+  const selectListItem = (name: string, value: string, listItems: DropdownModel[]) => {
+    const item = new SelectListModel(value, name, listItems);
+
+    return <SelectListInput selectList={item} handleChange={handleChange} />;
+  };
+
+  const productFields = [
+    { name: 'Name', value: product?.name, editField: textField('name', product?.name ?? '') },
+    {
+      name: 'Description',
+      value: product?.description,
+      editField: textField('description', product?.description ?? '', true),
+    },
+    { name: 'Size', value: product?.size, editField: textField('size', product?.size ?? '', true) },
+    {
+      name: 'Size Type',
+      value: product?.sizeTypeValue,
+      editField: selectListItem('sizeType', sizeTypeId as unknown as string, sizeTypes),
+    },
+    {
+      name: 'Category',
+      value: product?.subCategory.category.value,
+      editField: selectListItem('category', categoryId as unknown as string, categories ?? []),
+    },
+    {
+      name: 'SubCategory',
+      value: product?.subCategory.value,
+      editField: selectListItem(
+        'subCategory',
+        subCategoryId as unknown as string,
+        subCategories ?? []
+      ),
+    },
+    {
+      name: 'Condition',
+      value: product?.condition.value,
+      editField: selectListItem('condition', conditionId as unknown as string, conditions ?? []),
+    },
+    { name: 'Brand', value: product?.brand, editField: textField('brand', product?.brand ?? '') },
+    {
+      name: 'Purchase Price',
+      value: product?.purchasePrice,
+      editField: textField('purchasePrice', product?.purchasePrice as unknown as string),
+    },
+    {
+      name: 'Purchase Date',
+      value: product?.purchaseDate ? convertDate(product?.purchaseDate) : null,
+      editField: <DatePickerInput value={purchaseDate} setValue={setPurchaseDate} />,
+    },
+  ];
+  const productDetails = product ? (
+    <ProductDetails productFields={productFields} />
+  ) : (
+    <>Product not found.</>
+  );
   const productForm =
     product && sizeTypeId && categoryId && subCategoryId && conditionId ? (
-      <ProductForm
-        product={product}
-        sizeTypeId={sizeTypeId}
-        setSizeTypeId={setSizeTypeId}
-        categoryId={categoryId}
-        setCategoryId={setCategoryId}
-        categories={categories ?? []}
-        subCategoryId={subCategoryId}
-        setSubCategoryId={setSubCategoryId}
-        subCategories={subCategories ?? []}
-        conditionId={conditionId}
-        setConditionId={setConditionId}
-        conditions={conditions ?? []}
-      />
+      <ProductForm productFields={productFields} />
     ) : (
       <>Error loading form.</>
     );

@@ -1,23 +1,20 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Card, CardContent, SelectChangeEvent } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import Loading from '../../components/loading/Loading';
-import FormActionButtons from '../../components/products/form-action-buttons/FormActionButtons';
+import PageNavigationButtons from '../../components/page-navigation-buttons/PageNavigationButtons';
 import ProductDetails from '../../components/products/product-details/ProductDetails';
 import ProductForm from '../../components/products/product-form/ProductForm';
-import TextFieldInput from '../../components/text-field-input/TextFieldInput';
-import SelectListInput from '../../components/select-list-input/SelectListInput';
-import DatePickerInput from '../../components/date-picker-input/DatePickerInput';
 import ProductModel from '../../models/products/product';
 import DropdownModel from '../../models/dropdown';
-import TextFieldModel from '../../models/text-field';
-import SelectListModel from '../../models/select-list';
+import ProductField from '../../models/product-field';
 import ProductService from '../../services/product-service';
 import ConditionService from '../../services/condition-service';
 import CategoryService from '../../services/category-service';
 import { sizeTypes } from '../../constants/size-type';
+import { FieldType } from '../../enums/field-type';
 import { convertDate } from '../../utils/date';
 
 const baseApiUrl: string = process.env.NEXT_PUBLIC_BASE_API_URL ?? '';
@@ -37,17 +34,7 @@ export default function Product() {
   const [subCategories, setSubCategories] = useState<DropdownModel[]>();
   const [conditionId, setConditionId] = useState<number | undefined>();
   const [conditions, setConditions] = useState<DropdownModel[]>();
-  const [purchaseDate, setPurchaseDate] = useState<Dayjs | null>();
-
-  function handleChange(event: SelectChangeEvent) {
-    const { name } = event.target;
-    const { value } = event.target;
-
-    if (name === 'sizeType') setSizeTypeId(value as unknown as number);
-    if (name === 'category') setCategoryId(value as unknown as number);
-    if (name === 'subCategory') setSubCategoryId(value as unknown as number);
-    if (name === 'condition') setConditionId(value as unknown as number);
-  }
+  const [purchaseDate, setPurchaseDate] = useState<Dayjs | null | undefined>();
 
   async function getProduct() {
     try {
@@ -127,60 +114,40 @@ export default function Product() {
 
   useEffect(() => {}, [edit]);
 
-  const textField = (name: string, value: string, multiline = false) => {
-    const item = new TextFieldModel(value, name, multiline);
-
-    return <TextFieldInput textField={item} />;
-  };
-  const selectListItem = (name: string, value: string, listItems: DropdownModel[]) => {
-    const item = new SelectListModel(value, name, listItems);
-
-    return <SelectListInput selectList={item} handleChange={handleChange} />;
-  };
-
   const productFields = [
-    { name: 'Name', value: product?.name, editField: textField('name', product?.name ?? '') },
-    {
-      name: 'Description',
-      value: product?.description,
-      editField: textField('description', product?.description ?? '', true),
-    },
-    { name: 'Size', value: product?.size, editField: textField('size', product?.size ?? '', true) },
-    {
-      name: 'Size Type',
-      value: product?.sizeTypeValue,
-      editField: selectListItem('sizeType', sizeTypeId as unknown as string, sizeTypes),
-    },
-    {
-      name: 'Category',
-      value: product?.subCategory.category.value,
-      editField: selectListItem('category', categoryId as unknown as string, categories ?? []),
-    },
-    {
-      name: 'SubCategory',
-      value: product?.subCategory.value,
-      editField: selectListItem(
-        'subCategory',
-        subCategoryId as unknown as string,
-        subCategories ?? []
-      ),
-    },
-    {
-      name: 'Condition',
-      value: product?.condition.value,
-      editField: selectListItem('condition', conditionId as unknown as string, conditions ?? []),
-    },
-    { name: 'Brand', value: product?.brand, editField: textField('brand', product?.brand ?? '') },
-    {
-      name: 'Purchase Price',
-      value: product?.purchasePrice,
-      editField: textField('purchasePrice', product?.purchasePrice as unknown as string),
-    },
-    {
-      name: 'Purchase Date',
-      value: product?.purchaseDate ? convertDate(product?.purchaseDate) : null,
-      editField: <DatePickerInput value={purchaseDate} setValue={setPurchaseDate} />,
-    },
+    new ProductField('Name', product?.name, FieldType.text),
+    new ProductField('Description', product?.description, FieldType.textMulti),
+    new ProductField('Size', product?.size, FieldType.text),
+    new ProductField('Size Type', product?.sizeTypeValue, FieldType.select, sizeTypeId, sizeTypes),
+    new ProductField(
+      'Category',
+      product?.subCategory.category.value,
+      FieldType.select,
+      categoryId,
+      categories
+    ),
+    new ProductField(
+      'SubCategory',
+      product?.subCategory.value,
+      FieldType.select,
+      subCategoryId,
+      subCategories
+    ),
+    new ProductField(
+      'Condition',
+      product?.condition.value,
+      FieldType.select,
+      conditionId,
+      conditions
+    ),
+    new ProductField('Brand', product?.brand, FieldType.text),
+    new ProductField('Purchase Price', product?.purchasePrice, FieldType.text),
+    new ProductField(
+      'Purchase Date',
+      convertDate(product?.purchaseDate ?? ''),
+      FieldType.date,
+      purchaseDate
+    ),
   ];
   const productDetails = product ? (
     <ProductDetails productFields={productFields} />
@@ -189,7 +156,14 @@ export default function Product() {
   );
   const productForm =
     product && sizeTypeId && categoryId && subCategoryId && conditionId ? (
-      <ProductForm productFields={productFields} />
+      <ProductForm
+        productFields={productFields}
+        setSizeTypeId={setSizeTypeId}
+        setCategoryId={setCategoryId}
+        setSubCategoryId={setSubCategoryId}
+        setConditionId={setConditionId}
+        setPurchaseDate={setPurchaseDate}
+      />
     ) : (
       <>Error loading form.</>
     );
@@ -197,7 +171,7 @@ export default function Product() {
   return (
     <>
       {product && (
-        <FormActionButtons
+        <PageNavigationButtons
           edit={edit}
           setEdit={setEdit}
           sizeTypeId={product.sizeType}

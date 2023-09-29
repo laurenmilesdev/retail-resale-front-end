@@ -1,13 +1,13 @@
 export default class TextField {
-  value: string;
-
   name: string;
+
+  value: string;
 
   multiline?: boolean;
 
-  constructor(value: string, name: string, multiline = false) {
-    this.value = value;
+  constructor(name: string, value: string, multiline = false) {
     this.name = name;
+    this.value = value;
     this.multiline = multiline;
   }
 }

@@ -1,15 +1,15 @@
 import Dropdown from './dropdown';
 
 export default class SelectList {
-  value: string;
-
   name: string;
+
+  value: string;
 
   selectListItems: Dropdown[];
 
-  constructor(value: string, name: string, selectListItems: Dropdown[]) {
-    this.value = value;
+  constructor(name: string, value: string, selectListItems: Dropdown[]) {
     this.name = name;
+    this.value = value;
     this.selectListItems = selectListItems;
   }
 }

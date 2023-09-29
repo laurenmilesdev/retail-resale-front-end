@@ -1,10 +1,9 @@
-import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 
 import styles from './DatePickerInput.module.css';
 
 type Props = {
-  value?: dayjs.Dayjs | null;
+  value?: any | null;
   setValue: (newValue: any) => void;
 };
 

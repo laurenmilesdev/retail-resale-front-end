@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import TextFieldModel from '@/models/text-field';
+import TextFieldModel from '../../../models/text-field';
 
 import styles from './TextFieldInput.module.css';
 

@@ -1,6 +1,6 @@
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import SelectListModel from '../../models/select-list';
-import DropdownModel from '../../models/dropdown';
+import SelectListModel from '../../../models/select-list';
+import DropdownModel from '../../../models/dropdown';
 
 import styles from './SelectListInput.module.css';
 

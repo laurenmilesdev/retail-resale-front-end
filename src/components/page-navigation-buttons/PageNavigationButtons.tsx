@@ -14,7 +14,7 @@ type Props = {
   setConditionId: Dispatch<SetStateAction<number | undefined>>;
 };
 
-export default function FormActionButtons({
+export default function PageNavigationButtons({
   edit,
   setEdit,
   sizeTypeId,
@@ -47,14 +47,7 @@ export default function FormActionButtons({
           Cancel
         </Button>
       ) : (
-        <Button
-          type="button"
-          onClick={() => {
-            setEdit(!edit);
-            return false;
-          }}
-          className="btn-primary"
-        >
+        <Button type="button" onClick={() => setEdit(!edit)} className="btn-primary">
           Edit
         </Button>
       )}

@@ -1,5 +1,6 @@
-import styles from './ProductDetails.module.css';
 import ProductFieldModel from '../../../models/product-field';
+
+import styles from './ProductDetails.module.css';
 
 type Props = {
   productFields: ProductFieldModel[];

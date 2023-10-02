@@ -1,10 +1,11 @@
+import { Dispatch, SetStateAction } from 'react';
 import { DatePicker } from '@mui/x-date-pickers';
 
 import styles from './DatePickerInput.module.css';
 
 type Props = {
   value?: any | null;
-  setValue: (newValue: any) => void;
+  setValue: Dispatch<SetStateAction<any | undefined>>;
 };
 
 export default function DatePickerInput({ value, setValue }: Props) {

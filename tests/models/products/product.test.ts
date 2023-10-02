@@ -13,9 +13,14 @@ describe('Product', () => {
       sizeType: product.sizeType,
       sizeTypeValue: SizeType[product.sizeType],
       condition: product.condition,
+      conditionId: product.condition.id,
       isSold: product.isSold,
       subCategory: product.subCategory,
       subCategoryId: product.subCategoryId,
+      brand: undefined,
+      purchasePrice: undefined,
+      purchaseDate: undefined,
+      listingSiteProducts: [],
     };
 
     expect(response).toEqual(expectedResponse);

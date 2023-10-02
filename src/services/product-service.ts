@@ -10,7 +10,7 @@ export default class ProductService extends ApiService {
     this.baseApiUrl = baseApiUrl;
   }
 
-  async getProductById(id: string, config?: object): Promise<ProductModel> {
+  async getProductById(id: number, config?: object): Promise<ProductModel> {
     const url = `${this.baseApiUrl}/Products/${id}`;
     const response = await super.get(url, config);
     let product: ProductModel = <ProductModel>{};

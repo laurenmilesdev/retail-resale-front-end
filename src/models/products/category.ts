@@ -1,10 +1,12 @@
-export default class Category {
-  id: number;
+/* eslint-disable import/no-cycle */
+import Dropdown from '../dropdown';
+import SubCategory from './sub-category';
 
-  value: string;
+export default class Category extends Dropdown {
+  subCategories?: SubCategory[];
 
-  constructor(id: number, value: string) {
-    this.id = id;
-    this.value = value;
+  constructor(id: number, value: string, subCategories?: SubCategory[]) {
+    super(id, value);
+    this.subCategories = subCategories;
   }
 }

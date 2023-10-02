@@ -99,6 +99,7 @@ body {
   color: var(--font-color);
   height: 100%;
   font-family: monospace;
+  padding-bottom: 2%;
 }
 
 a {
@@ -147,6 +148,16 @@ h6,
 
 .MuiDataGrid-row:hover {
   background-color: var(--secondary) !important;
+}
+
+/* TextField styling */
+.MuiInputBase-root {
+  font-family: monospace;
+}
+
+/* Card styling */
+.MuiCardContent-root {
+  background-color: var(--table-color);
 }
 
 @media (prefers-color-scheme: dark) {

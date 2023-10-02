@@ -1,4 +1,7 @@
+/* eslint-disable import/no-cycle */
 import SubCategory from './sub-category';
+import Condition from './condition';
+import ListingSiteProduct from './listing-site-product';
 
 export default class Product {
   id: number;
@@ -13,7 +16,9 @@ export default class Product {
 
   sizeTypeValue: string;
 
-  condition: string;
+  condition: Condition;
+
+  conditionId: number;
 
   isSold: boolean;
 
@@ -25,7 +30,9 @@ export default class Product {
 
   purchasePrice?: number;
 
-  purchaseDate?: Date;
+  purchaseDate?: string;
+
+  listingSiteProducts?: ListingSiteProduct[];
 
   constructor(
     id: number,
@@ -34,13 +41,15 @@ export default class Product {
     size: string,
     sizeType: number,
     sizeTypeValue: string,
-    condition: string,
+    condition: Condition,
+    conditionId: number,
     isSold: boolean,
     subCategory: SubCategory,
     subCategoryId: number,
     brand?: string,
     purchasePrice?: number,
-    purchaseDate?: Date
+    purchaseDate?: string,
+    listingSiteProducts?: ListingSiteProduct[]
   ) {
     this.id = id;
     this.name = name;
@@ -49,11 +58,13 @@ export default class Product {
     this.sizeType = sizeType;
     this.sizeTypeValue = sizeTypeValue;
     this.condition = condition;
+    this.conditionId = conditionId;
     this.isSold = isSold;
     this.subCategory = subCategory;
     this.subCategoryId = subCategoryId;
     this.brand = brand;
     this.purchasePrice = purchasePrice;
     this.purchaseDate = purchaseDate;
+    this.listingSiteProducts = listingSiteProducts ?? [];
   }
 }

@@ -2,7 +2,7 @@ import Category from '../../../src/models/products/category';
 
 describe('Category', () => {
   const id = 1;
-  const value = 'Value';
+  const value = 'Category 1';
 
   it('returns Category object', () => {
     const response = new Category(id, value);

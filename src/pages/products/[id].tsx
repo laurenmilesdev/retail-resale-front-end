@@ -62,9 +62,11 @@ export default function Product() {
       const categoriesDropdown = response.map(
         (category) => new DropdownModel(category.id, category.value)
       );
-      const subCategoriesDropdown = currentCategory?.subCategories.map(
-        (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
-      );
+      const subCategoriesDropdown = currentCategory?.subCategories
+        ? currentCategory?.subCategories.map(
+            (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
+          )
+        : [];
 
       setCategories(categoriesDropdown);
       setSubCategories(subCategoriesDropdown);
@@ -90,9 +92,11 @@ export default function Product() {
     try {
       if (categoryId) {
         const response = await categoryService.getCategoryById(categoryId);
-        const subCategoriesDropdown = response.subCategories.map(
-          (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
-        );
+        const subCategoriesDropdown = response.subCategories
+          ? response.subCategories.map(
+              (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
+            )
+          : [];
 
         setCategoryId(categoryId);
         setSubCategories(subCategoriesDropdown);

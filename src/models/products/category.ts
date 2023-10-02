@@ -3,9 +3,9 @@ import Dropdown from '../dropdown';
 import SubCategory from './sub-category';
 
 export default class Category extends Dropdown {
-  subCategories: SubCategory[];
+  subCategories?: SubCategory[];
 
-  constructor(id: number, value: string, subCategories: SubCategory[]) {
+  constructor(id: number, value: string, subCategories?: SubCategory[]) {
     super(id, value);
     this.subCategories = subCategories;
   }

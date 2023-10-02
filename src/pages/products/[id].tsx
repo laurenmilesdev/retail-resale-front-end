@@ -118,11 +118,19 @@ export default function Product() {
     new ProductField('Name', product?.name, FieldType.text),
     new ProductField('Description', product?.description, FieldType.textMulti),
     new ProductField('Size', product?.size, FieldType.text),
-    new ProductField('Size Type', product?.sizeTypeValue, FieldType.select, sizeTypeId, sizeTypes),
+    new ProductField(
+      'Size Type',
+      product?.sizeTypeValue,
+      FieldType.select,
+      setSizeTypeId,
+      sizeTypeId,
+      sizeTypes
+    ),
     new ProductField(
       'Category',
       product?.subCategory.category.value,
       FieldType.select,
+      setCategoryId,
       categoryId,
       categories
     ),
@@ -130,6 +138,7 @@ export default function Product() {
       'SubCategory',
       product?.subCategory.value,
       FieldType.select,
+      setSubCategoryId,
       subCategoryId,
       subCategories
     ),
@@ -137,6 +146,7 @@ export default function Product() {
       'Condition',
       product?.condition.value,
       FieldType.select,
+      setConditionId,
       conditionId,
       conditions
     ),
@@ -146,27 +156,10 @@ export default function Product() {
       'Purchase Date',
       convertDate(product?.purchaseDate ?? ''),
       FieldType.date,
+      setPurchaseDate,
       purchaseDate
     ),
   ];
-  const productDetails = product ? (
-    <ProductDetails productFields={productFields} />
-  ) : (
-    <>Product not found.</>
-  );
-  const productForm =
-    product && sizeTypeId && categoryId && subCategoryId && conditionId ? (
-      <ProductForm
-        productFields={productFields}
-        setSizeTypeId={setSizeTypeId}
-        setCategoryId={setCategoryId}
-        setSubCategoryId={setSubCategoryId}
-        setConditionId={setConditionId}
-        setPurchaseDate={setPurchaseDate}
-      />
-    ) : (
-      <>Error loading form.</>
-    );
 
   return (
     <>
@@ -187,7 +180,13 @@ export default function Product() {
 
       <Card>
         <CardContent>
-          <Loading loaded={loaded}>{edit ? productForm : productDetails}</Loading>
+          <Loading loaded={loaded}>
+            {edit ? (
+              <ProductForm productFields={productFields} />
+            ) : (
+              <ProductDetails productFields={productFields} />
+            )}
+          </Loading>
         </CardContent>
       </Card>
     </>

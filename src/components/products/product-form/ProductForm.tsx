@@ -1,71 +1,46 @@
-import { Dispatch, SetStateAction } from 'react';
-import { Button, SelectChangeEvent } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import { Button } from '@mui/material';
 import TextFieldInput from '../../inputs/text-field-input/TextFieldInput';
 import SelectListInput from '../../inputs/select-list-input/SelectListInput';
 import DatePickerInput from '../../inputs/date-picker-input/DatePickerInput';
 import ProductFieldModel from '../../../models/product-field';
 import TextFieldModel from '../../../models/text-field';
 import SelectListModel from '../../../models/select-list';
+import { FieldType } from '../../../enums/field-type';
 
 import styles from './ProductForm.module.css';
-import { FieldType } from '@/enums/field-type';
 
 type Props = {
   productFields: ProductFieldModel[];
-  setSizeTypeId: Dispatch<SetStateAction<number | undefined>>;
-  setCategoryId: Dispatch<SetStateAction<number | undefined>>;
-  setSubCategoryId: Dispatch<SetStateAction<number | undefined>>;
-  setConditionId: Dispatch<SetStateAction<number | undefined>>;
-  setPurchaseDate: Dispatch<SetStateAction<dayjs.Dayjs | null | undefined>>;
 };
 
-export default function ProductForm({
-  productFields,
-  setSizeTypeId,
-  setCategoryId,
-  setSubCategoryId,
-  setConditionId,
-  setPurchaseDate,
-}: Props) {
-  function handleChange(event: SelectChangeEvent) {
-    const { name } = event.target;
-    const { value } = event.target;
-
-    if (name === 'Size Type') setSizeTypeId(value as unknown as number);
-    if (name === 'Category') setCategoryId(value as unknown as number);
-    if (name === 'SubCategory') setSubCategoryId(value as unknown as number);
-    if (name === 'Condition') setConditionId(value as unknown as number);
-    if (name === 'Purchase Date') setPurchaseDate(value as unknown as Dayjs);
-  }
-
+export default function ProductForm({ productFields }: Props) {
   function getEditField(productField: ProductFieldModel) {
     const { fieldType } = productField;
     const { name } = productField;
-    const { currentValue } = productField;
-    const { updatedValue } = productField;
-    const { selectListItems } = productField;
+    const { setValue } = productField;
 
     if (fieldType === FieldType.text || fieldType === FieldType.textMulti) {
-      const item = new TextFieldModel(
-        name,
-        currentValue as string,
-        fieldType === FieldType.textMulti
-      );
+      const textMulti = fieldType === FieldType.textMulti;
+      const item = new TextFieldModel(name, productField.currentValue as string, textMulti);
 
       return <TextFieldInput textField={item} />;
     }
 
-    if (fieldType === FieldType.select) {
-      const item = new SelectListModel(name, updatedValue as string, selectListItems ?? []);
+    if (fieldType === FieldType.select && setValue) {
+      const item = new SelectListModel(
+        name,
+        productField.updatedValue as string,
+        productField.selectListItems ?? []
+      );
 
-      return <SelectListInput selectList={item} handleChange={handleChange} />;
+      return <SelectListInput selectList={item} setValue={setValue} />;
     }
 
-    if (fieldType === FieldType.date) {
+    if (fieldType === FieldType.date && setValue) {
       const item = dayjs(productField.currentValue as string);
 
-      return <DatePickerInput value={item} setValue={setPurchaseDate} />;
+      return <DatePickerInput value={item} setValue={setValue} />;
     }
 
     return <></>;
@@ -73,7 +48,7 @@ export default function ProductForm({
 
   return (
     <form>
-      {productFields.map((productField) => (
+      {productFields.map((productField: ProductFieldModel) => (
         <div className={`${styles.detail} col-md-12`} key={productField.name}>
           <div className={`col-md-12`}>
             <h5>{productField.name}</h5>

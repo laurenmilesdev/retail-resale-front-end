@@ -15,37 +15,6 @@ type Props = {
 };
 
 export default function ProductForm({ productFields }: Props) {
-  function getEditField(productField: ProductFieldModel) {
-    const { fieldType } = productField;
-    const { name } = productField;
-    const { setValue } = productField;
-
-    if (fieldType === FieldType.text || fieldType === FieldType.textMulti) {
-      const textMulti = fieldType === FieldType.textMulti;
-      const item = new TextFieldModel(name, productField.currentValue as string, textMulti);
-
-      return <TextFieldInput textField={item} />;
-    }
-
-    if (fieldType === FieldType.select && setValue) {
-      const item = new SelectListModel(
-        name,
-        productField.updatedValue as string,
-        productField.selectListItems ?? []
-      );
-
-      return <SelectListInput selectList={item} setValue={setValue} />;
-    }
-
-    if (fieldType === FieldType.date && setValue) {
-      const item = dayjs(productField.currentValue as string);
-
-      return <DatePickerInput value={item} setValue={setValue} />;
-    }
-
-    return <></>;
-  }
-
   return (
     <form>
       {productFields.map((productField: ProductFieldModel) => (
@@ -62,4 +31,35 @@ export default function ProductForm({ productFields }: Props) {
       </Button>
     </form>
   );
+}
+
+export function getEditField(productField: ProductFieldModel) {
+  const { fieldType } = productField;
+  const { name } = productField;
+  const { setValue } = productField;
+
+  if (fieldType === FieldType.text || fieldType === FieldType.textMulti) {
+    const textMulti = fieldType === FieldType.textMulti;
+    const item = new TextFieldModel(name, productField.currentValue as string, textMulti);
+
+    return <TextFieldInput textField={item} />;
+  }
+
+  if (fieldType === FieldType.select && setValue) {
+    const item = new SelectListModel(
+      name,
+      productField.updatedValue as string,
+      productField.selectListItems ?? []
+    );
+
+    return <SelectListInput selectList={item} setValue={setValue} />;
+  }
+
+  if (fieldType === FieldType.date && setValue) {
+    const item = dayjs(productField.currentValue as string);
+
+    return <DatePickerInput value={item} setValue={setValue} />;
+  }
+
+  return <></>;
 }

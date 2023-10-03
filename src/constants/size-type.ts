@@ -1,4 +1,4 @@
-import Dropdown from '@/models/dropdown';
+import Dropdown from '../models/dropdown';
 
 export const sizeTypes = [
   new Dropdown(1, 'Womens'),

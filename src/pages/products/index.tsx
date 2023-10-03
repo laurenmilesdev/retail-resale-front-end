@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { useState, useEffect } from 'react';
+import { Button } from '@mui/material';
 import ProductModel from '../../models/products/product';
 import Loading from '../../components/loading/Loading';
 import ProductsTable from '../../components/products/products-table/ProductsTable';
@@ -29,9 +30,14 @@ export default function Index() {
   }, []);
 
   return (
-    <Loading loaded={loaded}>
-      <ProductsTable products={products} />
-    </Loading>
+    <>
+      <Button href="/products/create" className="btn-primary">
+        Add Product
+      </Button>
+      <Loading loaded={loaded}>
+        <ProductsTable products={products} />
+      </Loading>
+    </>
   );
 }
 

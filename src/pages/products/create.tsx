@@ -26,26 +26,17 @@ export default function Create({
   const [conditionId, setConditionId] = useState<number | undefined>();
   const [purchaseDate, setPurchaseDate] = useState<Dayjs | null | undefined>();
 
-  async function getCategory() {
-    try {
-      if (categoryId) {
-        const response = await categoryService.getCategoryById(categoryId);
-        const subCategoriesDropdown = response.subCategories
-          ? response.subCategories.map(
-              (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
-            )
-          : [];
+  async function getSubCategories() {
+    if (categoryId) {
+      const response = await categoryService.getSubCategoriesByCategoryId(categoryId);
 
-        setCategoryId(categoryId);
-        setSubCategories(subCategoriesDropdown);
-      }
-    } catch (error) {
-      // Handle error
+      setSubCategories(response);
     }
   }
 
   useEffect(() => {
-    getCategory();
+    setCategoryId(categoryId);
+    getSubCategories();
   }, [categoryId]);
 
   return (

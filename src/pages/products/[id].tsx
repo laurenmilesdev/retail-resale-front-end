@@ -1,26 +1,25 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Card, CardContent } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
+import { Card, CardContent } from '@mui/material';
 import Loading from '../../components/loading/Loading';
 import PageNavigationButtons from '../../components/page-navigation-buttons/PageNavigationButtons';
 import ProductDetails from '../../components/products/product-details/ProductDetails';
 import ProductForm from '../../components/products/product-form/ProductForm';
 import ProductModel from '../../models/products/product';
 import DropdownModel from '../../models/dropdown';
-import ProductField from '../../models/product-field';
+import ProductDetailModel from '../../models/product-detail';
 import ProductService from '../../services/product-service';
-import ConditionService from '../../services/condition-service';
 import CategoryService from '../../services/category-service';
+import ConditionService from '../../services/condition-service';
 import { sizeTypes } from '../../constants/size-type';
-import { FieldType } from '../../enums/field-type';
 import { convertDate } from '../../utils/date';
 
 const baseApiUrl: string = process.env.NEXT_PUBLIC_BASE_API_URL ?? '';
 const productService = new ProductService(baseApiUrl);
-const conditionService = new ConditionService(baseApiUrl);
 const categoryService = new CategoryService(baseApiUrl);
+const conditionService = new ConditionService(baseApiUrl);
 
 export default function Product() {
   const { id } = useRouter().query;
@@ -118,51 +117,17 @@ export default function Product() {
 
   useEffect(() => {}, [edit]);
 
-  const productFields = [
-    new ProductField('Name', product?.name, FieldType.text),
-    new ProductField('Description', product?.description, FieldType.textMulti),
-    new ProductField('Size', product?.size, FieldType.text),
-    new ProductField(
-      'Size Type',
-      product?.sizeTypeValue,
-      FieldType.select,
-      setSizeTypeId,
-      sizeTypeId,
-      sizeTypes
-    ),
-    new ProductField(
-      'Category',
-      product?.subCategory.category.value,
-      FieldType.select,
-      setCategoryId,
-      categoryId,
-      categories
-    ),
-    new ProductField(
-      'SubCategory',
-      product?.subCategory.value,
-      FieldType.select,
-      setSubCategoryId,
-      subCategoryId,
-      subCategories
-    ),
-    new ProductField(
-      'Condition',
-      product?.condition.value,
-      FieldType.select,
-      setConditionId,
-      conditionId,
-      conditions
-    ),
-    new ProductField('Brand', product?.brand, FieldType.text),
-    new ProductField('Purchase Price', product?.purchasePrice, FieldType.text),
-    new ProductField(
-      'Purchase Date',
-      convertDate(product?.purchaseDate ?? ''),
-      FieldType.date,
-      setPurchaseDate,
-      purchaseDate
-    ),
+  const productDetails = [
+    new ProductDetailModel('Name', product?.name),
+    new ProductDetailModel('Description', product?.description),
+    new ProductDetailModel('Size', product?.size),
+    new ProductDetailModel('Size Type', product?.sizeTypeValue),
+    new ProductDetailModel('Category', product?.subCategory.category.value),
+    new ProductDetailModel('SubCategory', product?.subCategory.value),
+    new ProductDetailModel('Condition', product?.condition.value),
+    new ProductDetailModel('Brand', product?.brand),
+    new ProductDetailModel('Purchase Price', product?.purchasePrice),
+    new ProductDetailModel('Purchase Date', convertDate(product?.purchaseDate ?? '')),
   ];
 
   return (
@@ -181,14 +146,29 @@ export default function Product() {
           setConditionId={setConditionId}
         />
       )}
-
       <Card>
         <CardContent>
           <Loading loaded={loaded}>
             {edit ? (
-              <ProductForm productFields={productFields} />
+              <ProductForm
+                sizeTypeId={sizeTypeId}
+                setSizeTypeId={setSizeTypeId}
+                sizeTypes={sizeTypes}
+                categoryId={categoryId}
+                setCategoryId={setCategoryId}
+                categories={categories ?? []}
+                subCategoryId={subCategoryId}
+                setSubCategoryId={setSubCategoryId}
+                subCategories={subCategories ?? []}
+                conditionId={conditionId}
+                setConditionId={setConditionId}
+                conditions={conditions ?? []}
+                purchaseDate={purchaseDate ?? undefined}
+                setPurchaseDate={setPurchaseDate}
+                product={product}
+              />
             ) : (
-              <ProductDetails productFields={productFields} />
+              <ProductDetails productDetails={productDetails} />
             )}
           </Loading>
         </CardContent>

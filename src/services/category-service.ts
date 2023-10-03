@@ -1,5 +1,6 @@
 import ApiService from './api-service';
 import CategoryModel from '../models/products/category';
+import DropdownModel from '../models/dropdown';
 
 export default class CategoryService extends ApiService {
   baseApiUrl: string;
@@ -27,5 +28,15 @@ export default class CategoryService extends ApiService {
     if (response.status === 200 && response.data) categories = response.data as CategoryModel[];
 
     return categories;
+  }
+
+  async getSubCategoriesByCategoryId(id: number): Promise<DropdownModel[]> {
+    const category = await this.getCategoryById(id);
+
+    return category.subCategories
+      ? category.subCategories?.map(
+          (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
+        )
+      : [];
   }
 }

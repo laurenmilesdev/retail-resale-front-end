@@ -74,6 +74,7 @@ export async function getServerSideProps() {
 
   return {
     props: {
+      title: 'Add Product',
       categoriesString: JSON.stringify(categoriesDropdown),
       conditionsString: JSON.stringify(conditionsDropdown),
     },

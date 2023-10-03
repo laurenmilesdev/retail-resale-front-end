@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { Card, CardContent } from '@mui/material';
+import { InferGetServerSidePropsType } from 'next';
 import { useEffect, useState } from 'react';
 import { Dayjs } from 'dayjs';
+import { Card, CardContent } from '@mui/material';
 import ProductForm from '../../components/products/product-form/ProductForm';
 import DropdownModel from '../../models/dropdown';
 import { sizeTypes } from '../../constants/size-type';
@@ -12,41 +13,18 @@ const baseApiUrl: string = process.env.NEXT_PUBLIC_BASE_API_URL ?? '';
 const categoryService = new CategoryService(baseApiUrl);
 const conditionService = new ConditionService(baseApiUrl);
 
-export default function Create() {
+export default function Create({
+  categoriesString,
+  conditionsString,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const categories = JSON.parse(categoriesString);
+  const conditions = JSON.parse(conditionsString);
   const [sizeTypeId, setSizeTypeId] = useState<number | undefined>();
   const [categoryId, setCategoryId] = useState<number | undefined>();
-  const [categories, setCategories] = useState<DropdownModel[]>();
   const [subCategoryId, setSubCategoryId] = useState<number | undefined>();
   const [subCategories, setSubCategories] = useState<DropdownModel[]>();
   const [conditionId, setConditionId] = useState<number | undefined>();
-  const [conditions, setConditions] = useState<DropdownModel[]>();
   const [purchaseDate, setPurchaseDate] = useState<Dayjs | null | undefined>();
-
-  async function getCategories() {
-    try {
-      const response = await categoryService.getCategories();
-      const categoriesDropdown = response.map(
-        (category) => new DropdownModel(category.id, category.value)
-      );
-
-      setCategories(categoriesDropdown);
-    } catch (error) {
-      // Handle error
-    }
-  }
-
-  async function getConditions() {
-    try {
-      const response = await conditionService.getConditions();
-      const conditionsDropdown = response.map(
-        (condition) => new DropdownModel(condition.id, condition.value)
-      );
-
-      setConditions(conditionsDropdown);
-    } catch (error) {
-      // Handle error
-    }
-  }
 
   async function getCategory() {
     try {
@@ -65,11 +43,6 @@ export default function Create() {
       // Handle error
     }
   }
-
-  useEffect(() => {
-    getCategories();
-    getConditions();
-  }, []);
 
   useEffect(() => {
     getCategory();
@@ -97,4 +70,21 @@ export default function Create() {
       </CardContent>
     </Card>
   );
+}
+
+export async function getServerSideProps() {
+  const categories = await categoryService.getCategories();
+  const categoriesDropdown = categories.map(
+    (category) => new DropdownModel(category.id, category.value)
+  );
+  const conditionsDropdown = (await conditionService.getConditions()).map(
+    (condition) => new DropdownModel(condition.id, condition.value)
+  );
+
+  return {
+    props: {
+      categoriesString: JSON.stringify(categoriesDropdown),
+      conditionsString: JSON.stringify(conditionsDropdown),
+    },
+  };
 }

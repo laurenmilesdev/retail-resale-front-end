@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { Card, CardContent } from '@mui/material';
@@ -27,10 +28,12 @@ export default function Product({
   subCategoriesString,
   conditionsString,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
   const categories = JSON.parse(categoriesString);
   const conditions = JSON.parse(conditionsString);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [edit, setEdit] = useState<boolean>(false);
+  const [formSubmit, setFormSubmit] = useState<boolean>(false);
   const [sizeTypeId, setSizeTypeId] = useState<number | undefined>();
   const [categoryId, setCategoryId] = useState<number | undefined>(category?.id);
   const [subCategoryId, setSubCategoryId] = useState<number | undefined>();
@@ -40,6 +43,18 @@ export default function Product({
   const [conditionId, setConditionId] = useState<number | undefined>();
   const [purchaseDate, setPurchaseDate] = useState<Dayjs | null | undefined>();
   const newDate = product.purchaseDate ? convertDate(product.purchaseDate) : null;
+
+  function refreshData() {
+    router.replace(router.asPath);
+  }
+
+  async function getSubCategories() {
+    if (categoryId) {
+      const response = await categoryService.getSubCategoriesByCategoryId(categoryId);
+
+      setSubCategories(response);
+    }
+  }
 
   useEffect(() => {
     setSizeTypeId(product.sizeType);
@@ -51,20 +66,19 @@ export default function Product({
     setLoaded(true);
   }, []);
 
-  async function getSubCategories() {
-    if (categoryId) {
-      const response = await categoryService.getSubCategoriesByCategoryId(categoryId);
-
-      setSubCategories(response);
-    }
-  }
-
   useEffect(() => {
     setCategoryId(categoryId);
     getSubCategories();
   }, [categoryId]);
 
-  useEffect(() => {}, [edit]);
+  useEffect(() => {
+    if (formSubmit) {
+      setEdit(false);
+      setFormSubmit(!formSubmit);
+
+      refreshData();
+    }
+  }, [formSubmit]);
 
   const productDetails = [
     new ProductDetailModel('Name', product.name),
@@ -100,6 +114,7 @@ export default function Product({
           <Loading loaded={loaded}>
             {edit ? (
               <ProductForm
+                setFormSubmit={setFormSubmit}
                 sizeTypeId={sizeTypeId}
                 setSizeTypeId={setSizeTypeId}
                 sizeTypes={sizeTypes}

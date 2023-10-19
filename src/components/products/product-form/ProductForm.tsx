@@ -1,13 +1,19 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Button, MenuItem, Select, TextField } from '@mui/material';
 import ProductModel from '../../../models/products/product';
+import CreateUpdateProductModel from '../../../models/products/create-update-product';
 import DropdownModel from '../../../models/dropdown';
+import ProductService from '../../../services/product-service';
 
 import styles from './ProductForm.module.css';
 
+const baseApiUrl: string = process.env.NEXT_PUBLIC_BASE_API_URL ?? '';
+const productService = new ProductService(baseApiUrl);
+
 type Props = {
+  setFormSubmit: Dispatch<SetStateAction<boolean>>;
   sizeTypeId?: number;
   setSizeTypeId: Dispatch<SetStateAction<number | undefined>>;
   sizeTypes: DropdownModel[];
@@ -26,6 +32,7 @@ type Props = {
 };
 
 export default function ProductForm({
+  setFormSubmit,
   sizeTypeId,
   setSizeTypeId,
   sizeTypes,
@@ -42,18 +49,56 @@ export default function ProductForm({
   setPurchaseDate,
   product,
 }: Props) {
+  const [newProduct, setProduct] = useState<CreateUpdateProductModel>(
+    product ?? new CreateUpdateProductModel()
+  );
+
+  function handleChange(event: any) {
+    const { name } = event.target;
+    const { value } = event.target;
+
+    if (name && value) setProduct({ ...newProduct, [name]: value });
+  }
+
+  async function onSubmit(event: any) {
+    event.preventDefault();
+
+    if (newProduct) {
+      if (sizeTypeId) newProduct.sizeType = sizeTypeId;
+      if (subCategoryId) newProduct.subCategoryId = subCategoryId;
+      if (conditionId) newProduct.conditionId = conditionId;
+      if (purchaseDate) newProduct.purchaseDate = purchaseDate.toString();
+      newProduct.listingSiteProducts = product?.listingSiteProducts ?? [];
+
+      try {
+        const response = await productService.createUpdateProduct(newProduct, product?.id);
+
+        if (response) {
+          setFormSubmit(true);
+        } else {
+          // Alert error
+        }
+      } catch (error) {
+        // Handle error
+      }
+    }
+  }
+
   return (
-    <form>
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    <form onSubmit={onSubmit}>
       <div className={`${styles.detail} col-md-12`}>
         <div className={`col-md-12`}>
           <h5>Name</h5>
         </div>
         <div className="col-md-12">
           <TextField
-            name="Name"
+            name="name"
             defaultValue={product?.name}
+            onChange={handleChange}
             className={styles['text-field']}
             variant="standard"
+            required
           />
         </div>
       </div>
@@ -64,11 +109,13 @@ export default function ProductForm({
         </div>
         <div className="col-md-12">
           <TextField
-            name="Description"
+            name="description"
             defaultValue={product?.description}
+            onChange={handleChange}
             className={styles['text-field']}
             variant="standard"
             multiline={true}
+            required
           />
         </div>
       </div>
@@ -79,10 +126,12 @@ export default function ProductForm({
         </div>
         <div className="col-md-12">
           <TextField
-            name="Size"
+            name="size"
             defaultValue={product?.size}
+            onChange={handleChange}
             className={styles['text-field']}
             variant="standard"
+            required
           />
         </div>
       </div>
@@ -93,13 +142,13 @@ export default function ProductForm({
         </div>
         <div className="col-md-12">
           <Select
-            value={sizeTypeId}
-            name="Size Type"
-            id={`size-type-select`}
+            value={sizeTypeId ?? ''}
+            name="sizeTypeId"
             labelId={`size-type-select-label`}
             variant="standard"
             onChange={(newValue) => setSizeTypeId(newValue.target.value as unknown as number)}
             className={styles['select-field']}
+            required
           >
             {sizeTypes.map((sizeType: DropdownModel) => (
               <MenuItem value={sizeType.id} key={sizeType.value}>
@@ -116,13 +165,14 @@ export default function ProductForm({
         </div>
         <div className="col-md-12">
           <Select
-            value={categoryId}
-            name="Category"
+            value={categoryId ?? ''}
+            name="category"
             id={`category-select`}
             labelId={`category-select-label`}
             variant="standard"
             onChange={(newValue) => setCategoryId(newValue.target.value as unknown as number)}
             className={styles['select-field']}
+            required
           >
             {categories.map((category: DropdownModel) => (
               <MenuItem value={category.id} key={category.value}>
@@ -139,13 +189,14 @@ export default function ProductForm({
         </div>
         <div className="col-md-12">
           <Select
-            value={subCategoryId}
-            name="SubCategory"
+            value={subCategoryId ?? ''}
+            name="subCategory"
             id={`subCategory-select`}
             labelId={`subCategory-select-label`}
             variant="standard"
             onChange={(newValue) => setSubCategoryId(newValue.target.value as unknown as number)}
             className={styles['select-field']}
+            required
           >
             {subCategories.map((subCategory: DropdownModel) => (
               <MenuItem value={subCategory.id} key={subCategory.value}>
@@ -162,13 +213,14 @@ export default function ProductForm({
         </div>
         <div className="col-md-12">
           <Select
-            value={conditionId}
-            name="Condition"
+            value={conditionId ?? ''}
+            name="condition"
             id={`condition-select`}
             labelId={`condition-select-label`}
             variant="standard"
             onChange={(newValue) => setConditionId(newValue.target.value as unknown as number)}
             className={styles['select-field']}
+            required
           >
             {conditions.map((condition: DropdownModel) => (
               <MenuItem value={condition.id} key={condition.value}>
@@ -185,8 +237,9 @@ export default function ProductForm({
         </div>
         <div className="col-md-12">
           <TextField
-            name="Brand"
+            name="brand"
             defaultValue={product?.brand}
+            onChange={handleChange}
             className={styles['text-field']}
             variant="standard"
           />
@@ -199,8 +252,9 @@ export default function ProductForm({
         </div>
         <div className="col-md-12">
           <TextField
-            name="Purchase Price"
+            name="purchasePrice"
             defaultValue={product?.purchasePrice}
+            onChange={handleChange}
             className={styles['text-field']}
             variant="standard"
           />

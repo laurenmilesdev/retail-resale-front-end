@@ -21,10 +21,18 @@ const columns: GridColDef[] = [
   { field: 'description', headerName: 'Description', headerClassName: 'table-header', flex: 1 },
   { field: 'size', headerName: 'Size', headerClassName: 'table-header', width: 100 },
   {
+    field: 'categoryId',
+    headerName: 'Category',
+    headerClassName: 'table-header',
+    width: 200,
+    renderCell: (params) => params.row.subCategory.category.value,
+  },
+  {
     field: 'subCategoryId',
     headerName: 'SubCategory',
     headerClassName: 'table-header',
     width: 200,
+    renderCell: (params) => params.row.subCategory.value,
   },
   { field: 'brand', headerName: 'Brand ', headerClassName: 'table-header', width: 200 },
 ];

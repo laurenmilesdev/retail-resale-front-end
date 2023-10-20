@@ -19,6 +19,7 @@ export default function Create({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const categories = JSON.parse(categoriesString);
   const conditions = JSON.parse(conditionsString);
+  const [formSubmit, setFormSubmit] = useState<boolean>(false);
   const [sizeTypeId, setSizeTypeId] = useState<number | undefined>();
   const [categoryId, setCategoryId] = useState<number | undefined>();
   const [subCategoryId, setSubCategoryId] = useState<number | undefined>();
@@ -39,10 +40,17 @@ export default function Create({
     getSubCategories();
   }, [categoryId]);
 
+  useEffect(() => {
+    if (formSubmit) {
+      setFormSubmit(false);
+    }
+  }, [formSubmit]);
+
   return (
     <Card>
       <CardContent>
         <ProductForm
+          setFormSubmit={setFormSubmit}
           sizeTypeId={sizeTypeId}
           setSizeTypeId={setSizeTypeId}
           sizeTypes={sizeTypes}

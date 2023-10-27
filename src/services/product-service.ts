@@ -1,8 +1,9 @@
 import ApiService from './api-service';
+import ProductServiceInterface from './interfaces/product-service.interface';
 import ProductModel from '../models/products/product';
 import { SizeType } from '../enums/size-type';
 
-export default class ProductService extends ApiService {
+export default class ProductService extends ApiService implements ProductServiceInterface {
   baseApiUrl: string;
 
   constructor(baseApiUrl: string) {

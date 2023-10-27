@@ -1,7 +1,8 @@
 import ApiService from './api-service';
+import ConditionServiceInterface from './interfaces/condition-service.interface';
 import ConditionModel from '../models/products/condition';
 
-export default class ConditionService extends ApiService {
+export default class ConditionService extends ApiService implements ConditionServiceInterface {
   baseApiUrl: string;
 
   constructor(baseApiUrl: string) {

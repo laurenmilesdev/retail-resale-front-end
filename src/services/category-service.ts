@@ -1,8 +1,9 @@
 import ApiService from './api-service';
+import CategoryServiceInterface from './interfaces/category-service.interface';
 import CategoryModel from '../models/products/category';
 import DropdownModel from '../models/dropdown';
 
-export default class CategoryService extends ApiService {
+export default class CategoryService extends ApiService implements CategoryServiceInterface {
   baseApiUrl: string;
 
   constructor(baseApiUrl: string) {

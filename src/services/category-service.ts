@@ -12,20 +12,20 @@ export default class CategoryService extends ApiService {
 
   async getCategoryById(id: number, config?: object): Promise<CategoryModel> {
     const url = `${this.baseApiUrl}/Categories/${id}`;
-    const response = await super.get(url, config);
+    const response = await super.get<CategoryModel>(url, config);
     let category: CategoryModel = <CategoryModel>{};
 
-    if (response.status === 200 && response.data) category = response.data as CategoryModel;
+    if (response.status === 200 && response.data) category = response.data;
 
     return category;
   }
 
   async getCategories(config?: object): Promise<CategoryModel[]> {
     const url = `${this.baseApiUrl}/Categories`;
-    const response = await super.get(url, config);
+    const response = await super.get<CategoryModel[]>(url, config);
     let categories: CategoryModel[] = [];
 
-    if (response.status === 200 && response.data) categories = response.data as CategoryModel[];
+    if (response.status === 200 && response.data) categories = response.data;
 
     return categories;
   }

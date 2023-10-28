@@ -3,9 +3,7 @@ import ConditionServiceInterface from './interfaces/condition-service.interface'
 import ConditionModel from '../models/products/condition';
 
 export default class ConditionService extends ApiService implements ConditionServiceInterface {
-  baseApiUrl: string;
-
-  constructor(baseApiUrl: string) {
+  constructor(public baseApiUrl: string) {
     super();
     this.baseApiUrl = baseApiUrl;
   }

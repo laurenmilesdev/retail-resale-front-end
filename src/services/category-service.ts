@@ -4,9 +4,7 @@ import CategoryModel from '../models/products/category';
 import DropdownModel from '../models/dropdown';
 
 export default class CategoryService extends ApiService implements CategoryServiceInterface {
-  baseApiUrl: string;
-
-  constructor(baseApiUrl: string) {
+  constructor(public baseApiUrl: string) {
     super();
     this.baseApiUrl = baseApiUrl;
   }

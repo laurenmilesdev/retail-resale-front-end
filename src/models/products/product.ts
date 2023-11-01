@@ -2,7 +2,7 @@
 import SubCategory from './sub-category';
 import Condition from './condition';
 import ListingSiteProduct from './listing-site-product';
-import { sizeTypes } from '@/constants/size-type';
+import { sizeTypes } from '../../constants/size-type';
 
 export default class Product {
   sizeTypeValue: string;

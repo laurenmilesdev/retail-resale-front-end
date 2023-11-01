@@ -4,14 +4,12 @@ import SubCategory from '../../src/models/products/sub-category';
 import Condition from '../../src/models/products/condition';
 import ListingSiteProduct from '../../src/models/products/listing-site-product';
 import ListingSite from '../../src/models/products/listing-site';
-import { SizeType } from '../../src/enums/size-type';
 
 const id = 1;
 const name = 'Product Name';
 const description = 'This is a product description';
 const size = 'S';
 const sizeType = 0;
-const sizeTypeValue = SizeType[sizeType];
 const condition = new Condition(1, 'New');
 const isSold = false;
 const category = new Category(1, 'category');
@@ -24,7 +22,6 @@ export const product = new Product(
   description,
   size,
   sizeType,
-  sizeTypeValue,
   condition,
   condition.id,
   isSold,

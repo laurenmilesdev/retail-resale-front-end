@@ -1,5 +1,4 @@
 import Product from '../../../src/models/products/product';
-import { SizeType } from '../../../src/enums/size-type';
 import { product } from '../../mocks/data-mock';
 
 describe('Product', () => {
@@ -11,7 +10,7 @@ describe('Product', () => {
       description: product.description,
       size: product.size,
       sizeType: product.sizeType,
-      sizeTypeValue: SizeType[product.sizeType],
+      sizeTypeValue: product.sizeTypeValue,
       condition: product.condition,
       conditionId: product.condition.id,
       isSold: product.isSold,

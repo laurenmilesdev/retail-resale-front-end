@@ -4,13 +4,13 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { Button, MenuItem, Select, TextField } from '@mui/material';
 import ProductModel from '../../../models/products/product';
 import DropdownModel from '../../../models/dropdown';
+import Constants from '../../../constants';
 
 import styles from './ProductForm.module.css';
 
 type Props = {
   sizeTypeId?: number;
   setSizeTypeId: Dispatch<SetStateAction<number | undefined>>;
-  sizeTypes: DropdownModel[];
   categoryId?: number;
   setCategoryId: Dispatch<SetStateAction<number | undefined>>;
   categories: DropdownModel[];
@@ -28,7 +28,6 @@ type Props = {
 export default function ProductForm({
   sizeTypeId,
   setSizeTypeId,
-  sizeTypes,
   categoryId,
   setCategoryId,
   categories,
@@ -101,7 +100,7 @@ export default function ProductForm({
             onChange={(newValue) => setSizeTypeId(newValue.target.value as unknown as number)}
             className={styles['select-field']}
           >
-            {sizeTypes.map((sizeType: DropdownModel) => (
+            {Constants.SIZE_TYPES.map((sizeType: DropdownModel) => (
               <MenuItem value={sizeType.id} key={sizeType.value}>
                 {sizeType.value}
               </MenuItem>

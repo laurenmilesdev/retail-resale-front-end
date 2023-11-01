@@ -5,7 +5,6 @@ import { Dayjs } from 'dayjs';
 import { Card, CardContent } from '@mui/material';
 import ProductForm from '../../components/products/product-form/ProductForm';
 import DropdownModel from '../../models/dropdown';
-import { sizeTypes } from '../../constants/size-type';
 import CategoryService from '../../services/category-service';
 import ConditionService from '../../services/condition-service';
 
@@ -45,7 +44,6 @@ export default function Create({
         <ProductForm
           sizeTypeId={sizeTypeId}
           setSizeTypeId={setSizeTypeId}
-          sizeTypes={sizeTypes}
           categoryId={categoryId}
           setCategoryId={setCategoryId}
           categories={categories ?? []}

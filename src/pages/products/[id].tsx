@@ -12,8 +12,7 @@ import ProductDetailModel from '../../models/product-detail';
 import ProductService from '../../services/product-service';
 import CategoryService from '../../services/category-service';
 import ConditionService from '../../services/condition-service';
-import { sizeTypes } from '../../constants/size-type';
-import Utils from '../../utils/utils';
+import Utils from '../../utils';
 
 const baseApiUrl: string = process.env.NEXT_PUBLIC_BASE_API_URL ?? '';
 const productService = new ProductService(baseApiUrl);
@@ -102,7 +101,6 @@ export default function Product({
               <ProductForm
                 sizeTypeId={sizeTypeId}
                 setSizeTypeId={setSizeTypeId}
-                sizeTypes={sizeTypes}
                 categoryId={categoryId}
                 setCategoryId={setCategoryId}
                 categories={categories ?? []}

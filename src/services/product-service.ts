@@ -1,7 +1,7 @@
 import ApiService from './api-service';
 import ProductServiceInterface from './interfaces/product-service.interface';
 import ProductModel from '../models/products/product';
-import { SizeType } from '../enums/size-type';
+import Constants from '../constants';
 
 export default class ProductService extends ApiService implements ProductServiceInterface {
   constructor(public baseApiUrl: string) {
@@ -16,7 +16,7 @@ export default class ProductService extends ApiService implements ProductService
 
     if (response.status === 200 && response.data) {
       product = response.data;
-      product.sizeTypeValue = SizeType[product.sizeType];
+      product.sizeTypeValue = Constants.SIZE_TYPES[product.sizeType].value;
     }
 
     return product;

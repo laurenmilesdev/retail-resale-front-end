@@ -1,7 +1,8 @@
 import axios from 'axios';
+import ApiServiceInterface from './interfaces/api-service.interface';
 import ApiServiceResponse from '../models/api-service-response';
 
-export default class ApiService {
+export default class ApiService implements ApiServiceInterface {
   get<T>(url: string, config?: object): Promise<ApiServiceResponse<T>> {
     return axios.get<T>(url, config);
   }

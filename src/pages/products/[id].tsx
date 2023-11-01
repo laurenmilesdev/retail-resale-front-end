@@ -13,7 +13,7 @@ import ProductService from '../../services/product-service';
 import CategoryService from '../../services/category-service';
 import ConditionService from '../../services/condition-service';
 import { sizeTypes } from '../../constants/size-type';
-import { convertDate } from '../../utils/date';
+import Utils from '../../utils/utils';
 
 const baseApiUrl: string = process.env.NEXT_PUBLIC_BASE_API_URL ?? '';
 const productService = new ProductService(baseApiUrl);
@@ -39,7 +39,7 @@ export default function Product({
   );
   const [conditionId, setConditionId] = useState<number | undefined>();
   const [purchaseDate, setPurchaseDate] = useState<Dayjs | null | undefined>();
-  const newDate = product.purchaseDate ? convertDate(product.purchaseDate) : null;
+  const newDate = product.purchaseDate ? Utils.formatDate(product.purchaseDate) : null;
 
   useEffect(() => {
     setSizeTypeId(product.sizeType);
@@ -76,7 +76,7 @@ export default function Product({
     new ProductDetailModel('Condition', product.condition.value),
     new ProductDetailModel('Brand', product.brand),
     new ProductDetailModel('Purchase Price', product.purchasePrice),
-    new ProductDetailModel('Purchase Date', convertDate(product.purchaseDate ?? '')),
+    new ProductDetailModel('Purchase Date', Utils.formatDate(product.purchaseDate ?? '')),
   ];
 
   return (

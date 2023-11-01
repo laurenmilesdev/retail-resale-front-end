@@ -2,69 +2,30 @@
 import SubCategory from './sub-category';
 import Condition from './condition';
 import ListingSiteProduct from './listing-site-product';
+import { sizeTypes } from '@/constants/size-type';
 
 export default class Product {
-  id: number;
-
-  name: string;
-
-  description: string;
-
-  size: string;
-
-  sizeType: number;
-
   sizeTypeValue: string;
-
-  condition: Condition;
-
-  conditionId: number;
-
-  isSold: boolean;
-
-  subCategory: SubCategory;
-
-  subCategoryId: number;
-
-  brand?: string;
-
-  purchasePrice?: number;
-
-  purchaseDate?: string;
 
   listingSiteProducts?: ListingSiteProduct[];
 
   constructor(
-    id: number,
-    name: string,
-    description: string,
-    size: string,
-    sizeType: number,
-    sizeTypeValue: string,
-    condition: Condition,
-    conditionId: number,
-    isSold: boolean,
-    subCategory: SubCategory,
-    subCategoryId: number,
-    brand?: string,
-    purchasePrice?: number,
-    purchaseDate?: string,
+    public id: number,
+    public name: string,
+    public description: string,
+    public size: string,
+    public sizeType: number,
+    public condition: Condition,
+    public conditionId: number,
+    public isSold: boolean,
+    public subCategory: SubCategory,
+    public subCategoryId: number,
+    public brand?: string,
+    public purchasePrice?: number,
+    public purchaseDate?: string,
     listingSiteProducts?: ListingSiteProduct[]
   ) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.size = size;
-    this.sizeType = sizeType;
-    this.sizeTypeValue = sizeTypeValue;
-    this.condition = condition;
-    this.conditionId = conditionId;
-    this.isSold = isSold;
-    this.subCategory = subCategory;
-    this.subCategoryId = subCategoryId;
-    this.brand = brand;
-    this.purchasePrice = purchasePrice;
-    this.purchaseDate = purchaseDate;
+    this.sizeTypeValue = sizeTypes[sizeType].value;
     this.listingSiteProducts = listingSiteProducts ?? [];
   }
 }

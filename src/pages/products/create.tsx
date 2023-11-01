@@ -45,7 +45,6 @@ export default function Create({
         <ProductForm
           sizeTypeId={sizeTypeId}
           setSizeTypeId={setSizeTypeId}
-          sizeTypes={sizeTypes}
           categoryId={categoryId}
           setCategoryId={setCategoryId}
           categories={categories ?? []}

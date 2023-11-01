@@ -4,7 +4,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { Button, MenuItem, Select, TextField } from '@mui/material';
 import ProductModel from '../../../models/products/product';
 import DropdownModel from '../../../models/dropdown';
-import { sizeTypes } from '../../../constants/size-type';
+import Constants from '../../../constants';
 
 import styles from './ProductForm.module.css';
 
@@ -100,7 +100,7 @@ export default function ProductForm({
             onChange={(newValue) => setSizeTypeId(newValue.target.value as unknown as number)}
             className={styles['select-field']}
           >
-            {sizeTypes.map((sizeType: DropdownModel) => (
+            {Constants.SIZE_TYPES.map((sizeType: DropdownModel) => (
               <MenuItem value={sizeType.id} key={sizeType.value}>
                 {sizeType.value}
               </MenuItem>

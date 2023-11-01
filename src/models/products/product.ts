@@ -2,7 +2,7 @@
 import SubCategory from './sub-category';
 import Condition from './condition';
 import ListingSiteProduct from './listing-site-product';
-import { sizeTypes } from '../../constants/size-type';
+import Constants from '../../constants';
 
 export default class Product {
   sizeTypeValue: string;
@@ -25,7 +25,7 @@ export default class Product {
     public purchaseDate?: string,
     listingSiteProducts?: ListingSiteProduct[]
   ) {
-    this.sizeTypeValue = sizeTypes[sizeType].value;
+    this.sizeTypeValue = Constants.SIZE_TYPES[sizeType].value;
     this.listingSiteProducts = listingSiteProducts ?? [];
   }
 }

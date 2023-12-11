@@ -8,7 +8,7 @@ export default class Utils {
     return date.substring(0, tIndex);
   }
 
-  static getErrorModel(title: string, description: string, err?: any) {
+  static getApiErrorModel(title: string, description: string, err?: any) {
     const apiError = err
       ? new ApiErrorModel(err.name as string, err.code as string, err.message as string)
       : undefined;

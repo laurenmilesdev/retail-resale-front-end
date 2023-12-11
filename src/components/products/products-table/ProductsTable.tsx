@@ -50,7 +50,7 @@ export const columns: GridColDef[] = [
 export default function ProductsTable({ products }: Props) {
   return (
     <DataGrid
-      rows={products ?? []}
+      rows={products}
       columns={columns}
       initialState={{
         pagination: {

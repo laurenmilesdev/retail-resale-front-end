@@ -8,7 +8,7 @@ type Props = {
   products: ProductModel[];
 };
 
-const columns: GridColDef[] = [
+export const columns: GridColDef[] = [
   {
     field: 'name',
     headerName: 'Name',
@@ -18,8 +18,18 @@ const columns: GridColDef[] = [
       <Link href={`/products/${params.row.id as string}`}>{params.row.name}</Link>
     ),
   },
-  { field: 'description', headerName: 'Description', headerClassName: 'table-header', flex: 1 },
-  { field: 'size', headerName: 'Size', headerClassName: 'table-header', width: 100 },
+  {
+    field: 'description',
+    headerName: 'Description',
+    headerClassName: 'table-header',
+    flex: 1,
+  },
+  {
+    field: 'size',
+    headerName: 'Size',
+    headerClassName: 'table-header',
+    width: 100,
+  },
   {
     field: 'categoryId',
     headerName: 'Category',
@@ -34,7 +44,7 @@ const columns: GridColDef[] = [
     width: 200,
     renderCell: (params) => params.row.subCategory.value,
   },
-  { field: 'brand', headerName: 'Brand ', headerClassName: 'table-header', width: 200 },
+  { field: 'brand', headerName: 'Brand', headerClassName: 'table-header', width: 200 },
 ];
 
 export default function ProductsTable({ products }: Props) {
@@ -52,6 +62,7 @@ export default function ProductsTable({ products }: Props) {
       pageSizeOptions={[10]}
       disableRowSelectionOnClick
       className={styles.table}
+      disableVirtualization
     />
   );
 }

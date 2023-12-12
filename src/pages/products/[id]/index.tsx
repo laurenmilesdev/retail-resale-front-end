@@ -31,13 +31,22 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
   const [loaded, setLoaded] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | undefined>();
   const [product, setProduct] = useState<ProductModel | undefined>();
-  const [newProduct, setNewProduct] = useState<ProductModel | undefined>();
   const [edit, setEdit] = useState<boolean>(false);
 
   const [categories, setCategories] = useState<CategoryModel[] | undefined>();
   const [categoriesDropdown, setCategoriesDropdown] = useState<DropdownModel[] | undefined>();
   const [subCategoriesDropdown, setSubCategoriesDropdown] = useState<DropdownModel[]>();
   const [conditionsDropdown, setConditionsDropdown] = useState<DropdownModel[]>();
+
+  function handleErrors(err: any) {
+    const status = err.response?.status;
+    const errorModel =
+      status && status === 404
+        ? new ErrorModel(errorTitle, noProductFoundError)
+        : Utils.getApiErrorModel(errorTitle, productError, err);
+
+    setError(errorModel);
+  }
 
   async function getProduct(productId: number) {
     try {
@@ -46,7 +55,6 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
 
       if (productResponse) {
         setProduct(productResponse);
-        setNewProduct(productResponse);
 
         if (categoriesResponse) {
           const currentCategory = categoriesResponse.find(
@@ -69,13 +77,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
 
       setLoaded(true);
     } catch (err: any) {
-      const { status } = err.response;
-      const errorModel =
-        status === 404
-          ? new ErrorModel(errorTitle, noProductFoundError)
-          : Utils.getApiErrorModel(errorTitle, productError, err);
-
-      setError(errorModel);
+      handleErrors(err);
       setLoaded(true);
     } finally {
       setLoaded(true);
@@ -83,14 +85,21 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
   }
 
   async function getConditions() {
-    const conditionsResponse = await conditionService.getConditions();
+    try {
+      const conditionsResponse = await conditionService.getConditions();
 
-    if (conditionsResponse) {
-      const conditionDropdownModels = conditionsResponse.map(
-        (condition) => new DropdownModel(condition.id, condition.value)
-      );
+      if (conditionsResponse) {
+        const conditionDropdownModels = conditionsResponse.map(
+          (condition) => new DropdownModel(condition.id, condition.value)
+        );
 
-      setConditionsDropdown(conditionDropdownModels);
+        setConditionsDropdown(conditionDropdownModels);
+      }
+    } catch (err: any) {
+      handleErrors(err);
+      setLoaded(true);
+    } finally {
+      setLoaded(true);
     }
   }
 
@@ -114,32 +123,29 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
     const categoryId = product?.subCategory.categoryId;
 
     if (categoryId) getSubCategories(categoryId as unknown as number);
-  }, [newProduct?.subCategory.categoryId]);
+  }, [product?.subCategory.categoryId]);
 
   return (
     <>
-      {!error && product && (
-        <PageNavigationButtons
-          edit={edit}
-          setEdit={setEdit}
-          product={product}
-          setProduct={setNewProduct}
-        />
-      )}
+      {!error && product && <PageNavigationButtons edit={edit} setEdit={setEdit} />}
 
       <Loading loaded={loaded}>
         {!error ? (
           <>
-            {product && !edit ? (
-              <ProductDetails product={product} />
-            ) : (
-              <ProductForm
-                product={newProduct}
-                setProduct={setNewProduct}
-                categories={categoriesDropdown}
-                subCategories={subCategoriesDropdown}
-                conditions={conditionsDropdown}
-              />
+            {product && (
+              <>
+                {edit ? (
+                  <ProductForm
+                    product={product}
+                    setProduct={setProduct}
+                    categories={categoriesDropdown ?? []}
+                    subCategories={subCategoriesDropdown ?? []}
+                    conditions={conditionsDropdown ?? []}
+                  />
+                ) : (
+                  <ProductDetails product={product} />
+                )}
+              </>
             )}
           </>
         ) : (

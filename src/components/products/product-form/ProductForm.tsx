@@ -41,9 +41,9 @@ export default function ProductForm({
       if (event.target.name === 'categoryId') product.subCategory.categoryId = value;
       if (event.target.name === 'subCategoryId') product.subCategoryId = value;
       if (event.target.name === 'conditionId') product.conditionId = value;
-    }
 
-    setProduct({ ...product });
+      setProduct({ ...product });
+    }
   }
 
   return (

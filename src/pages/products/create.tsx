@@ -41,7 +41,7 @@ export default function Create({
   return (
     <Card>
       <CardContent>
-        <ProductForm
+        {/* <ProductForm
           sizeTypeId={sizeTypeId}
           setSizeTypeId={setSizeTypeId}
           categoryId={categoryId}
@@ -55,7 +55,7 @@ export default function Create({
           conditions={conditions ?? []}
           purchaseDate={purchaseDate ?? undefined}
           setPurchaseDate={setPurchaseDate}
-        />
+        /> */}
       </CardContent>
     </Card>
   );

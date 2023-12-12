@@ -1,4 +1,3 @@
-import { Card, CardContent } from '@mui/material';
 import ProductModel from '../../../models/products/product';
 import ProductDetailModel from '../../../models/product-detail';
 import Utils from '../../../utils';
@@ -24,17 +23,15 @@ export default function ProductDetails({ product }: Props) {
   ];
 
   return (
-    <Card>
-      <CardContent>
-        {productDetails.map((field: ProductDetailModel) => (
-          <div className={`${styles.detail} col-md-12`} key={field.name}>
-            <div className={`col-md-12`}>
-              <h5>{field.name}</h5>
-            </div>
-            <div className="col-md-12">{field.value}</div>
+    <>
+      {productDetails.map((field: ProductDetailModel) => (
+        <div className={`${styles.detail} col-md-12`} key={field.name}>
+          <div className={`col-md-12`}>
+            <h5>{field.name}</h5>
           </div>
-        ))}
-      </CardContent>
-    </Card>
+          <div className="col-md-12">{field.value}</div>
+        </div>
+      ))}
+    </>
   );
 }

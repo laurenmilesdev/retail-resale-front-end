@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { InferGetServerSidePropsType } from 'next';
 import { useEffect, useState } from 'react';
+import { Card, CardContent } from '@mui/material';
 import Loading from '../../../components/loading/Loading';
 import PageNavigationButtons from '../../../components/page-navigation-buttons/PageNavigationButtons';
 import ProductDetails from '../../../components/products/product-details/ProductDetails';
@@ -133,19 +134,21 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
         {!error ? (
           <>
             {product && (
-              <>
-                {edit ? (
-                  <ProductForm
-                    product={product}
-                    setProduct={setProduct}
-                    categories={categoriesDropdown ?? []}
-                    subCategories={subCategoriesDropdown ?? []}
-                    conditions={conditionsDropdown ?? []}
-                  />
-                ) : (
-                  <ProductDetails product={product} />
-                )}
-              </>
+              <Card>
+                <CardContent>
+                  {edit ? (
+                    <ProductForm
+                      product={product}
+                      setProduct={setProduct}
+                      categories={categoriesDropdown ?? []}
+                      subCategories={subCategoriesDropdown ?? []}
+                      conditions={conditionsDropdown ?? []}
+                    />
+                  ) : (
+                    <ProductDetails product={product} />
+                  )}
+                </CardContent>
+              </Card>
             )}
           </>
         ) : (

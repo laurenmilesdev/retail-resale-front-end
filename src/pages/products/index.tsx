@@ -17,7 +17,7 @@ export default function Index() {
   const [error, setError] = useState<ErrorModel | undefined>();
 
   useEffect(() => {
-    const getProducts = async () => {
+    async function getProducts() {
       try {
         const productResponse = await productService.getProducts();
 
@@ -42,7 +42,7 @@ export default function Index() {
       } finally {
         setLoaded(true);
       }
-    };
+    }
 
     getProducts();
   }, []);

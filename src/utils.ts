@@ -16,7 +16,7 @@ export default class Utils {
       code as string,
       message as string,
       status as number,
-      statusText as string
+      (statusText as string) ?? 'N/A'
     );
   }
 }

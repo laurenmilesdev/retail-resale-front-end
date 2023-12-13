@@ -1,7 +1,9 @@
 import ApiService from './api-service';
 import CategoryServiceInterface from './interfaces/category-service.interface';
+import ServiceResponseModel from '../models/service-response';
 import CategoryModel from '../models/products/category';
 import DropdownModel from '../models/dropdown';
+import Utils from '../utils';
 
 export default class CategoryService extends ApiService implements CategoryServiceInterface {
   constructor(public baseApiUrl: string) {
@@ -9,31 +11,43 @@ export default class CategoryService extends ApiService implements CategoryServi
     this.baseApiUrl = baseApiUrl;
   }
 
-  async getCategoryById(id: number, config?: object): Promise<CategoryModel> {
-    const url = `${this.baseApiUrl}/Categories/${id}`;
-    const response = await super.get<CategoryModel>(url, config);
+  async getCategoryById(id: number, config?: object): Promise<ServiceResponseModel<CategoryModel>> {
     let category: CategoryModel = <CategoryModel>{};
+    const serviceResponse = new ServiceResponseModel(category);
+    const url = `${this.baseApiUrl}/Categories/${id}`;
 
-    if (response.status === 200 && response.data) category = response.data;
+    try {
+      const response = await super.get<CategoryModel>(url, config);
 
-    return category;
+      if (response.status === 200 && response.data) category = response.data;
+    } catch (error: any) {
+      serviceResponse.error = Utils.errorHandler(error);
+    }
+
+    return serviceResponse;
   }
 
-  async getCategories(config?: object): Promise<CategoryModel[]> {
-    const url = `${this.baseApiUrl}/Categories`;
-    const response = await super.get<CategoryModel[]>(url, config);
+  async getCategories(config?: object): Promise<ServiceResponseModel<CategoryModel[]>> {
     let categories: CategoryModel[] = [];
+    const serviceResponse = new ServiceResponseModel(categories);
+    const url = `${this.baseApiUrl}/Categories`;
 
-    if (response.status === 200 && response.data) categories = response.data;
+    try {
+      const response = await super.get<CategoryModel[]>(url, config);
 
-    return categories;
+      if (response.status === 200 && response.data) categories = response.data;
+    } catch (error: any) {
+      serviceResponse.error = Utils.errorHandler(error);
+    }
+
+    return serviceResponse;
   }
 
   async getSubCategoriesByCategoryId(id: number): Promise<DropdownModel[]> {
-    const category = await this.getCategoryById(id);
+    const categoryResponse = await this.getCategoryById(id);
 
-    return category.subCategories
-      ? category.subCategories?.map(
+    return categoryResponse.data.subCategories
+      ? categoryResponse.data.subCategories?.map(
           (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
         )
       : [];

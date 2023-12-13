@@ -1,4 +1,3 @@
-import ApiErrorModel from './models/api-error';
 import ErrorModel from './models/error';
 
 export default class Utils {
@@ -8,11 +7,16 @@ export default class Utils {
     return date.substring(0, tIndex);
   }
 
-  static getApiErrorModel(title: string, description: string, err?: any) {
-    const apiError = err
-      ? new ApiErrorModel(err.name as string, err.code as string, err.message as string)
-      : undefined;
+  static errorHandler(error: any) {
+    const { name, code, message } = error;
+    const { status, statusText } = error.response || {};
 
-    return new ErrorModel(title, description, apiError);
+    return new ErrorModel(
+      name as string,
+      code as string,
+      message as string,
+      status as number,
+      (statusText as string) ?? 'N/A'
+    );
   }
 }

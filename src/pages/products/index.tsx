@@ -7,7 +7,6 @@ import ErrorCard from '../../components/error-card/ErrorCard';
 import ProductModel from '../../models/products/product';
 import ErrorModel from '../../models/error';
 import ProductService from '../../services/product-service';
-import Utils from '../../utils';
 
 const productService = new ProductService(process.env.NEXT_PUBLIC_BASE_API_URL as string);
 
@@ -18,30 +17,12 @@ export default function Index() {
 
   useEffect(() => {
     async function getProducts() {
-      try {
-        const productResponse = await productService.getProducts();
+      const productResponse = await productService.getProducts();
 
-        if (productResponse.length > 0) setProducts(productResponse);
-        else {
-          const noProductsError = new ErrorModel(
-            'No products',
-            'Please add products first and then return to page to view them.'
-          );
+      if (!productResponse.error) setProducts(productResponse.data);
+      else setError(productResponse.error);
 
-          setError(noProductsError);
-        }
-      } catch (err: any) {
-        const errorModel = Utils.getApiErrorModel(
-          'Error retrieving products',
-          'An error occured while fetching products. If problem persists please contact technical support.',
-          err
-        );
-
-        setError(errorModel);
-        setLoaded(true);
-      } finally {
-        setLoaded(true);
-      }
+      setLoaded(true);
     }
 
     getProducts();
@@ -54,7 +35,15 @@ export default function Index() {
       </Button>
 
       <Loading loaded={loaded}>
-        {!error ? <ProductsTable products={products} /> : <ErrorCard error={error} />}
+        {!error ? (
+          <ProductsTable products={products} />
+        ) : (
+          <ErrorCard
+            title="Error retrieving products"
+            description="An error occured while fetching products. If problem persists please contact technical support."
+            error={error}
+          />
+        )}
       </Loading>
     </>
   );

@@ -1,14 +1,14 @@
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ApiErrorModel from '../../../models/api-error';
+import ErrorModel from '../../../models/error';
 
-import styles from './ApiErrorAccordion.module.css';
+import styles from './ErrorAccordion.module.css';
 
 type Props = {
-  error: ApiErrorModel;
+  error: ErrorModel;
 };
 
-export default function ApiErrorAccordion({ error }: Props) {
+export default function ErrorAccordion({ error }: Props) {
   return (
     <Accordion className={styles.accordion}>
       <AccordionSummary
@@ -19,8 +19,11 @@ export default function ApiErrorAccordion({ error }: Props) {
         More information
       </AccordionSummary>
       <AccordionDetails>
-        <div>Type: {error.name}</div>
+        <div>
+          <strong>{error.name}</strong>
+        </div>
         <div>Code: {error.code}</div>
+        <div>StatusText: {error.statusText}</div>
         <div>Message: {error.message}</div>
       </AccordionDetails>
     </Accordion>

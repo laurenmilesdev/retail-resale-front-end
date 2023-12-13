@@ -1,6 +1,6 @@
 import axios from 'axios';
 import ApiService from '../../src/services/api-service';
-import ApiServiceResponse from '../../src/models/api-service-response';
+import ApiResponse from '../../src/models/api-response';
 
 jest.mock('axios');
 
@@ -13,7 +13,7 @@ describe('ApiService', () => {
   });
 
   it('get', async () => {
-    const expectedResponse: ApiServiceResponse<typeof data> = {
+    const expectedResponse: ApiResponse<typeof data> = {
       data,
       status: 200,
       statusText: 'OK',
@@ -31,7 +31,7 @@ describe('ApiService', () => {
   });
 
   it('post', async () => {
-    const expectedResponse: ApiServiceResponse<typeof data> = {
+    const expectedResponse: ApiResponse<typeof data> = {
       data,
       status: 201,
       statusText: 'Created',
@@ -49,7 +49,7 @@ describe('ApiService', () => {
   });
 
   it('put', async () => {
-    const expectedResponse: ApiServiceResponse<typeof data> = {
+    const expectedResponse: ApiResponse<typeof data> = {
       data,
       status: 200,
       statusText: 'OK',
@@ -67,7 +67,7 @@ describe('ApiService', () => {
   });
 
   it('delete', async () => {
-    const expectedResponse: ApiServiceResponse<undefined> = {
+    const expectedResponse: ApiResponse<undefined> = {
       data: undefined,
       status: 204,
       statusText: 'No Content',

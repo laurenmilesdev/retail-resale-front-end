@@ -1,6 +1,6 @@
 import axios from 'axios';
 import ProductService from '../../src/services/product-service';
-import ApiServiceResponse from '../../src/models/api-service-response';
+import ApiResponse from '../../src/models/api-response';
 import Product from '../../src/models/products/product';
 import { product, products } from '../mocks/data-mock';
 
@@ -16,7 +16,7 @@ describe('ProductService', () => {
 
   describe('getProductById', () => {
     it('returns a product if successful', async () => {
-      const expectedResponse: ApiServiceResponse<Product> = {
+      const expectedResponse: ApiResponse<Product> = {
         data: product,
         status: 200,
         statusText: 'OK',
@@ -30,7 +30,7 @@ describe('ProductService', () => {
     });
 
     it('returns an empty product if not successful', async () => {
-      const expectedResponse: ApiServiceResponse<Product> = {
+      const expectedResponse: ApiResponse<Product> = {
         data: <Product>{},
         status: 404,
         statusText: 'NOT_FOUND',
@@ -46,7 +46,7 @@ describe('ProductService', () => {
 
   describe('getProducts', () => {
     it('returns an array of products if successful', async () => {
-      const expectedResponse: ApiServiceResponse<Product[]> = {
+      const expectedResponse: ApiResponse<Product[]> = {
         data: products,
         status: 200,
         statusText: 'OK',
@@ -60,7 +60,7 @@ describe('ProductService', () => {
     });
 
     it('returns an empty array of products if not successful', async () => {
-      const expectedResponse: ApiServiceResponse<Product[]> = {
+      const expectedResponse: ApiResponse<Product[]> = {
         data: [],
         status: 400,
         statusText: 'ERR_NETWORK',

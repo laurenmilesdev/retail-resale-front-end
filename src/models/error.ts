@@ -1,5 +1,9 @@
-import ApiError from './api-error';
-
 export default class Error {
-  constructor(public title: string, public description: string, public apiError?: ApiError) {}
+  constructor(
+    public name: string,
+    public code: string,
+    public message: string,
+    public status: number,
+    public statusText: string
+  ) {}
 }

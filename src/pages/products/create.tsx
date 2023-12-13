@@ -63,10 +63,10 @@ export default function Create({
 
 export async function getServerSideProps() {
   const categories = await categoryService.getCategories();
-  const categoriesDropdown = categories.map(
+  const categoriesDropdown = categories.data.map(
     (category) => new DropdownModel(category.id, category.value)
   );
-  const conditionsDropdown = (await conditionService.getConditions()).map(
+  const conditionsDropdown = (await conditionService.getConditions()).data.map(
     (condition) => new DropdownModel(condition.id, condition.value)
   );
 

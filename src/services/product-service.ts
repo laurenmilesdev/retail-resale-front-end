@@ -2,8 +2,8 @@ import ApiService from './api-service';
 import ProductServiceInterface from './interfaces/product-service.interface';
 import ServiceResponseModel from '../models/service-response';
 import ProductModel from '../models/products/product';
-import ErrorModel from '../models/error';
 import Constants from '../constants';
+import Utils from '../utils';
 
 export default class ProductService extends ApiService implements ProductServiceInterface {
   constructor(public baseApiUrl: string) {
@@ -25,13 +25,7 @@ export default class ProductService extends ApiService implements ProductService
         serviceResponse.data = product;
       }
     } catch (error: any) {
-      serviceResponse.error = new ErrorModel(
-        error.name as string,
-        error.code as string,
-        error.message as string,
-        error.response.status as number,
-        error.response.statusText as string
-      );
+      serviceResponse.error = Utils.errorHandler(error);
     }
 
     return serviceResponse;
@@ -50,13 +44,7 @@ export default class ProductService extends ApiService implements ProductService
         serviceResponse.data = products;
       }
     } catch (error: any) {
-      serviceResponse.error = new ErrorModel(
-        error.name as string,
-        error.code as string,
-        error.message as string,
-        error.status as number,
-        error.response.statusText as string
-      );
+      serviceResponse.error = Utils.errorHandler(error);
     }
 
     return serviceResponse;

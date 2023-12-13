@@ -2,7 +2,7 @@ import ApiService from './api-service';
 import ConditionServiceInterface from './interfaces/condition-service.interface';
 import ServiceResponseModel from '../models/service-response';
 import ConditionModel from '../models/products/condition';
-import ErrorModel from '../models/error';
+import Utils from '../utils';
 
 export default class ConditionService extends ApiService implements ConditionServiceInterface {
   constructor(public baseApiUrl: string) {
@@ -26,13 +26,7 @@ export default class ConditionService extends ApiService implements ConditionSer
         serviceResponse.data = condition;
       }
     } catch (error: any) {
-      serviceResponse.error = new ErrorModel(
-        error.name as string,
-        error.code as string,
-        error.message as string,
-        error.response.status as number,
-        error.response.statusText as string
-      );
+      serviceResponse.error = Utils.errorHandler(error);
     }
 
     return serviceResponse;
@@ -51,13 +45,7 @@ export default class ConditionService extends ApiService implements ConditionSer
         serviceResponse.data = condition;
       }
     } catch (error: any) {
-      serviceResponse.error = new ErrorModel(
-        error.name as string,
-        error.code as string,
-        error.message as string,
-        error.response.status as number,
-        error.response.statusText as string
-      );
+      serviceResponse.error = Utils.errorHandler(error);
     }
 
     return serviceResponse;

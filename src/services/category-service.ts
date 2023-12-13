@@ -3,7 +3,7 @@ import CategoryServiceInterface from './interfaces/category-service.interface';
 import ServiceResponseModel from '../models/service-response';
 import CategoryModel from '../models/products/category';
 import DropdownModel from '../models/dropdown';
-import ErrorModel from '../models/error';
+import Utils from '../utils';
 
 export default class CategoryService extends ApiService implements CategoryServiceInterface {
   constructor(public baseApiUrl: string) {
@@ -21,13 +21,7 @@ export default class CategoryService extends ApiService implements CategoryServi
 
       if (response.status === 200 && response.data) category = response.data;
     } catch (error: any) {
-      serviceResponse.error = new ErrorModel(
-        error.name as string,
-        error.code as string,
-        error.message as string,
-        error.response.status as number,
-        error.response.statusText as string
-      );
+      serviceResponse.error = Utils.errorHandler(error);
     }
 
     return serviceResponse;
@@ -43,13 +37,7 @@ export default class CategoryService extends ApiService implements CategoryServi
 
       if (response.status === 200 && response.data) categories = response.data;
     } catch (error: any) {
-      serviceResponse.error = new ErrorModel(
-        error.name as string,
-        error.code as string,
-        error.message as string,
-        error.response.status as number,
-        error.response.statusText as string
-      );
+      serviceResponse.error = Utils.errorHandler(error);
     }
 
     return serviceResponse;

@@ -4,20 +4,17 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@mui/material';
 import Loading from '../../../components/loading/Loading';
 import PageNavigationButtons from '../../../components/page-navigation-buttons/PageNavigationButtons';
-import ProductDetails from '../../../components/products/product-details/ProductDetails';
-import ProductForm from '../../../components/products/product-form/ProductForm';
+import ProductDetailsForm from '../../../components/products/product-details-form/ProductDetailsForm';
 import ErrorCard from '../../../components/error-card/ErrorCard';
 
 import ErrorModel from '../../../models/error';
 import CategoryModel from '../../../models/products/category';
 import DropdownModel from '../../../models/dropdown';
 import ProductModel from '../../../models/products/product';
-import ProductDetailModel from '../../../models/product-detail';
 
 import ProductService from '../../../services/product-service';
 import CategoryService from '../../../services/category-service';
 import ConditionService from '../../../services/condition-service';
-import Utils from '../../../utils';
 
 const baseApiUrl: string = process.env.NEXT_PUBLIC_BASE_API_URL ?? '';
 const productService = new ProductService(baseApiUrl);
@@ -110,7 +107,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
             {product && (
               <Card>
                 <CardContent>
-                  <ProductForm
+                  <ProductDetailsForm
                     edit={edit}
                     product={product}
                     setProduct={setProduct}
@@ -148,19 +145,4 @@ export function getSubCategoriesByCategory(categoryId: number, categories: Categ
         (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
       )
     : [];
-}
-
-export function getProductDetails(product: ProductModel) {
-  return [
-    new ProductDetailModel('Name', product.name),
-    new ProductDetailModel('Description', product.description),
-    new ProductDetailModel('Size', product.size),
-    new ProductDetailModel('Size Type', product.sizeTypeValue),
-    new ProductDetailModel('Category', product.subCategory.category.value),
-    new ProductDetailModel('SubCategory', product.subCategory.value),
-    new ProductDetailModel('Condition', product.condition.value),
-    new ProductDetailModel('Brand', product.brand),
-    new ProductDetailModel('Purchase Price', product.purchasePrice),
-    new ProductDetailModel('Purchase Date', Utils.formatDate(product.purchaseDate ?? '')),
-  ];
 }

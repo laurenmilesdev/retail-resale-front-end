@@ -6,8 +6,9 @@ import { Button, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/mat
 import ProductModel from '../../../models/products/product';
 import DropdownModel from '../../../models/dropdown';
 import Constants from '../../../constants';
+import Utils from '../../../utils';
 
-import styles from './ProductForm.module.css';
+import styles from './ProductDetailsForm.module.css';
 
 type Props = {
   edit: boolean;
@@ -18,7 +19,7 @@ type Props = {
   conditions: DropdownModel[];
 };
 
-export default function ProductForm({
+export default function ProductDetailsForm({
   edit,
   product,
   setProduct,
@@ -190,7 +191,7 @@ export default function ProductForm({
               {edit ? (
                 <DatePicker value={dayjs(product.purchaseDate)} className={styles['date-picker']} />
               ) : (
-                <>{product.purchaseDate}</>
+                <>{Utils.formatDate(product.purchaseDate)}</>
               )}
             </div>
 
@@ -230,11 +231,14 @@ export default function ProductForm({
           </div>
         </div>
       </div>
-      <div className={`col-md-12`}>
-        <Button type="submit" className="btn-primary">
-          Save
-        </Button>
-      </div>
+
+      {edit && (
+        <div className={`col-md-12`}>
+          <Button type="submit" className="btn-primary">
+            Save
+          </Button>
+        </div>
+      )}
     </form>
   );
 }

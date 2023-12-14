@@ -1,5 +1,4 @@
 import Product from '../../src/models/products/product';
-import ProductDetail from '../../src/models/product-detail';
 import Category from '../../src/models/products/category';
 import SubCategory from '../../src/models/products/sub-category';
 import Condition from '../../src/models/products/condition';
@@ -49,16 +48,3 @@ export const listingSiteProduct = new ListingSiteProduct(
   listingSite.id,
   price
 );
-
-export const productDetails = [
-  new ProductDetail('Name', product.name),
-  new ProductDetail('Description', product.description),
-  new ProductDetail('Size', product.size),
-  new ProductDetail('Size Type', product.sizeTypeValue),
-  new ProductDetail('Category', product.subCategory.category.value),
-  new ProductDetail('SubCategory', product.subCategory.value),
-  new ProductDetail('Condition', product.condition.value),
-  new ProductDetail('Brand', product.brand),
-  new ProductDetail('Purchase Price', product.purchasePrice),
-  new ProductDetail('Purchase Date', Utils.formatDate(product.purchaseDate ?? '')),
-];

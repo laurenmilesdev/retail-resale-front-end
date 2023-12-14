@@ -40,7 +40,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
   const [subCategoriesDropdown, setSubCategoriesDropdown] = useState<DropdownModel[]>();
   const [conditionsDropdown, setConditionsDropdown] = useState<DropdownModel[]>();
 
-  async function getProduct(productId: number) {
+  async function getSetProduct(productId: number) {
     const productResponse = await productService.getProductById(productId);
     const categoriesResponse = await categoryService.getCategories();
 
@@ -70,7 +70,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
     setLoaded(true);
   }
 
-  async function getConditions() {
+  async function getSetConditions() {
     const conditionsResponse = await conditionService.getConditions();
 
     if (!conditionsResponse.error) {
@@ -82,26 +82,22 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
     }
   }
 
-  function getSubCategories(categoryId: number) {
-    const currentCategory = categories?.find((p) => p.id === categoryId);
-    const subCategoryDropdownModels = currentCategory?.subCategories
-      ? currentCategory?.subCategories.map(
-          (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
-        )
-      : [];
-
-    setSubCategoriesDropdown(subCategoryDropdownModels);
-  }
-
   useEffect(() => {
-    getProduct(id as unknown as number);
-    getConditions();
+    getSetProduct(id as unknown as number);
+    getSetConditions();
   }, []);
 
   useEffect(() => {
     const categoryId = product?.subCategory.categoryId;
 
-    if (categoryId) getSubCategories(categoryId as unknown as number);
+    if (categoryId) {
+      const filteredSubCategories = getSubCategoriesByCategory(
+        categoryId as unknown as number,
+        categories ?? []
+      );
+
+      setSubCategoriesDropdown(filteredSubCategories);
+    }
   }, [product?.subCategory.categoryId]);
 
   return (
@@ -145,6 +141,16 @@ export function getServerSideProps(context: any) {
   return {
     props: { id: context.params.id },
   };
+}
+
+export function getSubCategoriesByCategory(categoryId: number, categories: CategoryModel[]) {
+  const currentCategory = categories.find((p) => p.id === categoryId);
+
+  return currentCategory?.subCategories
+    ? currentCategory?.subCategories.map(
+        (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
+      )
+    : [];
 }
 
 export function getProductDetails(product: ProductModel) {

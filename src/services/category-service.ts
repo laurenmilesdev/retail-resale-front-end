@@ -19,7 +19,10 @@ export default class CategoryService extends ApiService implements CategoryServi
     try {
       const response = await super.get<CategoryModel>(url, config);
 
-      if (response.status === 200 && response.data) category = response.data;
+      if (response.status === 200 && response.data) {
+        category = response.data;
+        serviceResponse.data = category;
+      }
     } catch (error: any) {
       serviceResponse.error = Utils.errorHandler(error);
     }
@@ -35,7 +38,10 @@ export default class CategoryService extends ApiService implements CategoryServi
     try {
       const response = await super.get<CategoryModel[]>(url, config);
 
-      if (response.status === 200 && response.data) categories = response.data;
+      if (response.status === 200 && response.data) {
+        categories = response.data;
+        serviceResponse.data = categories;
+      }
     } catch (error: any) {
       serviceResponse.error = Utils.errorHandler(error);
     }

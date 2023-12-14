@@ -110,17 +110,14 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
             {product && (
               <Card>
                 <CardContent>
-                  {edit ? (
-                    <ProductForm
-                      product={product}
-                      setProduct={setProduct}
-                      categories={categoriesDropdown ?? []}
-                      subCategories={subCategoriesDropdown ?? []}
-                      conditions={conditionsDropdown ?? []}
-                    />
-                  ) : (
-                    <ProductDetails productDetails={getProductDetails(product)} />
-                  )}
+                  <ProductForm
+                    edit={edit}
+                    product={product}
+                    setProduct={setProduct}
+                    categories={categoriesDropdown ?? []}
+                    subCategories={subCategoriesDropdown ?? []}
+                    conditions={conditionsDropdown ?? []}
+                  />
                 </CardContent>
               </Card>
             )}

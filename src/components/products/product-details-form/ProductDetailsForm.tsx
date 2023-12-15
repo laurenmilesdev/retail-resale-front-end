@@ -141,38 +141,49 @@ export default function ProductDetailsForm({
             <div className={`${styles.detail} col-md-6`}>
               {labelComponent(subCategory)}
 
-              {edit ? selectListComponent(subCategory) : product.subCategory.value}
+              <div id={subCategory.valueId}>
+                {edit ? selectListComponent(subCategory) : product.subCategory.value}
+              </div>
             </div>
           </div>
 
           <div className={`${styles['detail-row']} col-md-12`}>
             <div className={`${styles.detail} col-md-6`}>
               {labelComponent(condition)}
-
-              {edit ? selectListComponent(condition) : product.condition.value}
+              <div id={condition.valueId}>
+                {edit ? selectListComponent(condition) : product.condition.value}
+              </div>
             </div>
 
             <div className={`${styles.detail} col-md-6`}>
               {labelComponent(brand)}
 
-              {edit ? textFieldComponent(brand) : product.brand}
+              <div id={brand.valueId}>{edit ? textFieldComponent(brand) : product.brand}</div>
             </div>
           </div>
 
           <div className={`${styles['detail-row']} col-md-12`}>
             <div className={`${styles.detail} col-md-6`}>
               {labelComponent(purchaseDate)}
-              {edit ? (
-                <DatePicker value={dayjs(product.purchaseDate)} className={styles['date-picker']} />
-              ) : (
-                <>{Utils.formatDate(product.purchaseDate)}</>
-              )}
+
+              <div id={purchaseDate.valueId}>
+                {edit ? (
+                  <DatePicker
+                    value={dayjs(product.purchaseDate)}
+                    className={styles['date-picker']}
+                  />
+                ) : (
+                  <>{product.purchaseDate && Utils.formatDate(product.purchaseDate)}</>
+                )}
+              </div>
             </div>
 
             <div className={`${styles.detail} col-md-6`}>
               {labelComponent(purchasePrice)}
 
-              {edit ? textFieldComponent(purchasePrice) : product.purchasePrice}
+              <div id={purchasePrice.valueId}>
+                {edit ? textFieldComponent(purchasePrice) : product.purchasePrice}
+              </div>
             </div>
           </div>
         </div>

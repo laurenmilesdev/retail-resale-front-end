@@ -11,6 +11,7 @@ import ErrorModel from '../../../models/error';
 import CategoryModel from '../../../models/products/category';
 import DropdownModel from '../../../models/dropdown';
 import ProductModel from '../../../models/products/product';
+import ProductCreateUpdateModel from '../../../models/products/product-create-update';
 
 import ProductService from '../../../services/product-service';
 import CategoryService from '../../../services/category-service';
@@ -30,6 +31,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
   const [loaded, setLoaded] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | undefined>();
   const [product, setProduct] = useState<ProductModel | undefined>();
+  const [updateProduct, setUpdateProduct] = useState<ProductCreateUpdateModel | undefined>();
   const [edit, setEdit] = useState<boolean>(false);
 
   const [categories, setCategories] = useState<CategoryModel[] | undefined>();
@@ -42,7 +44,10 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
     const categoriesResponse = await categoryService.getCategories();
 
     if (!productResponse.error) {
+      const updateModel = ProductCreateUpdateModel.mapFromProduct(productResponse.data);
+
       setProduct(productResponse.data);
+      setUpdateProduct(updateModel);
 
       if (!categoriesResponse.error) {
         const { data } = categoriesResponse;
@@ -85,7 +90,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
   }, []);
 
   useEffect(() => {
-    const categoryId = product?.categoryId;
+    const categoryId = updateProduct?.categoryId;
 
     if (categoryId) {
       const filteredSubCategories = getSubCategoriesByCategory(
@@ -95,11 +100,18 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
 
       setSubCategoriesDropdown(filteredSubCategories);
     }
-  }, [product?.categoryId]);
+  }, [updateProduct?.categoryId]);
 
   return (
     <>
-      {!error && product && <PageNavigationButtons edit={edit} setEdit={setEdit} />}
+      {!error && product && (
+        <PageNavigationButtons
+          edit={edit}
+          setEdit={setEdit}
+          product={product}
+          setUpdateProduct={setUpdateProduct}
+        />
+      )}
 
       <Loading loaded={loaded}>
         {!error ? (
@@ -110,7 +122,8 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
                   <ProductDetailsForm
                     edit={edit}
                     product={product}
-                    setProduct={setProduct}
+                    productCreateUpdate={updateProduct}
+                    setProductCreateUpdate={setUpdateProduct}
                     categories={categoriesDropdown ?? []}
                     subCategories={subCategoriesDropdown ?? []}
                     conditions={conditionsDropdown ?? []}

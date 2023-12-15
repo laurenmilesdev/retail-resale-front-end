@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Button, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import ProductModel from '../../../models/products/product';
+import ProductCreateUpdateModel from '../../../models/products/product-create-update';
 import DropdownModel from '../../../models/dropdown';
 import FormDetailModel from '../../../models/form-detail';
 import Constants from '../../../constants';
@@ -13,15 +14,16 @@ import styles from './ProductDetailsForm.module.css';
 
 type Props = {
   edit: boolean;
-  product: ProductModel;
-  setProduct: Dispatch<SetStateAction<ProductModel | undefined>>;
+  product: ProductModel | undefined;
+  productCreateUpdate: ProductCreateUpdateModel | undefined;
+  setProductCreateUpdate: Dispatch<SetStateAction<ProductCreateUpdateModel | undefined>>;
   categories: DropdownModel[];
   subCategories: DropdownModel[];
   conditions: DropdownModel[];
 };
 
 export const productFormDetails = {
-  name: new FormDetailModel('name', 'Name'),
+  productName: new FormDetailModel('name', 'Name'),
   size: new FormDetailModel('size', 'Size'),
   sizeType: new FormDetailModel('sizeType', 'Size Type'),
   category: new FormDetailModel('categoryId', 'Category'),
@@ -36,13 +38,14 @@ export const productFormDetails = {
 export default function ProductDetailsForm({
   edit,
   product,
-  setProduct,
+  productCreateUpdate,
+  setProductCreateUpdate,
   categories,
   subCategories,
   conditions,
 }: Props) {
   const {
-    name,
+    productName,
     size,
     sizeType,
     category,
@@ -57,17 +60,20 @@ export default function ProductDetailsForm({
   category.dropdownValues = categories;
   subCategory.dropdownValues = subCategories;
   condition.dropdownValues = conditions;
+  const productValue = (name: string) =>
+    productCreateUpdate &&
+    (productCreateUpdate[name as keyof ProductCreateUpdateModel] as unknown as string);
 
-  const labelComponent = (formDetail: FormDetailModel) => (
-    <label id={formDetail.labelId}>
-      <h5>{formDetail.label}</h5>
+  const labelComponent = ({ labelId, label }: FormDetailModel) => (
+    <label id={labelId}>
+      <h5>{label}</h5>
     </label>
   );
-  const textFieldComponent = (formDetail: FormDetailModel, multiline = false) => (
+  const textFieldComponent = ({ name }: FormDetailModel, multiline = false) => (
     <>
       <TextField
-        name={formDetail.name}
-        defaultValue={product[formDetail.name as keyof ProductModel]}
+        name={name}
+        defaultValue={productValue(name)}
         className={styles['text-field']}
         variant="standard"
         multiline={multiline}
@@ -75,43 +81,46 @@ export default function ProductDetailsForm({
       {multiline && <span className={styles.description}>{'(multiline editor)'}</span>}
     </>
   );
-  const selectListComponent = (formDetail: FormDetailModel) => (
+  const selectListComponent = ({ name, labelId, dropdownValues }: FormDetailModel) => (
     <Select
-      value={product[formDetail.name as keyof ProductModel] as unknown as string}
-      name={formDetail.name}
-      labelId={formDetail.labelId}
+      value={productValue(name)}
+      name={name}
+      labelId={labelId}
       variant="standard"
       onChange={onChange}
       className={styles['select-field']}
     >
-      {formDetail.dropdownValues?.map(({ id, value }: DropdownModel) => (
+      {dropdownValues?.map(({ id, value }: DropdownModel) => (
         <MenuItem value={id} key={value}>
           {value}
         </MenuItem>
       ))}
     </Select>
   );
+  const datePickerComponent = ({ name }: FormDetailModel) => (
+    <DatePicker value={dayjs(productValue(name))} className={styles['date-picker']} />
+  );
 
   function onChange(event: SelectChangeEvent) {
     const eventName = event.target.name;
     const value = event.target.value as unknown as number;
 
-    if (eventName) {
-      if (eventName === sizeType.name) product.sizeType = value;
-      if (eventName === category.name) product.categoryId = value;
-      if (eventName === subCategory.name) product.subCategoryId = value;
-      if (eventName === condition.name) product.conditionId = value;
+    if (productCreateUpdate && eventName) {
+      if (eventName === sizeType.name) productCreateUpdate.sizeType = value;
+      if (eventName === category.name) productCreateUpdate.categoryId = value;
+      if (eventName === subCategory.name) productCreateUpdate.subCategoryId = value;
+      if (eventName === condition.name) productCreateUpdate.conditionId = value;
 
-      setProduct({ ...product });
+      setProductCreateUpdate({ ...productCreateUpdate });
     }
   }
 
   return (
     <form>
       <div className={`${styles.detail} col-md-12 pb-0`}>
-        {labelComponent(name)}
+        {labelComponent(productName)}
 
-        <div id={name.valueId}>{edit ? textFieldComponent(name) : product.name}</div>
+        <div id={productName.valueId}>{edit ? textFieldComponent(productName) : product?.name}</div>
       </div>
 
       <div className={`${styles['details-container']} col-md-12`}>
@@ -120,14 +129,14 @@ export default function ProductDetailsForm({
             <div className={`${styles.detail} col-md-6`}>
               {labelComponent(size)}
 
-              <div id={size.valueId}>{edit ? textFieldComponent(size) : product.size}</div>
+              <div id={size.valueId}>{edit ? textFieldComponent(size) : product?.size}</div>
             </div>
 
             <div className={`${styles.detail} col-md-6`}>
               {labelComponent(sizeType)}
 
               <div id={sizeType.valueId}>
-                {edit ? selectListComponent(sizeType) : product.sizeTypeValue}
+                {edit ? selectListComponent(sizeType) : product?.sizeTypeValue}
               </div>
             </div>
           </div>
@@ -137,7 +146,7 @@ export default function ProductDetailsForm({
               {labelComponent(category)}
 
               <div id={category.valueId}>
-                {edit ? selectListComponent(category) : product.subCategory.category.value}
+                {edit ? selectListComponent(category) : product?.subCategory.category.value}
               </div>
             </div>
 
@@ -145,7 +154,7 @@ export default function ProductDetailsForm({
               {labelComponent(subCategory)}
 
               <div id={subCategory.valueId}>
-                {edit ? selectListComponent(subCategory) : product.subCategory.value}
+                {edit ? selectListComponent(subCategory) : product?.subCategory.value}
               </div>
             </div>
           </div>
@@ -154,14 +163,14 @@ export default function ProductDetailsForm({
             <div className={`${styles.detail} col-md-6`}>
               {labelComponent(condition)}
               <div id={condition.valueId}>
-                {edit ? selectListComponent(condition) : product.condition.value}
+                {edit ? selectListComponent(condition) : product?.condition.value}
               </div>
             </div>
 
             <div className={`${styles.detail} col-md-6`}>
               {labelComponent(brand)}
 
-              <div id={brand.valueId}>{edit ? textFieldComponent(brand) : product.brand}</div>
+              <div id={brand.valueId}>{edit ? textFieldComponent(brand) : product?.brand}</div>
             </div>
           </div>
 
@@ -170,14 +179,9 @@ export default function ProductDetailsForm({
               {labelComponent(purchaseDate)}
 
               <div id={purchaseDate.valueId}>
-                {edit ? (
-                  <DatePicker
-                    value={dayjs(product.purchaseDate)}
-                    className={styles['date-picker']}
-                  />
-                ) : (
-                  <>{product.purchaseDate && Utils.formatDate(product.purchaseDate)}</>
-                )}
+                {edit
+                  ? datePickerComponent(purchaseDate)
+                  : product?.purchaseDate && Utils.formatDate(product.purchaseDate)}
               </div>
             </div>
 
@@ -185,7 +189,7 @@ export default function ProductDetailsForm({
               {labelComponent(purchasePrice)}
 
               <div id={purchasePrice.valueId}>
-                {edit ? textFieldComponent(purchasePrice) : product.purchasePrice}
+                {edit ? textFieldComponent(purchasePrice) : product?.purchasePrice}
               </div>
             </div>
           </div>
@@ -196,7 +200,7 @@ export default function ProductDetailsForm({
             {labelComponent(description)}
 
             <div id={description.valueId}>
-              {edit ? textFieldComponent(description, true) : product.description}
+              {edit ? textFieldComponent(description, true) : product?.description}
             </div>
           </div>
         </div>

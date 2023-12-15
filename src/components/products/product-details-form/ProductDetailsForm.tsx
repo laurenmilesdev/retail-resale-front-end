@@ -64,13 +64,16 @@ export default function ProductDetailsForm({
     </label>
   );
   const textFieldComponent = (formDetail: FormDetailModel, multiline = false) => (
-    <TextField
-      name={formDetail.name}
-      defaultValue={product[formDetail.name as keyof ProductModel]}
-      className={styles['text-field']}
-      variant="standard"
-      multiline={multiline}
-    />
+    <>
+      <TextField
+        name={formDetail.name}
+        defaultValue={product[formDetail.name as keyof ProductModel]}
+        className={styles['text-field']}
+        variant="standard"
+        multiline={multiline}
+      />
+      {multiline && <span className={styles.description}>{'(multiline editor)'}</span>}
+    </>
   );
   const selectListComponent = (formDetail: FormDetailModel) => (
     <Select
@@ -192,14 +195,9 @@ export default function ProductDetailsForm({
           <div className={`${styles.detail} col-md-12`}>
             {labelComponent(description)}
 
-            {edit ? (
-              <>
-                {textFieldComponent(description, true)}
-                <span className={styles.description}>{'(multiline editor)'}</span>
-              </>
-            ) : (
-              <>{product.description}</>
-            )}
+            <div id={description.valueId}>
+              {edit ? textFieldComponent(description, true) : product.description}
+            </div>
           </div>
         </div>
       </div>

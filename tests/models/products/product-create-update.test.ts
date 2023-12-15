@@ -2,6 +2,30 @@ import ProductCreateUpdate from '../../../src/models/products/product-create-upd
 import { product } from '../../mocks/data-mock';
 
 describe('ProductCreateUpdate', () => {
+  it('returns empty ProductCreateUpdate object', () => {
+    const response = new ProductCreateUpdate();
+    const expectedResponse: ProductCreateUpdate = {
+      id: undefined,
+      name: undefined,
+      description: undefined,
+      size: undefined,
+      sizeType: undefined,
+      sizeTypeValue: '',
+      condition: undefined,
+      conditionId: undefined,
+      isSold: undefined,
+      subCategory: undefined,
+      subCategoryId: undefined,
+      categoryId: undefined,
+      brand: undefined,
+      purchasePrice: undefined,
+      purchaseDate: undefined,
+      listingSiteProducts: [],
+    };
+
+    expect(response).toEqual(expectedResponse);
+  });
+
   it('returns ProductCreateUpdate object', () => {
     const response = product;
     const expectedResponse: ProductCreateUpdate = {

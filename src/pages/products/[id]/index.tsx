@@ -11,7 +11,7 @@ import ErrorModel from '../../../models/error';
 import CategoryModel from '../../../models/products/category';
 import DropdownModel from '../../../models/dropdown';
 import ProductModel from '../../../models/products/product';
-import CreateUpdateProductModel from '../../../models/products/create-update-product';
+import ProductCreateUpdateModel from '../../../models/products/product-create-update';
 
 import ProductService from '../../../services/product-service';
 import CategoryService from '../../../services/category-service';
@@ -31,7 +31,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
   const [loaded, setLoaded] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | undefined>();
   const [product, setProduct] = useState<ProductModel | undefined>();
-  const [updateProduct, setUpdateProduct] = useState<CreateUpdateProductModel | undefined>();
+  const [updateProduct, setUpdateProduct] = useState<ProductCreateUpdateModel | undefined>();
   const [edit, setEdit] = useState<boolean>(false);
 
   const [categories, setCategories] = useState<CategoryModel[] | undefined>();
@@ -44,7 +44,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
     const categoriesResponse = await categoryService.getCategories();
 
     if (!productResponse.error) {
-      const updateModel = CreateUpdateProductModel.mapFromProduct(productResponse.data);
+      const updateModel = ProductCreateUpdateModel.mapFromProduct(productResponse.data);
 
       setProduct(productResponse.data);
       setUpdateProduct(updateModel);
@@ -122,8 +122,8 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
                   <ProductDetailsForm
                     edit={edit}
                     product={product}
-                    createUpdateProduct={updateProduct}
-                    setCreateUpdateProduct={setUpdateProduct}
+                    productCreateUpdate={updateProduct}
+                    setProductCreateUpdate={setUpdateProduct}
                     categories={categoriesDropdown ?? []}
                     subCategories={subCategoriesDropdown ?? []}
                     conditions={conditionsDropdown ?? []}

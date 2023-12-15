@@ -4,19 +4,19 @@ import ProductDetailsForm, {
   productFormDetails,
 } from '../../../../src/components/products/product-details-form/ProductDetailsForm';
 import { product, categories, subCategories, conditions } from '../../../mocks/data-mock';
-import CreateUpdateProductModel from '../../../../src/models/products/create-update-product';
+import ProductCreateUpdateModel from '../../../../src/models/products/product-create-update';
 
 describe('ProductDetailsForm component', () => {
   describe('edit is false', () => {
     beforeEach(() => {
-      const updateModel = CreateUpdateProductModel.mapFromProduct(product);
+      const updateModel = ProductCreateUpdateModel.mapFromProduct(product);
 
       render(
         <ProductDetailsForm
           edit={false}
           product={product}
-          createUpdateProduct={updateModel}
-          setCreateUpdateProduct={() => undefined}
+          productCreateUpdate={updateModel}
+          setProductCreateUpdate={() => undefined}
           categories={categories}
           subCategories={subCategories}
           conditions={conditions}

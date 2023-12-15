@@ -1,18 +1,18 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@mui/material';
 import ProductModel from '../../models/products/product';
-import CreateUpdateProductModel from '../../models/products/create-update-product';
+import ProductCreateUpdateModel from '../../models/products/product-create-update';
 
 type Props = {
   edit: boolean;
   setEdit: Dispatch<SetStateAction<boolean>>;
   product: ProductModel;
-  setUpdateProduct: Dispatch<SetStateAction<CreateUpdateProductModel | undefined>>;
+  setUpdateProduct: Dispatch<SetStateAction<ProductCreateUpdateModel | undefined>>;
 };
 
 export default function PageNavigationButtons({ edit, setEdit, product, setUpdateProduct }: Props) {
   function resetForm() {
-    const updateModel = CreateUpdateProductModel.mapFromProduct(product);
+    const updateModel = ProductCreateUpdateModel.mapFromProduct(product);
 
     setUpdateProduct(updateModel);
   }

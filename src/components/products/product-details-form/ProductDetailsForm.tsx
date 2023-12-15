@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Button, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import ProductModel from '../../../models/products/product';
-import CreateUpdateProductModel from '../../../models/products/create-update-product';
+import ProductCreateUpdateModel from '../../../models/products/product-create-update';
 import DropdownModel from '../../../models/dropdown';
 import FormDetailModel from '../../../models/form-detail';
 import Constants from '../../../constants';
@@ -15,8 +15,8 @@ import styles from './ProductDetailsForm.module.css';
 type Props = {
   edit: boolean;
   product: ProductModel | undefined;
-  createUpdateProduct: CreateUpdateProductModel | undefined;
-  setCreateUpdateProduct: Dispatch<SetStateAction<CreateUpdateProductModel | undefined>>;
+  productCreateUpdate: ProductCreateUpdateModel | undefined;
+  setProductCreateUpdate: Dispatch<SetStateAction<ProductCreateUpdateModel | undefined>>;
   categories: DropdownModel[];
   subCategories: DropdownModel[];
   conditions: DropdownModel[];
@@ -38,8 +38,8 @@ export const productFormDetails = {
 export default function ProductDetailsForm({
   edit,
   product,
-  createUpdateProduct,
-  setCreateUpdateProduct,
+  productCreateUpdate,
+  setProductCreateUpdate,
   categories,
   subCategories,
   conditions,
@@ -61,8 +61,8 @@ export default function ProductDetailsForm({
   subCategory.dropdownValues = subCategories;
   condition.dropdownValues = conditions;
   const productValue = (name: string) =>
-    createUpdateProduct &&
-    (createUpdateProduct[name as keyof CreateUpdateProductModel] as unknown as string);
+    productCreateUpdate &&
+    (productCreateUpdate[name as keyof ProductCreateUpdateModel] as unknown as string);
 
   const labelComponent = ({ labelId, label }: FormDetailModel) => (
     <label id={labelId}>
@@ -105,13 +105,13 @@ export default function ProductDetailsForm({
     const eventName = event.target.name;
     const value = event.target.value as unknown as number;
 
-    if (createUpdateProduct && eventName) {
-      if (eventName === sizeType.name) createUpdateProduct.sizeType = value;
-      if (eventName === category.name) createUpdateProduct.categoryId = value;
-      if (eventName === subCategory.name) createUpdateProduct.subCategoryId = value;
-      if (eventName === condition.name) createUpdateProduct.conditionId = value;
+    if (productCreateUpdate && eventName) {
+      if (eventName === sizeType.name) productCreateUpdate.sizeType = value;
+      if (eventName === category.name) productCreateUpdate.categoryId = value;
+      if (eventName === subCategory.name) productCreateUpdate.subCategoryId = value;
+      if (eventName === condition.name) productCreateUpdate.conditionId = value;
 
-      setCreateUpdateProduct({ ...createUpdateProduct });
+      setProductCreateUpdate({ ...productCreateUpdate });
     }
   }
 

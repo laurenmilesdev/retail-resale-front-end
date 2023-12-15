@@ -4,7 +4,7 @@ import SubCategory from './sub-category';
 import Constants from '../../constants';
 import Product from './product';
 
-export default class CreateUpdateProduct {
+export default class ProductCreateUpdate {
   sizeTypeValue: string;
 
   listingSiteProducts?: ListingSiteProduct[];
@@ -31,7 +31,7 @@ export default class CreateUpdateProduct {
   }
 
   static mapFromProduct(product: Product) {
-    return new CreateUpdateProduct(
+    return new ProductCreateUpdate(
       product.id,
       product.name,
       product.description,

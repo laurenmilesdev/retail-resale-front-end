@@ -2,6 +2,7 @@
 import SubCategory from './sub-category';
 import Condition from './condition';
 import ListingSiteProduct from './listing-site-product';
+import ProductCreateUpdate from './product-create-update';
 import Constants from '../../constants';
 
 export default class Product {
@@ -28,5 +29,57 @@ export default class Product {
   ) {
     this.sizeTypeValue = Constants.SIZE_TYPES[sizeType].value;
     this.listingSiteProducts = listingSiteProducts ?? [];
+  }
+
+  static mapFromProductCreateUpdate({
+    id,
+    name,
+    description,
+    size,
+    sizeType,
+    condition,
+    conditionId,
+    isSold,
+    subCategory,
+    subCategoryId,
+    categoryId,
+    brand,
+    purchasePrice,
+    purchaseDate,
+    listingSiteProducts,
+  }: ProductCreateUpdate) {
+    if (
+      id &&
+      name &&
+      description &&
+      size &&
+      sizeType &&
+      condition &&
+      conditionId &&
+      isSold &&
+      subCategory &&
+      subCategoryId &&
+      categoryId
+    ) {
+      return new Product(
+        id,
+        name,
+        description,
+        size,
+        sizeType,
+        condition,
+        conditionId,
+        isSold,
+        subCategory,
+        subCategoryId,
+        categoryId,
+        brand,
+        purchasePrice,
+        purchaseDate,
+        listingSiteProducts
+      );
+    }
+
+    return <Product>{};
   }
 }

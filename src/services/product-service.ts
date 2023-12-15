@@ -2,6 +2,7 @@ import ApiService from './api-service';
 import ProductServiceInterface from './interfaces/product-service.interface';
 import ServiceResponseModel from '../models/service-response';
 import ProductModel from '../models/products/product';
+import ProductCreateUpdateModel from '../models/products/product-create-update';
 import Constants from '../constants';
 import Utils from '../utils';
 
@@ -43,6 +44,29 @@ export default class ProductService extends ApiService implements ProductService
       if (response.status === 200 && response.data) {
         products = response.data;
         serviceResponse.data = products;
+      }
+    } catch (error: any) {
+      serviceResponse.error = Utils.errorHandler(error);
+    }
+
+    return serviceResponse;
+  }
+
+  async updateProduct(
+    id: number,
+    productCreateUpdate: ProductCreateUpdateModel,
+    config?: object
+  ): Promise<ServiceResponseModel<ProductModel>> {
+    let product: ProductModel = <ProductModel>{};
+    const serviceResponse = new ServiceResponseModel(product);
+    const url = `${this.baseApiUrl}/Products/${id}`;
+
+    try {
+      const response = await super.put<ProductCreateUpdateModel>(url, productCreateUpdate, config);
+      console.log(response);
+      if (response.status === 201 && response.data) {
+        product = ProductModel.mapFromProductCreateUpdate(response.data);
+        serviceResponse.data = product;
       }
     } catch (error: any) {
       serviceResponse.error = Utils.errorHandler(error);

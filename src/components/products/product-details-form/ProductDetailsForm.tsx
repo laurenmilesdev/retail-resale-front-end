@@ -5,6 +5,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { Button, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import ProductModel from '../../../models/products/product';
 import DropdownModel from '../../../models/dropdown';
+import FormDetailModel from '../../../models/form-detail';
 import Constants from '../../../constants';
 import Utils from '../../../utils';
 
@@ -19,6 +20,19 @@ type Props = {
   conditions: DropdownModel[];
 };
 
+export const productFormDetails = {
+  name: new FormDetailModel('name', 'Name'),
+  size: new FormDetailModel('size', 'Size'),
+  sizeType: new FormDetailModel('sizeType', 'Size Type'),
+  category: new FormDetailModel('categoryId', 'Category'),
+  subCategory: new FormDetailModel('subCategoryId', 'SubCategory'),
+  condition: new FormDetailModel('conditionId', 'Condition'),
+  brand: new FormDetailModel('brand', 'Brand'),
+  purchaseDate: new FormDetailModel('purchaseDate', 'Purchase Date'),
+  purchasePrice: new FormDetailModel('purchasePrice', 'Purchase Price'),
+  description: new FormDetailModel('description', 'Description'),
+};
+
 export default function ProductDetailsForm({
   edit,
   product,
@@ -27,15 +41,63 @@ export default function ProductDetailsForm({
   subCategories,
   conditions,
 }: Props) {
+  const {
+    name,
+    size,
+    sizeType,
+    category,
+    subCategory,
+    condition,
+    brand,
+    purchaseDate,
+    purchasePrice,
+    description,
+  } = productFormDetails;
+  sizeType.dropdownValues = Constants.SIZE_TYPES;
+  category.dropdownValues = categories;
+  subCategory.dropdownValues = subCategories;
+  condition.dropdownValues = conditions;
+
+  const labelComponent = (formDetail: FormDetailModel) => (
+    <label id={formDetail.labelId}>
+      <h5>{formDetail.label}</h5>
+    </label>
+  );
+  const textFieldComponent = (formDetail: FormDetailModel, multiline = false) => (
+    <TextField
+      name={formDetail.name}
+      defaultValue={product[formDetail.name as keyof ProductModel]}
+      className={styles['text-field']}
+      variant="standard"
+      multiline={multiline}
+    />
+  );
+  const selectListComponent = (formDetail: FormDetailModel) => (
+    <Select
+      value={product[formDetail.name as keyof ProductModel] as unknown as string}
+      name={formDetail.name}
+      labelId={formDetail.labelId}
+      variant="standard"
+      onChange={onChange}
+      className={styles['select-field']}
+    >
+      {formDetail.dropdownValues?.map(({ id, value }: DropdownModel) => (
+        <MenuItem value={id} key={value}>
+          {value}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+
   function onChange(event: SelectChangeEvent) {
-    const { name } = event.target;
+    const eventName = event.target.name;
     const value = event.target.value as unknown as number;
 
-    if (name) {
-      if (event.target.name === 'sizeType') product.sizeType = value;
-      if (event.target.name === 'categoryId') product.subCategory.categoryId = value;
-      if (event.target.name === 'subCategoryId') product.subCategoryId = value;
-      if (event.target.name === 'conditionId') product.conditionId = value;
+    if (eventName) {
+      if (eventName === sizeType.name) product.sizeType = value;
+      if (eventName === category.name) product.categoryId = value;
+      if (eventName === subCategory.name) product.subCategoryId = value;
+      if (eventName === condition.name) product.conditionId = value;
 
       setProduct({ ...product });
     }
@@ -44,150 +106,62 @@ export default function ProductDetailsForm({
   return (
     <form>
       <div className={`${styles.detail} col-md-12 pb-0`}>
-        <h5>Name</h5>
-        {edit ? (
-          <TextField
-            name="name"
-            defaultValue={product.name}
-            className={styles['text-field']}
-            variant="standard"
-          />
-        ) : (
-          <>{product.name}</>
-        )}
+        {labelComponent(name)}
+
+        <div id={name.valueId}>{edit ? textFieldComponent(name) : product.name}</div>
       </div>
 
       <div className={`${styles['details-container']} col-md-12`}>
         <div className={`${styles['detail-column']} col-md-7`}>
           <div className={`${styles['detail-row']} col-md-12`}>
             <div className={`${styles.detail} col-md-6`}>
-              <h5>Size</h5>
-              {edit ? (
-                <TextField
-                  name="size"
-                  defaultValue={product.size}
-                  className={styles['text-field']}
-                  variant="standard"
-                />
-              ) : (
-                <>{product.size}</>
-              )}
+              {labelComponent(size)}
+
+              <div id={size.valueId}>{edit ? textFieldComponent(size) : product.size}</div>
             </div>
 
             <div className={`${styles.detail} col-md-6`}>
-              <h5>Size Type</h5>
-              {edit ? (
-                <Select
-                  value={product.sizeType as unknown as string}
-                  name="sizeType"
-                  id={`size-type-select`}
-                  labelId={`size-type-select-label`}
-                  variant="standard"
-                  onChange={onChange}
-                  className={styles['select-field']}
-                >
-                  {Constants.SIZE_TYPES.map((sizeType: DropdownModel) => (
-                    <MenuItem value={sizeType.id} key={sizeType.value}>
-                      {sizeType.value}
-                    </MenuItem>
-                  ))}
-                </Select>
-              ) : (
-                <>{product.sizeTypeValue}</>
-              )}
+              {labelComponent(sizeType)}
+
+              <div id={sizeType.valueId}>
+                {edit ? selectListComponent(sizeType) : product.sizeTypeValue}
+              </div>
             </div>
           </div>
 
           <div className={`${styles['detail-row']} col-md-12`}>
             <div className={`${styles.detail} col-md-6`}>
-              <h5>Category</h5>
-              {edit ? (
-                <Select
-                  value={product.subCategory.categoryId as unknown as string}
-                  name="categoryId"
-                  id={`category-select`}
-                  labelId={`category-select-label`}
-                  variant="standard"
-                  onChange={onChange}
-                  className={styles['select-field']}
-                >
-                  {categories.map((category: DropdownModel) => (
-                    <MenuItem value={category.id} key={category.value}>
-                      {category.value}
-                    </MenuItem>
-                  ))}
-                </Select>
-              ) : (
-                <>{product.subCategory.category.value}</>
-              )}
+              {labelComponent(category)}
+
+              <div id={category.valueId}>
+                {edit ? selectListComponent(category) : product.subCategory.category.value}
+              </div>
             </div>
 
             <div className={`${styles.detail} col-md-6`}>
-              <h5>SubCategory</h5>
-              {edit ? (
-                <Select
-                  value={product.subCategoryId as unknown as string}
-                  name="subCategoryId"
-                  id={`subCategory-select`}
-                  labelId={`subCategory-select-label`}
-                  variant="standard"
-                  onChange={onChange}
-                  className={styles['select-field']}
-                >
-                  {subCategories.map((subCategory: DropdownModel) => (
-                    <MenuItem value={subCategory.id} key={subCategory.value}>
-                      {subCategory.value}
-                    </MenuItem>
-                  ))}
-                </Select>
-              ) : (
-                <>{product.subCategory.value}</>
-              )}
+              {labelComponent(subCategory)}
+
+              {edit ? selectListComponent(subCategory) : product.subCategory.value}
             </div>
           </div>
 
           <div className={`${styles['detail-row']} col-md-12`}>
             <div className={`${styles.detail} col-md-6`}>
-              <h5>Condition</h5>
-              {edit ? (
-                <Select
-                  value={product.conditionId as unknown as string}
-                  name="conditionId"
-                  id={`condition-select`}
-                  labelId={`condition-select-label`}
-                  variant="standard"
-                  onChange={onChange}
-                  className={styles['select-field']}
-                >
-                  {conditions.map((condition: DropdownModel) => (
-                    <MenuItem value={condition.id} key={condition.value}>
-                      {condition.value}
-                    </MenuItem>
-                  ))}
-                </Select>
-              ) : (
-                <>{product.condition.value}</>
-              )}
+              {labelComponent(condition)}
+
+              {edit ? selectListComponent(condition) : product.condition.value}
             </div>
 
             <div className={`${styles.detail} col-md-6`}>
-              <h5>Brand</h5>
-              {edit ? (
-                <TextField
-                  name="brand"
-                  defaultValue={product.brand}
-                  className={styles['text-field']}
-                  variant="standard"
-                />
-              ) : (
-                <>{product.brand}</>
-              )}
+              {labelComponent(brand)}
+
+              {edit ? textFieldComponent(brand) : product.brand}
             </div>
           </div>
 
           <div className={`${styles['detail-row']} col-md-12`}>
             <div className={`${styles.detail} col-md-6`}>
-              <h5>Purchase Date</h5>
+              {labelComponent(purchaseDate)}
               {edit ? (
                 <DatePicker value={dayjs(product.purchaseDate)} className={styles['date-picker']} />
               ) : (
@@ -196,33 +170,20 @@ export default function ProductDetailsForm({
             </div>
 
             <div className={`${styles.detail} col-md-6`}>
-              <h5>Purchase Price</h5>
-              {edit ? (
-                <TextField
-                  name="purchasePrice"
-                  defaultValue={product.purchasePrice}
-                  className={styles['text-field']}
-                  variant="standard"
-                />
-              ) : (
-                <>{product.purchasePrice}</>
-              )}
+              {labelComponent(purchasePrice)}
+
+              {edit ? textFieldComponent(purchasePrice) : product.purchasePrice}
             </div>
           </div>
         </div>
 
         <div className={`${styles['detail-column']} col-md-5`}>
           <div className={`${styles.detail} col-md-12`}>
-            <h5>Description</h5>
+            {labelComponent(description)}
+
             {edit ? (
               <>
-                <TextField
-                  name="description"
-                  defaultValue={product.description}
-                  className={styles['text-field']}
-                  variant="standard"
-                  multiline={true}
-                />
+                {textFieldComponent(description, true)}
                 <span className={styles.description}>{'(multiline editor)'}</span>
               </>
             ) : (

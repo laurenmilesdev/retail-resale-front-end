@@ -11,6 +11,8 @@
 
 .detail {
   padding: 2%;
+  display: flex;
+  flex-direction: column;
 }
 
 .detail-row {

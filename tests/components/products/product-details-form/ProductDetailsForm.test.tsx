@@ -4,15 +4,19 @@ import ProductDetailsForm, {
   productFormDetails,
 } from '../../../../src/components/products/product-details-form/ProductDetailsForm';
 import { product, categories, subCategories, conditions } from '../../../mocks/data-mock';
+import CreateUpdateProductModel from '../../../../src/models/products/create-update-product';
 
-describe('ProductsDetails component', () => {
+describe('ProductDetailsForm component', () => {
   describe('edit is false', () => {
     beforeEach(() => {
+      const updateModel = CreateUpdateProductModel.mapFromProduct(product);
+
       render(
         <ProductDetailsForm
           edit={false}
           product={product}
-          setProduct={() => undefined}
+          createUpdateProduct={updateModel}
+          setCreateUpdateProduct={() => undefined}
           categories={categories}
           subCategories={subCategories}
           conditions={conditions}
@@ -21,7 +25,7 @@ describe('ProductsDetails component', () => {
     });
 
     const {
-      name,
+      productName,
       size,
       sizeType,
       category,
@@ -34,10 +38,10 @@ describe('ProductsDetails component', () => {
     } = productFormDetails;
 
     it('renders Name detail', () => {
-      const elementLabel = document.getElementById(name.labelId);
-      const elementValue = document.getElementById(name.valueId);
+      const elementLabel = document.getElementById(productName.labelId);
+      const elementValue = document.getElementById(productName.valueId);
 
-      expect(elementLabel).toHaveTextContent(name.label);
+      expect(elementLabel).toHaveTextContent(productName.label);
       expect(elementValue).toHaveTextContent(product.name);
     });
 

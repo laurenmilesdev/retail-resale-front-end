@@ -4,20 +4,17 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@mui/material';
 import Loading from '../../../components/loading/Loading';
 import PageNavigationButtons from '../../../components/page-navigation-buttons/PageNavigationButtons';
-import ProductDetails from '../../../components/products/product-details/ProductDetails';
-import ProductForm from '../../../components/products/product-form/ProductForm';
+import ProductDetailsForm from '../../../components/products/product-details-form/ProductDetailsForm';
 import ErrorCard from '../../../components/error-card/ErrorCard';
 
 import ErrorModel from '../../../models/error';
 import CategoryModel from '../../../models/products/category';
 import DropdownModel from '../../../models/dropdown';
 import ProductModel from '../../../models/products/product';
-import ProductDetailModel from '../../../models/product-detail';
 
 import ProductService from '../../../services/product-service';
 import CategoryService from '../../../services/category-service';
 import ConditionService from '../../../services/condition-service';
-import Utils from '../../../utils';
 
 const baseApiUrl: string = process.env.NEXT_PUBLIC_BASE_API_URL ?? '';
 const productService = new ProductService(baseApiUrl);
@@ -40,7 +37,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
   const [subCategoriesDropdown, setSubCategoriesDropdown] = useState<DropdownModel[]>();
   const [conditionsDropdown, setConditionsDropdown] = useState<DropdownModel[]>();
 
-  async function getProduct(productId: number) {
+  async function getSetProduct(productId: number) {
     const productResponse = await productService.getProductById(productId);
     const categoriesResponse = await categoryService.getCategories();
 
@@ -70,7 +67,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
     setLoaded(true);
   }
 
-  async function getConditions() {
+  async function getSetConditions() {
     const conditionsResponse = await conditionService.getConditions();
 
     if (!conditionsResponse.error) {
@@ -82,27 +79,23 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
     }
   }
 
-  function getSubCategories(categoryId: number) {
-    const currentCategory = categories?.find((p) => p.id === categoryId);
-    const subCategoryDropdownModels = currentCategory?.subCategories
-      ? currentCategory?.subCategories.map(
-          (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
-        )
-      : [];
-
-    setSubCategoriesDropdown(subCategoryDropdownModels);
-  }
-
   useEffect(() => {
-    getProduct(id as unknown as number);
-    getConditions();
+    getSetProduct(id as unknown as number);
+    getSetConditions();
   }, []);
 
   useEffect(() => {
-    const categoryId = product?.subCategory.categoryId;
+    const categoryId = product?.categoryId;
 
-    if (categoryId) getSubCategories(categoryId as unknown as number);
-  }, [product?.subCategory.categoryId]);
+    if (categoryId) {
+      const filteredSubCategories = getSubCategoriesByCategory(
+        categoryId as unknown as number,
+        categories ?? []
+      );
+
+      setSubCategoriesDropdown(filteredSubCategories);
+    }
+  }, [product?.categoryId]);
 
   return (
     <>
@@ -114,17 +107,14 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
             {product && (
               <Card>
                 <CardContent>
-                  {edit ? (
-                    <ProductForm
-                      product={product}
-                      setProduct={setProduct}
-                      categories={categoriesDropdown ?? []}
-                      subCategories={subCategoriesDropdown ?? []}
-                      conditions={conditionsDropdown ?? []}
-                    />
-                  ) : (
-                    <ProductDetails productDetails={getProductDetails(product)} />
-                  )}
+                  <ProductDetailsForm
+                    edit={edit}
+                    product={product}
+                    setProduct={setProduct}
+                    categories={categoriesDropdown ?? []}
+                    subCategories={subCategoriesDropdown ?? []}
+                    conditions={conditionsDropdown ?? []}
+                  />
                 </CardContent>
               </Card>
             )}
@@ -147,17 +137,12 @@ export function getServerSideProps(context: any) {
   };
 }
 
-export function getProductDetails(product: ProductModel) {
-  return [
-    new ProductDetailModel('Name', product.name),
-    new ProductDetailModel('Description', product.description),
-    new ProductDetailModel('Size', product.size),
-    new ProductDetailModel('Size Type', product.sizeTypeValue),
-    new ProductDetailModel('Category', product.subCategory.category.value),
-    new ProductDetailModel('SubCategory', product.subCategory.value),
-    new ProductDetailModel('Condition', product.condition.value),
-    new ProductDetailModel('Brand', product.brand),
-    new ProductDetailModel('Purchase Price', product.purchasePrice),
-    new ProductDetailModel('Purchase Date', Utils.formatDate(product.purchaseDate ?? '')),
-  ];
+export function getSubCategoriesByCategory(categoryId: number, categories: CategoryModel[]) {
+  const currentCategory = categories.find((p) => p.id === categoryId);
+
+  return currentCategory?.subCategories
+    ? currentCategory?.subCategories.map(
+        (subCategory) => new DropdownModel(subCategory.id, subCategory.value)
+      )
+    : [];
 }

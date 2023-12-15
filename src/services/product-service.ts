@@ -21,6 +21,7 @@ export default class ProductService extends ApiService implements ProductService
 
       if (response.status === 200 && response.data) {
         product = response.data;
+        product.categoryId = product.subCategory.categoryId;
         product.sizeTypeValue = Constants.SIZE_TYPES[product.sizeType].value;
         serviceResponse.data = product;
       }

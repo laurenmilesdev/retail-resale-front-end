@@ -3,7 +3,7 @@ import { InferGetServerSidePropsType } from 'next';
 import { useEffect, useState } from 'react';
 import { Dayjs } from 'dayjs';
 import { Card, CardContent } from '@mui/material';
-import ProductForm from '../../components/products/product-form/ProductForm';
+import ProductDetailsForm from '../../components/products/product-details-form/ProductDetailsForm';
 import DropdownModel from '../../models/dropdown';
 import CategoryService from '../../services/category-service';
 import ConditionService from '../../services/condition-service';

@@ -20,6 +20,7 @@ export default class Product {
     public isSold: boolean,
     public subCategory: SubCategory,
     public subCategoryId: number,
+    public categoryId: number,
     public brand?: string,
     public purchasePrice?: number,
     public purchaseDate?: string,

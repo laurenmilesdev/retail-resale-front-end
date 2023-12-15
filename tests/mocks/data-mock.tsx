@@ -4,7 +4,6 @@ import SubCategory from '../../src/models/products/sub-category';
 import Condition from '../../src/models/products/condition';
 import ListingSiteProduct from '../../src/models/products/listing-site-product';
 import ListingSite from '../../src/models/products/listing-site';
-import Utils from '../../src/utils';
 
 const id = 1;
 const name = 'Product Name';
@@ -27,7 +26,8 @@ export const product = new Product(
   condition.id,
   isSold,
   subCategory,
-  subCategoryId
+  subCategoryId,
+  subCategory.categoryId
 );
 
 export const products = [product];
@@ -48,3 +48,9 @@ export const listingSiteProduct = new ListingSiteProduct(
   listingSite.id,
   price
 );
+
+export const categories = [];
+
+export const subCategories = [];
+
+export const conditions = [];

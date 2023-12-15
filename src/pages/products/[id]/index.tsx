@@ -85,7 +85,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
   }, []);
 
   useEffect(() => {
-    const categoryId = product?.subCategory.categoryId;
+    const categoryId = product?.categoryId;
 
     if (categoryId) {
       const filteredSubCategories = getSubCategoriesByCategory(
@@ -95,7 +95,7 @@ export default function Index({ id }: InferGetServerSidePropsType<typeof getServ
 
       setSubCategoriesDropdown(filteredSubCategories);
     }
-  }, [product?.subCategory.categoryId]);
+  }, [product?.categoryId]);
 
   return (
     <>

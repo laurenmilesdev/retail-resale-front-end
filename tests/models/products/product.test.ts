@@ -16,6 +16,7 @@ describe('Product', () => {
       isSold: product.isSold,
       subCategory: product.subCategory,
       subCategoryId: product.subCategoryId,
+      categoryId: product.subCategory.categoryId,
       brand: undefined,
       purchasePrice: undefined,
       purchaseDate: undefined,
